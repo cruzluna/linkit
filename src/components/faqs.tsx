@@ -11,7 +11,7 @@ export default function FAQs(): JSX.Element {
     <section className="bg-[#12141F] flex justify-center py-16 text-[#FAFAFA]" id='faqs'>
    
       <div className="max-w-lg">
-        <div className="space-y-4">
+        <div className="space-y-4 ml-4 mr-4">
           <div className="mx-auto max-w-lg text-center">
             <div className="text-5xl font-bold mb-10"><span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>FAQs</span></div>
           
