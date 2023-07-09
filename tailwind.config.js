@@ -1,18 +1,21 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+const defaultTheme = require("tailwindcss/defaultTheme");
+module.exports = withMT({
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        "noto-purple": "#696EFF",
+        "noto-white": "#FAFAFA",
+        "noto-black": "#12141F",
+        "noto-lessblack": "#1C202F"
       },
     },
   },
   plugins: [],
-}
+});
