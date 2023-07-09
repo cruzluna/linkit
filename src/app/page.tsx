@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image'
 import StickyNavBar from '@/components/navbar';
 import Hero from '@/components/hero';
@@ -13,7 +14,15 @@ import 'tailwindcss/tailwind.css'
 export default function Home() {
   return (
     <>
-      page
+      <StickyNavBar />
+      <Hero />
+      <Custom />
+      <Share />
+      <Analyze />
+      <AI />
+      <Sections />
+      <FAQs />
+      <Footer />
     </>
   )
 }
