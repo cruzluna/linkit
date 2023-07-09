@@ -14,7 +14,7 @@ export default function Hero(): JSX.Element {
              Show <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>Yourself</span> Off.{" "}
             <span className="sm:block">Receive <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>Jobs</span> with the Power of <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>AI</span>.</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
+          <p className="mx-auto mt-4 max-w-xl sm:text-lg/relaxed">
             Make a link portfolio to show yourself off and fully manage your content while recieving AI-recommended jobs.
           </p>
           <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-4">
