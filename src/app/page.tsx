@@ -13,15 +13,8 @@ import 'tailwindcss/tailwind.css'
 export default function Home() {
   return (
     <>
-      <StickyNavBar />
-      <Hero />
-      <Custom />
-      <Share />
-      <Analyze />
-      <AI />
-      <Sections />
-      <FAQs />
-      <Footer />
+      page
     </>
   )
 }
+
