@@ -9,7 +9,7 @@ export default function Services(): JSX.Element {
           className="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8"
         >
           <div className="mx-auto max-w-lg text-center">
-            <div className="text-5xl font-bold ">Achieve <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>New Heights</span></div>
+            <div className="lg:text-5xl text-3xl font-bold ">Achieve <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>New Heights</span></div>
 
             <p className="mt-4">
             From customizable portfolios to AI-powered job recommendations, we empower you to reach greater success in your career.
