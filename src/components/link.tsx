@@ -1,31 +1,16 @@
-import React from 'react'
+import { LinkStatProps } from '@/interfaces/linkStatsProps';
+import { Switch } from '@material-tailwind/react';
+import React from 'react';
 
-export default function Link() {
-  const links = [
-    { title: 'GitHub', url: 'https://github.com/example' },
-    { title: 'Twitter', url: 'https://twitter.com/example' },
-    { title: 'LinkedIn', url: 'https://linkedin.com/in/example' },
-    // Add more links as needed
-  ];
+export default function Link({ title, url, clicks, enabled }: LinkStatProps): JSX.Element {
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold mb-4">My LinkTree</h1>
-        <ul className="space-y-4">
-          {links.map((link, index) => (
-            <li key={index}>
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                {link.title}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <div className='bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5'>
+      <div className='font-bold text-xl md:text-lg'>{title}</div>
+      <div className='font-medium text-base md:text-lg'>{url}</div>
+      <div className='font-medium flex flex-col md:flex-row justify-between items-center'>
+        <div className='mb-2 md:mb-0 md:mr-2'>{clicks}</div>
+        <Switch color='green' defaultChecked />
       </div>
     </div>
-  )
+  );
 }

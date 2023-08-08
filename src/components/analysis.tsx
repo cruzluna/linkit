@@ -14,7 +14,7 @@ export default function Analyze(): JSX.Element {
                   <div className='text-sm font-bold ml-0.5 mb-2 tracking-widest text-noto-purple'>LINK ENGAGEMENT DASHBOARD</div>
                   <h2 className="lg:text-5xl text-3xl font-bold text-[#FAFAFA]"><span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>Analyze</span> Your Links</h2>
                  
-                  <p className="mt-4 ">Gain insights into your link's performance with detailed analytics, tracking views and clicks to optimize your online presence.</p>
+                  <p className="mt-4 ">Gain insights into your link&apos;s performance with detailed analytics, tracking views and clicks to optimize your online presence.</p>
                 
                 </div>
                 <div className="md:5/12 lg:w-5/12 ml-0 lg:ml-auto">
