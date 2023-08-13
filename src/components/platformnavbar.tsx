@@ -1,6 +1,7 @@
 import 'tailwindcss/tailwind.css'
 import logo from "../assets/logo.svg"
 import React from "react";
+import Link from 'next/link';
 import {
   Navbar,
   MobileNav,
@@ -30,9 +31,11 @@ export default function StickyNavBar() {
         color="blue-gray"
         className="p-1 font-normal font-semibold"
       >
-        <a href="#features" className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          Links
-        </a>
+        <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
+          <Link href={"/links"}>
+            Links
+          </Link>
+        </div>
       </Typography>
       <Typography
         as="li"
@@ -40,9 +43,11 @@ export default function StickyNavBar() {
         color="blue-gray"
         className="p-1 font-normal font-semibold"
       >
-        <a href="#faqs" className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          Profile
-        </a>
+        <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
+          <Link href={"/profile"}>
+            Profile
+          </Link>
+        </div>
       </Typography>
       <Typography
         as="li"
@@ -50,9 +55,11 @@ export default function StickyNavBar() {
         color="blue-gray"
         className="p-1 font-normal font-semibold"
       >
-        <a href="#faqs" className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          Analytics
-        </a>
+        <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
+          <Link href={"/analytics"}>
+            Analytics
+          </Link>
+        </div>
       </Typography>
       <Typography
         as="li"
@@ -60,20 +67,13 @@ export default function StickyNavBar() {
         color="blue-gray"
         className="p-1 font-normal font-semibold"
       >
-        <a href="#faqs" className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          Jobs
-        </a>
+        <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
+          <Link href={"/jobs"}>
+            Jobs
+          </Link>
+        </div>
       </Typography>
-      <Typography
-        as="li"
-        variant="medium"
-        color="blue-gray"
-        className="p-1 font-normal font-semibold"
-      >
-        <a href="#faqs" className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          Settings
-        </a>
-      </Typography>
+      
     </ul>
   );
  
