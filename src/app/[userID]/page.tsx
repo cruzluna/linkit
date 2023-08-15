@@ -4,7 +4,7 @@ import logo from "../../assets/logo.svg";
 // import { colours } from "../../utils/utils"
 // import Link from '@/components/link';
 import { prisma } from "../../../prisma/prismaclient";
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
 
 interface PageProps {
   params: {
