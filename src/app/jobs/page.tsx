@@ -1,11 +1,11 @@
 "use client";
-import StickyNavBar from "@/components/platformnavbar";
+import PlatformNavbar from "@/components/platformnavbar";
 import JobChip from "@/components/job";
 
 export default function Page() {
   return (
     <>
-      <StickyNavBar />
+      <PlatformNavbar />
       <div className="text-3xl font-bold text-center my-4 md:text-4xl lg:text-5xl text-[#FAFAFA]">
         Recommended Jobs
       </div>

@@ -76,7 +76,7 @@ export default function StickyNavBar() {
         <div className="flex items-center justify-between text-blue-gray-900">
           <Button variant="text" onClick={() => window.location.reload()}>
             <div className="flex items-center">
-              <Image className="w-10" src={logo} alt="Store Logo" />
+              <Image className="w-10" src={logo} alt="notespace logo" />
               <div className="px-3 py-4 font-semibold text-2xl text-[#FAFAFA] lowercase">
                 notespace
               </div>

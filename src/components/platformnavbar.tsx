@@ -10,7 +10,7 @@ import {
 } from "@material-tailwind/react";
 import Image from "next/image";
 
-export default function StickyNavBar() {
+export default function PlatformNavbar() {
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {

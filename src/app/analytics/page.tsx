@@ -1,9 +1,7 @@
-"use client"
-import React from 'react'
-import StickyNavBar from '@/components/platformnavbar'
+"use client";
+import React from "react";
+import PlatformNavbar from "@/components/platformnavbar";
 
-export default function analytics() {
-  return (
-    <StickyNavBar/>
-  )
+export default function Analytics() {
+  return <PlatformNavbar />;
 }
