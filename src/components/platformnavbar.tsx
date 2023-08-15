@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 
 export default function PlatformNavbar() {
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState<boolean>(false);
 
   useEffect(() => {
     window.addEventListener(

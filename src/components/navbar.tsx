@@ -12,7 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function StickyNavBar() {
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState<boolean>(false);
 
   useEffect(() => {
     window.addEventListener(
