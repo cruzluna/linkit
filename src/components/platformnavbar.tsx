@@ -75,7 +75,7 @@ export default function StickyNavBar() {
       >
         <div className="flex items-center justify-between text-blue-gray-900">
           <div className="flex items-center mr-4">
-            <Image className="w-10" src={logo} alt="Store Logo" />
+            <Image className="w-10" src={logo} alt="notespace logo" />
             <div className="ml-4 hidden lg:block">{navList}</div>
           </div>
           <div className="flex items-center gap-4">
