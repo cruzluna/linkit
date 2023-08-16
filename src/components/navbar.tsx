@@ -10,9 +10,12 @@ import {
 } from "@material-tailwind/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
 export default function StickyNavBar() {
   const [openNav, setOpenNav] = useState<boolean>(false);
+  const router: AppRouterInstance = useRouter();
 
   useEffect(() => {
     window.addEventListener(
@@ -74,7 +77,7 @@ export default function StickyNavBar() {
         color="transparent"
       >
         <div className="flex items-center justify-between text-blue-gray-900">
-          <Button variant="text" onClick={() => window.location.reload()}>
+          <Button variant="text" onClick={() => router.refresh()}>
             <div className="flex items-center">
               <Image className="w-10" src={logo} alt="notespace logo" />
               <div className="px-3 py-4 font-semibold text-2xl text-[#FAFAFA] lowercase">

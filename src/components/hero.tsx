@@ -1,9 +1,6 @@
-import 'tailwindcss/tailwind.css'
-import {
-  Button,
-} from "@material-tailwind/react";
-import Image from 'next/image';
-import product from "../assets/product.svg"
+import "tailwindcss/tailwind.css";
+import Image from "next/image";
+import product from "../assets/product.svg";
 
 export default function Hero(): JSX.Element {
   return (
@@ -11,11 +8,26 @@ export default function Hero(): JSX.Element {
       <div className="mx-auto max-w-screen-xl px-4 py-32 lg:grid lg:grid-cols-2 lg:items-center ">
         <div className="mx-auto max-w-3xl text-center lg:text-left lg:mx-0 lg:pr-10">
           <h1 className=" text-3xl font-extrabold  sm:text-5xl">
-             Show <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>Yourself</span> Off.{" "}
-            <span className="sm:block">Receive <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>Jobs</span> with the Power of <span className='bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent'>AI</span>.</span>
+            Show{" "}
+            <span className="bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent">
+              Yourself
+            </span>{" "}
+            Off.{" "}
+            <span className="sm:block">
+              Receive{" "}
+              <span className="bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent">
+                Jobs
+              </span>{" "}
+              with the Power of{" "}
+              <span className="bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent">
+                AI
+              </span>
+              .
+            </span>
           </h1>
           <p className="mx-auto mt-4 max-w-xl sm:text-lg/relaxed">
-            Make a link portfolio to show yourself off and fully manage your content while recieving AI-recommended jobs.
+            Make a link portfolio to show yourself off and fully manage your
+            content while recieving AI-recommended jobs.
           </p>
           <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-4">
             <button
@@ -31,18 +43,19 @@ export default function Hero(): JSX.Element {
               <button
                 type="button"
                 className="border border-noto-purple block hover:bg-noto-purple text-white font-bold px-9 py-3 rounded"
-                onClick={() =>
-                  null
-                }
+                onClick={() => null}
               >
                 Learn More
               </button>
             </a>
-            
           </div>
         </div>
         <div className="flex justify-center lg:justify-end mt-8 lg:mt-0">
-          <Image src={product} alt="product" className="w-4/5 sm:w-3.5/5 sm:mt-10" />
+          <Image
+            src={product}
+            alt="sample linkit"
+            className="w-4/5 sm:w-3.5/5 sm:mt-10"
+          />
         </div>
       </div>
     </section>

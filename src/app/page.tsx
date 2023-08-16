@@ -9,12 +9,17 @@ import Sections from "@/components/sections";
 import FAQs from "@/components/faqs";
 import Footer from "@/components/footer";
 import "tailwindcss/tailwind.css";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export default function Home() {
+  // component hierarchy
   return (
     <>
       <StickyNavBar />
-      <Hero />
+      <Suspense fallback={<Loading />}>
+        <Hero />
+      </Suspense>
       <Custom />
       <Share />
       <Analyze />
