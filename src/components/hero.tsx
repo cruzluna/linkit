@@ -1,8 +1,11 @@
 import "tailwindcss/tailwind.css";
 import Image from "next/image";
 import product from "../assets/product.svg";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
 export default function Hero(): JSX.Element {
+  const router: AppRouterInstance = useRouter();
   return (
     <section className="text-[#FAFAFA]">
       <div className="mx-auto max-w-screen-xl px-4 py-32 lg:grid lg:grid-cols-2 lg:items-center ">
@@ -33,9 +36,7 @@ export default function Hero(): JSX.Element {
             <button
               type="button"
               className="bg-noto-purple block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded"
-              onClick={() =>
-                (window.location.href = "https://eepurl.com/ilQO8-")
-              }
+              onClick={() => router.push("/signup")}
             >
               Get Started
             </button>
@@ -61,59 +62,3 @@ export default function Hero(): JSX.Element {
     </section>
   );
 }
-
-/** 
-export default function Hero2(): JSX.Element {
-  return (
-    <>
-      <section className="text-[#FAFAFA]">
-        <div
-          className="mx-auto max-w-screen-xl px-4 py-32 lg:flex  lg:items-center"
-        >
-          <div className="mx-auto max-w-3xl text-center">
-            <h1
-              className="bg-gradient-to-r from-cyan-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl"
-            >
-              Show Yourself Off.
-
-              <span className="sm:block"> Recieve AI-recommended Jobs. </span>
-            </h1>
-
-            <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo
-              tenetur fuga ducimus numquam ea!
-            </p>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-          
-              <button
-              type="button"
-              className="bg-noto-purple block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded"
-              onClick={() =>
-                null
-              }
-              >
-                Get Started
-              </button>
-              <button
-              type="button"
-              className="border border-noto-purple block hover:bg-noto-purple text-white font-bold px-9 py-3 rounded"
-              onClick={() =>
-                null
-              }
-              >
-                Learn More
-              </button>
-             
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-center ">
-          <Image src={product} alt="product" className='w-1/3'/>
-        </div>
-
-      </section>
-    </>
-  )
-}*/

@@ -19,13 +19,13 @@ export async function generateMetadata({
   };
 }
 const page = async ({ params }: PageProps) => {
-  const newUser = await prisma.user.create({
-    data: {
-      name: "Cruz test 1",
-    },
-  });
-  const users = await prisma.user.findMany();
-  console.log(users);
+  // const newUser = await prisma.user.create({
+  //   data: {
+  //     name: "Cruz test 1",
+  //   },
+  // });
+  // const users = await prisma.user.findMany();
+  // console.log(users);
 
   // the data to be received from backend when you call on backend/janedoe
   // const payload = {
