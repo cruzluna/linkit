@@ -9,6 +9,7 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
 
 export default function PlatformNavbar() {
   const [openNav, setOpenNav] = useState<boolean>(false);
@@ -88,6 +89,7 @@ export default function PlatformNavbar() {
             >
               Share
             </button>
+            <UserButton />
 
             <IconButton
               variant="text"

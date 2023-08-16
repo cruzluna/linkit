@@ -4,7 +4,7 @@ import logo from "../../assets/logo.svg";
 import Image from "next/image";
 import PlatformNavbar from "@/components/platformnavbar";
 
-export default function page() {
+export default function Page() {
   return (
     <>
       <PlatformNavbar />

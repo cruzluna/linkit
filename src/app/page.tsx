@@ -11,22 +11,36 @@ import Footer from "@/components/footer";
 import "tailwindcss/tailwind.css";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { SignedOut, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   // component hierarchy
+  const { isSignedIn, isLoaded: userLoaded } = useUser();
+  if (!userLoaded) {
+    return <div />;
+  }
+
+  if (isSignedIn) {
+    const router = useRouter();
+    router.push("/profile");
+  }
+
   return (
     <>
-      <StickyNavBar />
-      <Suspense fallback={<Loading />}>
-        <Hero />
-      </Suspense>
-      <Custom />
-      <Share />
-      <Analyze />
-      <AI />
-      <Sections />
-      <FAQs />
-      <Footer />
+      <SignedOut>
+        <StickyNavBar />
+        <Suspense fallback={<Loading />}>
+          <Hero />
+        </Suspense>
+        <Custom />
+        <Share />
+        <Analyze />
+        <AI />
+        <Sections />
+        <FAQs />
+        <Footer />
+      </SignedOut>
     </>
   );
 }
