@@ -5,7 +5,7 @@ export default function CreateAccount() {
       path={"/signup"}
       routing={"path"}
       signInUrl={"/login"}
-      redirectUrl={"/"}
+      redirectUrl={"/profile"}
     />
   );
 }
