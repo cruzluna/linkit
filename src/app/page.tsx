@@ -9,21 +9,25 @@ import Sections from "@/components/sections";
 import FAQs from "@/components/faqs";
 import Footer from "@/components/footer";
 import "tailwindcss/tailwind.css";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Loading from "./loading";
 import { SignedOut, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   // component hierarchy
   const { isSignedIn, isLoaded: userLoaded } = useUser();
-  if (!userLoaded) {
-    return <div />;
-  }
+  // Use useEffect to handle the redirection after rendering
+  useEffect(() => {
+    if (userLoaded && isSignedIn) {
+      router.push("/profile");
+    }
+  }, [userLoaded, isSignedIn]);
 
-  if (isSignedIn) {
-    const router = useRouter();
-    router.push("/profile");
+  if (!userLoaded) {
+    // TODO: Need to investigate this flow more
+    return <div />;
   }
 
   return (

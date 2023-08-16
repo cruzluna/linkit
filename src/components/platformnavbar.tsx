@@ -89,7 +89,7 @@ export default function PlatformNavbar() {
             >
               Share
             </button>
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
 
             <IconButton
               variant="text"
