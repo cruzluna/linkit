@@ -89,9 +89,6 @@ export default function PlatformNavbar() {
             <button
               type="button"
               className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
-              onClick={() =>
-                (window.location.href = "https://eepurl.com/ilQO8-")
-              }
             >
               Share
             </button>
