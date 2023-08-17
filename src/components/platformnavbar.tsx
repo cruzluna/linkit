@@ -83,8 +83,8 @@ export default function PlatformNavbar() {
             onClick={() => router.push("/")}
           >
             <Image className="w-10" src={logo} alt="notespace logo" />
-            <div className="ml-4 hidden lg:block">{navList}</div>
           </button>
+          <div className="ml-4 hidden lg:block">{navList}</div>
           <div className="flex items-center gap-4">
             <button
               type="button"
