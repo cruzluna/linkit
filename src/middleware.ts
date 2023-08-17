@@ -8,13 +8,7 @@ export default authMiddleware({
   publicRoutes: ["/", "/login", "/signup"],
 });
 
+// ignored routes
 export const config = {
-  matcher: [
-    "/((?!.*\\..*|_next).*)",
-    "/links",
-    "/profile",
-    "/analytics",
-    "/jobs",
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/((?!.*\\..*|_next).*)", "/(api|trpc)(.*)"],
 };
