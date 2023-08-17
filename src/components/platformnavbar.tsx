@@ -10,10 +10,12 @@ import {
 } from "@material-tailwind/react";
 import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
 export default function PlatformNavbar() {
   const [openNav, setOpenNav] = useState<boolean>(false);
-
+  const router: AppRouterInstance = useRouter();
   useEffect(() => {
     window.addEventListener(
       "resize",
@@ -75,10 +77,14 @@ export default function PlatformNavbar() {
         color="transparent"
       >
         <div className="flex items-center justify-between text-blue-gray-900">
-          <div className="flex items-center mr-4">
+          <button
+            type="button"
+            className="flex items-center mr-4"
+            onClick={() => router.push("/")}
+          >
             <Image className="w-10" src={logo} alt="notespace logo" />
             <div className="ml-4 hidden lg:block">{navList}</div>
-          </div>
+          </button>
           <div className="flex items-center gap-4">
             <button
               type="button"
