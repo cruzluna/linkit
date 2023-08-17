@@ -9,42 +9,36 @@ import Sections from "@/components/sections";
 import FAQs from "@/components/faqs";
 import Footer from "@/components/footer";
 import "tailwindcss/tailwind.css";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import Loading from "./loading";
-import { SignedOut, useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+import PlatformNavbar from "@/components/platformnavbar";
 
 export default function Home() {
-  const router = useRouter();
-  // component hierarchy
-  const { isSignedIn, isLoaded: userLoaded } = useUser();
-  // Use useEffect to handle the redirection after rendering
-  useEffect(() => {
-    if (userLoaded && isSignedIn) {
-      router.push("/profile");
-    }
-  }, [userLoaded, isSignedIn]);
-
+  const { isLoaded: userLoaded } = useUser();
   if (!userLoaded) {
     // TODO: Need to investigate this flow more
-    return <div />;
+    return null;
   }
-
+  // component hierarchy
   return (
     <>
       <SignedOut>
         <StickyNavBar />
-        <Suspense fallback={<Loading />}>
-          <Hero />
-        </Suspense>
-        <Custom />
-        <Share />
-        <Analyze />
-        <AI />
-        <Sections />
-        <FAQs />
-        <Footer />
       </SignedOut>
+      <SignedIn>
+        <PlatformNavbar />
+      </SignedIn>
+      <Suspense fallback={<Loading />}>
+        <Hero />
+      </Suspense>
+      <Custom />
+      <Share />
+      <Analyze />
+      <AI />
+      <Sections />
+      <FAQs />
+      <Footer />
     </>
   );
 }

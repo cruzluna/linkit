@@ -27,7 +27,7 @@ export default function ProfilePageComponent() {
               <Input size="lg" label="Email" />
               <Input type="password" size="lg" label="Links" />
             </div>
-            <Button className="mt-6 bg-noto-purple" fullWidth>
+            <Button className="mt-6 bg-noto-purple " fullWidth>
               Update
             </Button>
           </form>
