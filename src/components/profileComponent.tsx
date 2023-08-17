@@ -1,15 +1,16 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
-import logo from "../assets/logo.svg";
-import Image from "next/image";
 import PlatformNavbar from "@/components/platformnavbar";
-
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { VscGithubInverted as VscGithub } from "react-icons/vsc";
+
+import { useState } from "react";
 export default function ProfilePageComponent() {
-  const user = useUser();
-  console.log(user);
+  const [email, setEmail] = useState<string>("");
+  const onChange = ({ target }) => setEmail(target.value);
+  // const user = useUser();
+  // console.log(user);
   // TODO: Update default profile image
-  const userImage: string = user.user?.imageUrl ? user.user?.imageUrl : logo;
+  // const userImage: string = user.user?.imageUrl ? user.user?.imageUrl : logo;
   return (
     <>
       <PlatformNavbar />
@@ -25,11 +26,32 @@ export default function ProfilePageComponent() {
             <div className="mb-4 flex flex-col gap-6">
               <Input size="lg" label="Name" />
               <Input size="lg" label="Email" />
-              <Input type="password" size="lg" label="Links" />
+              <Input size="lg" label="Links" />
+            </div>
+            <div className="relative flex w-full max-w-[24rem]">
+              <Input
+                type="email"
+                label="Email Address"
+                value={email}
+                onChange={onChange}
+                className="pr-20"
+                containerProps={{
+                  className: "min-w-0",
+                }}
+              />
+              <Button
+                size="sm"
+                color={email ? "gray" : "blue-gray"}
+                disabled={!email}
+                className="!absolute right-1 top-1 rounded"
+              >
+                Invite
+              </Button>
             </div>
             <Button className="mt-6 bg-noto-purple " fullWidth>
               Update
             </Button>
+            <VscGithub />
           </form>
         </Card>
       </div>
