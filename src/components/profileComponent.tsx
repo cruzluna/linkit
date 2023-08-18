@@ -316,7 +316,11 @@ export default function ProfilePageComponent() {
               </Card>
             </Collapse>
 
-            <Button type="submit" className="mt-6 bg-noto-purple " fullWidth>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              className="mt-6 bg-noto-purple "
+              fullWidth
+            >
               Update
             </Button>
             {/*Icon hashmap proof of concept */}
