@@ -29,6 +29,15 @@ export default function ProfilePageComponent() {
     "https://github.com/cruzluna",
     "x.com/@yv",
   ];
+
+  const temporaryTools: string[] = [
+    "Golang",
+    "AWS",
+    "Typescript",
+    "node.js",
+    "Rust",
+    "OCaml",
+  ];
   // const user = useUser();
   // console.log(user);
   // TODO: Update default profile image
@@ -112,67 +121,29 @@ export default function ProfilePageComponent() {
             </Button>
             <Collapse open={open}>
               <Card className="w-full max-w-[24rem]">
-                <List className="flex-row">
-                  <ListItem className="p-0">
-                    <label
-                      htmlFor="horizontal-list-react"
-                      className="flex w-full cursor-pointer items-center px-3 py-2"
-                    >
-                      <ListItemPrefix className="mr-3">
-                        <Checkbox
-                          id="horizontal-list-react"
-                          ripple={false}
-                          className="hover:before:opacity-0"
-                          containerProps={{
-                            className: "p-0",
-                          }}
-                        />
-                      </ListItemPrefix>
-                      <Typography color="blue-gray" className="font-medium">
-                        React.js
-                      </Typography>
-                    </label>
-                  </ListItem>
-                  <ListItem className="p-0">
-                    <label
-                      htmlFor="horizontal-list-vue"
-                      className="flex w-full cursor-pointer items-center px-3 py-2"
-                    >
-                      <ListItemPrefix className="mr-3">
-                        <Checkbox
-                          id="horizontal-list-vue"
-                          ripple={false}
-                          className="hover:before:opacity-0"
-                          containerProps={{
-                            className: "p-0",
-                          }}
-                        />
-                      </ListItemPrefix>
-                      <Typography color="blue-gray" className="font-medium">
-                        Vue.js
-                      </Typography>
-                    </label>
-                  </ListItem>
-                  <ListItem className="p-0">
-                    <label
-                      htmlFor="horizontal-list-svelte"
-                      className="flex w-full cursor-pointer items-center px-3 py-2"
-                    >
-                      <ListItemPrefix className="mr-3">
-                        <Checkbox
-                          id="horizontal-list-svelte"
-                          ripple={false}
-                          className="hover:before:opacity-0"
-                          containerProps={{
-                            className: "p-0",
-                          }}
-                        />
-                      </ListItemPrefix>
-                      <Typography color="blue-gray" className="font-medium">
-                        Svelte.js
-                      </Typography>
-                    </label>
-                  </ListItem>
+                <List className="flex flex-wrap">
+                  {temporaryTools.map((tool, index) => (
+                    <ListItem key={index} className="p-0">
+                      <label
+                        htmlFor="horizontal-list-react"
+                        className="flex w-full cursor-pointer items-center px-3 py-2"
+                      >
+                        <ListItemPrefix className="mr-3">
+                          <Checkbox
+                            id="horizontal-list-react"
+                            ripple={false}
+                            className="hover:before:opacity-0"
+                            containerProps={{
+                              className: "p-0",
+                            }}
+                          />
+                        </ListItemPrefix>
+                        <Typography color="blue-gray" className="font-medium">
+                          {tool}
+                        </Typography>
+                      </label>
+                    </ListItem>
+                  ))}
                 </List>
               </Card>
             </Collapse>
