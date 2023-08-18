@@ -13,9 +13,23 @@ import {
   ListItem,
   ListItemPrefix,
 } from "@material-tailwind/react";
-
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+
+type FormValues = {
+  name: string;
+  headline: string;
+  tags: string;
+  links: string;
+  tools: string;
+};
+
 export default function ProfilePageComponent() {
+  // --------form----------------
+
+  const { handleSubmit, control, watch } = useForm<FormValues>();
+
+  // -------------------------
   const [tag, setTags] = useState<string>("");
   const onChange = ({ target }) => setTags(target.value);
   const [open, setOpen] = useState<boolean>(false);
@@ -45,13 +59,12 @@ export default function ProfilePageComponent() {
     "neoVim",
     "VsCode",
   ];
-  // const user = useUser();
-  // console.log(user);
-  // TODO: Update default profile image
-  // const userImage: string = user.user?.imageUrl ? user.user?.imageUrl : logo;
   return (
     <>
       <PlatformNavbar />
+      <div className="flex items-center justify-center">
+        <p className="text-white">{JSON.stringify(watch(), null, 2)}</p>
+      </div>
       <div className="flex  justify-center">
         <Card color="transparent" shadow={false}>
           <Typography variant="h4" color="white">
@@ -62,18 +75,48 @@ export default function ProfilePageComponent() {
           </Typography>
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-4 flex flex-col gap-6">
-              <Input size="lg" label="Name" />
-              <Input size="lg" label="Headline" />
+              <Controller
+                control={control}
+                name="name"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    size="lg"
+                    label="Name"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="headline"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    size="lg"
+                    label="Headline"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+              />
             </div>
             <div className="relative flex w-full max-w-[24rem]">
-              <Input
-                label="Add up to 3 tags"
-                value={tag}
-                onChange={onChange}
-                className="pr-20"
-                containerProps={{
-                  className: "min-w-0",
-                }}
+              <Controller
+                control={control}
+                name="tags"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    label="Add up to 3 tags"
+                    value={value}
+                    onChange={onChange}
+                    className="pr-20"
+                    containerProps={{
+                      className: "min-w-0",
+                    }}
+                  />
+                )}
               />
               <Button
                 size="sm"
@@ -95,14 +138,20 @@ export default function ProfilePageComponent() {
               ))}
             </div>
             <div className="relative flex w-full max-w-[24rem]">
-              <Input
-                label="Add up to 5 links"
-                value={tag}
-                onChange={onChange}
-                className="pr-20"
-                containerProps={{
-                  className: "min-w-0",
-                }}
+              <Controller
+                control={control}
+                name="links"
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    label="Add up to 5 links"
+                    value={value}
+                    onChange={onChange}
+                    className="pr-20"
+                    containerProps={{
+                      className: "min-w-0",
+                    }}
+                  />
+                )}
               />
               <Button
                 size="sm"
@@ -143,14 +192,22 @@ export default function ProfilePageComponent() {
                         className="flex w-full cursor-pointer items-center px-3 py-2"
                       >
                         <ListItemPrefix className="mr-3">
-                          <Checkbox
-                            id="horizontal-list-react"
-                            ripple={false}
-                            color="gray"
-                            className="hover:before:opacity-0 border-noto-purple"
-                            containerProps={{
-                              className: "p-0",
-                            }}
+                          <Controller
+                            name="tools"
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Checkbox
+                                id="horizontal-list-react"
+                                ripple={false}
+                                onChange={onChange}
+                                value={value}
+                                color="gray"
+                                className="hover:before:opacity-0 border-noto-purple"
+                                containerProps={{
+                                  className: "p-0",
+                                }}
+                              />
+                            )}
                           />
                         </ListItemPrefix>
                         <Typography color="blue-gray" className="font-medium">
