@@ -23,7 +23,7 @@ type FormValues = {
   headline: string;
   tags: string[];
   links: string[];
-  tools: string;
+  tools: string[];
   temporaryTag: string;
   temporaryLink: string;
 };
@@ -34,16 +34,21 @@ export default function ProfilePageComponent() {
   const { handleSubmit, control, watch, getValues, setValue } =
     useForm<FormValues>();
   const {
-    fields: tagFields,
+    fields: tagField,
     append: tagAppend,
     remove: tagRemove,
   } = useFieldArray({ control, name: "tags" } as never);
 
   const {
-    fields: linkFields,
+    fields: linkField,
     append: linkAppend,
     remove: linkRemove,
   } = useFieldArray({ control, name: "links" } as never);
+  const {
+    fields: toolsField,
+    append: toolsAppend,
+    remove: toolsRemove,
+  } = useFieldArray({ control, name: "tools" } as never);
 
   // ---------tag display----------------
   const handleKeyDownTags = async (event: KeyboardEvent<HTMLInputElement>) => {
@@ -229,6 +234,7 @@ export default function ProfilePageComponent() {
             </div>
             <div className="flex justify-center">
               <Button
+                type="button"
                 color="white"
                 variant="outlined"
                 onClick={toggleOpen}
@@ -250,11 +256,24 @@ export default function ProfilePageComponent() {
                           <Controller
                             name="tools"
                             control={control}
-                            render={({ field: { onChange, value } }) => (
+                            render={({ field: { value } }) => (
                               <Checkbox
                                 id="horizontal-list-react"
                                 ripple={false}
-                                onChange={onChange}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    // add it to tools array
+                                    toolsAppend(tool);
+                                  } else {
+                                    // remove from tools array
+                                    const toolsArr = getValues("tools");
+                                    toolsRemove(
+                                      toolsArr.findIndex(
+                                        (item) => item === tool
+                                      )
+                                    );
+                                  }
+                                }}
                                 value={value}
                                 color="gray"
                                 className="hover:before:opacity-0 border-noto-purple"
