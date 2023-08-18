@@ -14,28 +14,57 @@ import {
   ListItemPrefix,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { TagComponent } from "./tagDisplayComponent";
 
 type FormValues = {
   name: string;
   headline: string;
-  tags: string;
+  tags: string[];
   links: string;
   tools: string;
+  temporaryTag: string;
+  temporaryLink: string;
 };
 
 export default function ProfilePageComponent() {
-  // --------form----------------
+  // ----------form----------------
 
-  const { handleSubmit, control, watch } = useForm<FormValues>();
+  const { handleSubmit, control, watch, getValues, setValue } =
+    useForm<FormValues>();
+  const {
+    fields: tagFields,
+    append: tagAppend,
+    remove: tagRemove,
+  } = useFieldArray({ control, name: "tags" } as never);
 
-  // -------------------------
-  const [tag, setTags] = useState<string>("");
+  const {
+    fields: linkFields,
+    append: linkAppend,
+    remove: linkRemove,
+  } = useFieldArray({ control, name: "links" } as never);
+
+  // ---------tag display----------------
+  const handleTagAddButton = () => {
+    const tagVal = getValues("temporaryTag");
+    if (typeof tagVal !== "string") {
+      return;
+    }
+
+    const trimmedTag = tagVal.trim();
+    if (trimmedTag.length === 0) {
+      return;
+    }
+    // TODO: Limit number of tags and check if valid
+    tagAppend(tagVal);
+    setValue("temporaryTag", "");
+  };
+
+  // ---------collapse----------------
   const [open, setOpen] = useState<boolean>(false);
-
   const toggleOpen = () => setOpen((cur) => !cur);
-
-  const temporaryTags: string[] = ["AI/ML", "Frontend", "Backend"];
+  // -------------------------
+  // const temporaryTags: string[] = ["AI/ML", "Frontend", "Backend"];
   const temporaryLinks: string[] = [
     "www.linkedin.com",
     "https://github.com/cruzluna",
@@ -106,13 +135,14 @@ export default function ProfilePageComponent() {
             <div className="relative flex w-full max-w-[24rem]">
               <Controller
                 control={control}
-                name="tags"
+                name="temporaryTag"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
                     label="Add up to 3 tags"
                     color="white"
                     value={value}
                     onChange={onChange}
+                    onBlur={onBlur}
                     className="pr-20"
                     containerProps={{
                       className: "min-w-0",
@@ -124,20 +154,16 @@ export default function ProfilePageComponent() {
                 size="sm"
                 disabled={false}
                 className="!absolute right-1 top-1 rounded bg-noto-purple"
+                onClick={handleTagAddButton}
               >
                 Add
               </Button>
             </div>
             <div className="flex gap-2 py-2">
-              {temporaryTags.map((tag, index) => (
-                <Chip
-                  key={index}
-                  open={true}
-                  onClose={() => null}
-                  className="bg-noto-purple font-light text-base"
-                  value={tag}
-                />
-              ))}
+              <TagComponent
+                tagsToShow={getValues("tags")}
+                removeTag={tagRemove}
+              />
             </div>
             <div className="relative flex w-full max-w-[24rem]">
               <Controller
