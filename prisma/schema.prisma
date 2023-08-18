@@ -14,12 +14,15 @@ datasource db {
 // schema
 model User {
   id        String   @id @default(cuid())
+  username  String   @unique
   createdAt DateTime @default(now())
   name      String   @db.VarChar(30)
   headline  String   @db.VarChar(30)
   links     Link[]
   tags      Tag[]
   tools     Tool[]
+
+  @@index([username])
 }
 
 model Link {

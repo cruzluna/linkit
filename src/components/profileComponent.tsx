@@ -23,7 +23,8 @@ import { TagComponent } from "./tagDisplayComponent";
 import { LinkComponent } from "./linkDisplayComponent";
 import { submitProfileForm } from "@/app/actions/profileForm";
 
-type FormValues = {
+export type FormValues = {
+  username: string;
   name: string;
   headline: string;
   tags: string[];
@@ -143,6 +144,20 @@ export default function ProfilePageComponent() {
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
           >
             <div className="mb-4 flex flex-col gap-6">
+              <Controller
+                control={control}
+                name="username"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    size="lg"
+                    color="white"
+                    label="Unique username"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+              />
               <Controller
                 control={control}
                 name="name"
