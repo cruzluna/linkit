@@ -31,7 +31,6 @@ export default function ProfilePageComponent() {
 
   // -------------------------
   const [tag, setTags] = useState<string>("");
-  const onChange = ({ target }) => setTags(target.value);
   const [open, setOpen] = useState<boolean>(false);
 
   const toggleOpen = () => setOpen((cur) => !cur);
@@ -81,6 +80,7 @@ export default function ProfilePageComponent() {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
                     size="lg"
+                    color="white"
                     label="Name"
                     onChange={onChange}
                     onBlur={onBlur}
@@ -94,6 +94,7 @@ export default function ProfilePageComponent() {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
                     size="lg"
+                    color="white"
                     label="Headline"
                     onChange={onChange}
                     onBlur={onBlur}
@@ -109,6 +110,7 @@ export default function ProfilePageComponent() {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
                     label="Add up to 3 tags"
+                    color="white"
                     value={value}
                     onChange={onChange}
                     className="pr-20"
@@ -147,6 +149,7 @@ export default function ProfilePageComponent() {
                     value={value}
                     onChange={onChange}
                     className="pr-20"
+                    color="white"
                     containerProps={{
                       className: "min-w-0",
                     }}
