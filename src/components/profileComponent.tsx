@@ -5,23 +5,24 @@ import {
   Card,
   Checkbox,
   Collapse,
-  Chip,
   Input,
   Button,
   Typography,
   List,
   ListItem,
   ListItemPrefix,
+  Chip,
 } from "@material-tailwind/react";
 import { useState, KeyboardEvent } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { TagComponent } from "./tagDisplayComponent";
+import { LinkComponent } from "./linkDisplayComponent";
 
 type FormValues = {
   name: string;
   headline: string;
   tags: string[];
-  links: string;
+  links: string[];
   tools: string;
   temporaryTag: string;
   temporaryLink: string;
@@ -45,7 +46,7 @@ export default function ProfilePageComponent() {
   } = useFieldArray({ control, name: "links" } as never);
 
   // ---------tag display----------------
-  const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDownTags = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleTagAddButton();
     }
@@ -66,6 +67,27 @@ export default function ProfilePageComponent() {
     setValue("temporaryTag", "");
   };
 
+  // ---------link display----------------
+  const handleKeyDownLinks = async (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleLinkAddButton();
+    }
+  };
+  const handleLinkAddButton = () => {
+    const linkVal = getValues("temporaryLink");
+
+    if (typeof linkVal !== "string") {
+      return;
+    }
+
+    const linkTrimmed = linkVal.trim();
+    if (linkTrimmed.length === 0) {
+      return;
+    }
+    // TODO: Limit number of links and check if valid
+    linkAppend(linkTrimmed);
+    setValue("temporaryLink", "");
+  };
   // ---------collapse----------------
   const [open, setOpen] = useState<boolean>(false);
   const toggleOpen = () => setOpen((cur) => !cur);
@@ -149,7 +171,7 @@ export default function ProfilePageComponent() {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    onKeyDown={handleKeyDown}
+                    onKeyDown={handleKeyDownTags}
                     className="pr-20"
                     containerProps={{
                       className: "min-w-0",
@@ -166,7 +188,7 @@ export default function ProfilePageComponent() {
                 Add
               </Button>
             </div>
-            <div className="flex gap-2 py-2">
+            <div className="flex flex-wrap gap-2 py-2">
               <TagComponent
                 tagsToShow={getValues("tags")}
                 removeTag={tagRemove}
@@ -175,12 +197,13 @@ export default function ProfilePageComponent() {
             <div className="relative flex w-full max-w-[24rem]">
               <Controller
                 control={control}
-                name="links"
+                name="temporaryLink"
                 render={({ field: { onChange, value } }) => (
                   <Input
                     label="Add up to 5 links"
                     value={value}
                     onChange={onChange}
+                    onKeyDown={handleKeyDownLinks}
                     className="pr-20"
                     color="white"
                     containerProps={{
@@ -193,20 +216,16 @@ export default function ProfilePageComponent() {
                 size="sm"
                 disabled={false}
                 className="!absolute right-1 top-1 rounded bg-noto-purple"
+                onClick={handleLinkAddButton}
               >
                 Add
               </Button>
             </div>
             <div className="flex-col items-center gap-2 py-2">
-              {temporaryLinks.map((link, index) => (
-                <Chip
-                  key={index}
-                  open={true}
-                  onClose={() => null}
-                  className="bg-noto-purple m-2 lowercase font-light text-base"
-                  value={link}
-                />
-              ))}
+              <LinkComponent
+                linksToShow={getValues("links")}
+                removeLink={linkRemove}
+              />
             </div>
             <div className="flex justify-center">
               <Button
