@@ -11,12 +11,17 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  Chip,
 } from "@material-tailwind/react";
 import { useState, KeyboardEvent } from "react";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  useFieldArray,
+  SubmitHandler,
+} from "react-hook-form";
 import { TagComponent } from "./tagDisplayComponent";
 import { LinkComponent } from "./linkDisplayComponent";
+import { submitProfileForm } from "@/app/actions/profileForm";
 
 type FormValues = {
   name: string;
@@ -97,14 +102,8 @@ export default function ProfilePageComponent() {
   const [open, setOpen] = useState<boolean>(false);
   const toggleOpen = () => setOpen((cur) => !cur);
   // -------------------------
-  // const temporaryTags: string[] = ["AI/ML", "Frontend", "Backend"];
-  const temporaryLinks: string[] = [
-    "www.linkedin.com",
-    "https://github.com/cruzluna",
-    "x.com/@yv",
-  ];
 
-  const temporaryTools: string[] = [
+  const toolList: string[] = [
     "Python",
     "Golang",
     "C++",
@@ -120,6 +119,11 @@ export default function ProfilePageComponent() {
     "neoVim",
     "VsCode",
   ];
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
+    console.log(data);
+
+    submitProfileForm("none");
+  };
   return (
     <>
       <PlatformNavbar />
@@ -134,7 +138,10 @@ export default function ProfilePageComponent() {
           <Typography color="white" className="mt-1 font-normal">
             Enter your details.
           </Typography>
-          <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+          >
             <div className="mb-4 flex flex-col gap-6">
               <Controller
                 control={control}
@@ -246,7 +253,7 @@ export default function ProfilePageComponent() {
             <Collapse open={open}>
               <Card className="w-full max-w-[24rem]">
                 <List className="flex flex-wrap">
-                  {temporaryTools.map((tool, index) => (
+                  {toolList.map((tool, index) => (
                     <ListItem key={index} className="p-0">
                       <label
                         htmlFor="horizontal-list-react"
@@ -294,7 +301,7 @@ export default function ProfilePageComponent() {
               </Card>
             </Collapse>
 
-            <Button className="mt-6 bg-noto-purple " fullWidth>
+            <Button type="submit" className="mt-6 bg-noto-purple " fullWidth>
               Update
             </Button>
             {/*Icon hashmap proof of concept */}
