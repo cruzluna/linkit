@@ -1,9 +1,8 @@
 "use client";
 import PlatformNavbar from "@/components/platformnavbar";
-import { IconComponent, getIcon } from "@/assets/iconMap";
+// import {IconComponent } from "@/assets/iconMap";
 import {
   Card,
-  CardBody,
   Checkbox,
   Collapse,
   Chip,
@@ -31,12 +30,20 @@ export default function ProfilePageComponent() {
   ];
 
   const temporaryTools: string[] = [
+    "Python",
     "Golang",
+    "C++",
     "AWS",
+    "Google Cloud",
     "Typescript",
     "node.js",
     "Rust",
     "OCaml",
+    "Photoshop",
+    "chatGPT",
+    "Vim",
+    "neoVim",
+    "VsCode",
   ];
   // const user = useUser();
   // console.log(user);
@@ -82,7 +89,7 @@ export default function ProfilePageComponent() {
                   key={index}
                   open={true}
                   onClose={() => null}
-                  className="bg-noto-purple"
+                  className="bg-noto-purple font-light text-base"
                   value={tag}
                 />
               ))}
@@ -111,14 +118,21 @@ export default function ProfilePageComponent() {
                   key={index}
                   open={true}
                   onClose={() => null}
-                  className="bg-noto-purple m-2 lowercase"
+                  className="bg-noto-purple m-2 lowercase font-light text-base"
                   value={link}
                 />
               ))}
             </div>
-            <Button variant="outlined" onClick={toggleOpen}>
-              Select tools
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                color="white"
+                variant="outlined"
+                onClick={toggleOpen}
+                fullWidth
+              >
+                Select tools
+              </Button>
+            </div>
             <Collapse open={open}>
               <Card className="w-full max-w-[24rem]">
                 <List className="flex flex-wrap">
@@ -132,7 +146,8 @@ export default function ProfilePageComponent() {
                           <Checkbox
                             id="horizontal-list-react"
                             ripple={false}
-                            className="hover:before:opacity-0"
+                            color="gray"
+                            className="hover:before:opacity-0 border-noto-purple"
                             containerProps={{
                               className: "p-0",
                             }}
@@ -147,15 +162,11 @@ export default function ProfilePageComponent() {
                 </List>
               </Card>
             </Collapse>
+
             <Button className="mt-6 bg-noto-purple " fullWidth>
               Update
             </Button>
             {/*Icon hashmap proof of concept */}
-            <IconComponent
-              iconKey={""}
-              className={"fill-white"}
-              size="1.5rem"
-            />
           </form>
         </Card>
       </div>
