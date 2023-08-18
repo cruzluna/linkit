@@ -16,8 +16,10 @@ model User {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   name      String   @db.VarChar(30)
+  headline  String   @db.VarChar(30)
   links     Link[]
-  chips     Chip[]
+  tags      Tag[]
+  tools     Tool[]
 }
 
 model Link {
@@ -32,11 +34,21 @@ model Link {
   @@index([userId])
 }
 
-model Chip {
+model Tag {
   id     String @id @default(cuid())
   skill  String
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  @@index([userId])
+}
+
+model Tool {
+  id       String @id @default(cuid())
+  iconName String
+  toolItem String
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
 
   @@index([userId])
 }
