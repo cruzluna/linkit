@@ -123,7 +123,7 @@ export default function ProfilePageComponent() {
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
     console.log(data);
 
-    submitProfileForm("none");
+    submitProfileForm(data);
   };
   return (
     <>
