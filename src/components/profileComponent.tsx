@@ -13,7 +13,7 @@ import {
   ListItem,
   ListItemPrefix,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { TagComponent } from "./tagDisplayComponent";
 
@@ -45,8 +45,14 @@ export default function ProfilePageComponent() {
   } = useFieldArray({ control, name: "links" } as never);
 
   // ---------tag display----------------
+  const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleTagAddButton();
+    }
+  };
   const handleTagAddButton = () => {
     const tagVal = getValues("temporaryTag");
+
     if (typeof tagVal !== "string") {
       return;
     }
@@ -143,6 +149,7 @@ export default function ProfilePageComponent() {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
+                    onKeyDown={handleKeyDown}
                     className="pr-20"
                     containerProps={{
                       className: "min-w-0",
