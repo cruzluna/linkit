@@ -21,7 +21,10 @@ import {
 } from "react-hook-form";
 import { TagComponent } from "./tagDisplayComponent";
 import { LinkComponent } from "./linkDisplayComponent";
-import { submitProfileForm } from "@/app/actions/profileForm";
+import {
+  isUsernameAvailable,
+  submitProfileForm,
+} from "@/app/actions/profileForm";
 
 export type FormValues = {
   username: string;
@@ -147,13 +150,29 @@ export default function ProfilePageComponent() {
               <Controller
                 control={control}
                 name="username"
-                render={({ field: { onChange, onBlur, value } }) => (
+                render={({ field: { onChange, value } }) => (
                   <Input
                     size="lg"
                     color="white"
                     label="Unique username"
                     onChange={onChange}
-                    onBlur={onBlur}
+                    onBlur={(e) => {
+                      console.log(e.target.value);
+                      isUsernameAvailable(e.target.value).then((username) => {
+                        console.log(username);
+                        if (username) {
+                          console.log("Username not unique");
+                        } else {
+                          console.log("Username available");
+                        }
+                      });
+                      // console.log("USERNAME: ", username);
+                      // if (!username) {
+                      //   console.log("FALSE");
+                      // } else {
+                      //   console.log("TRUE");
+                      // }
+                    }}
                     value={value}
                   />
                 )}
