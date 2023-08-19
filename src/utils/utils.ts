@@ -1,4 +1,5 @@
 // can continue adding more
+// key = outer, val = inner
 export const colours:Record<string, string> = {
   "#FFB1AC":"#BD3B34",
   "#C8FFCD":"#3F8441",

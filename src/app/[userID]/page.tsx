@@ -5,6 +5,7 @@ import logo from "../../assets/logo.svg";
 // import Link from '@/components/link';
 import { prisma } from "../../../prisma/prismaclient";
 // import { User } from "@prisma/client";
+import SkillChip from "../../components/skillchip"
 
 interface PageProps {
   params: {
@@ -78,17 +79,13 @@ const page = async ({ params }: PageProps) => {
                 </figcaption>
 
                 <div>
-                  <div className="bg-[#FFB1AC] inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-[#BD3B34] m-1">
-                    <span>AI/ML</span>
-                  </div>
 
-                  <div className="bg-[#C8FFCD] inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-[#3F8441] m-1">
-                    <span>Fullstack</span>
-                  </div>
+                  <SkillChip outer="#FFB1AC" inner="#BD3B34" skill="AI/ML"/>
 
-                  <div className="bg-[#C8EBFF] inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-[#3F7384] m-1">
-                    <span>NodeJS</span>
-                  </div>
+                  <SkillChip outer="#C8FFCD" inner="#3F8441" skill="Fullstack"/>
+
+                  <SkillChip outer="#C8EBFF" inner="#3F7384" skill="Halo 3"/>
+
                 </div>
               </div>
             </figure>
