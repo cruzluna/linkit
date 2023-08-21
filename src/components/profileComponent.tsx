@@ -1,6 +1,5 @@
 "use client";
 import PlatformNavbar from "@/components/platformnavbar";
-// import {IconComponent } from "@/assets/iconMap";
 import {
   Card,
   Checkbox,
@@ -11,6 +10,7 @@ import {
   List,
   ListItem,
   ListItemPrefix,
+  Alert,
 } from "@material-tailwind/react";
 import { useState, KeyboardEvent } from "react";
 import {
@@ -21,10 +21,15 @@ import {
 } from "react-hook-form";
 import { TagComponent } from "./tagDisplayComponent";
 import { LinkComponent } from "./linkDisplayComponent";
-import {
-  isUsernameAvailable,
-  submitProfileForm,
-} from "@/app/actions/profileForm";
+// actions
+import { getUsername, submitProfileForm } from "@/app/actions/profileForm";
+// Yup schema validation
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { object, string, array } from "yup";
+import { GoAlert } from "react-icons/Go";
+import { ErrorMessage } from "@hookform/error-message";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
 export type FormValues = {
   username: string;
@@ -33,15 +38,60 @@ export type FormValues = {
   tags: string[];
   links: string[];
   tools: string[];
-  temporaryTag: string;
-  temporaryLink: string;
+  temporaryTag: string | undefined;
+  temporaryLink: string | undefined;
 };
+
+// src: https://stackoverflow.com/questions/61634973/yup-validation-of-website-using-url-very-strict
+const urlRegex =
+  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+
+//TODO: Remove .test from schema because it queries every time input is re-validated
+const schema = object().shape({
+  username: string()
+    .max(20, "Username can only be 20 characters long.")
+    .test("is-unique-username", "Username is taken", (value) =>
+      getUsername(value).then(async (username) => {
+        console.log("In here");
+        return username === null;
+      })
+    )
+    .required("Please enter a unique username"),
+  name: string().max(50, "Name can only be 50 characters long").required(),
+  headline: string().max(40, "Headline can only be 15 ch").required(),
+  tags: array().of(string().required()).min(1).max(3).required(),
+  links: array().of(string().required()).min(1).max(3).required(),
+  tools: array().of(string().required()).min(1).max(5).required(),
+  temporaryTag: string()
+    .max(10, "Each tag can only  be 10 characters long")
+    .optional(),
+  temporaryLink: string()
+    .matches(
+      urlRegex,
+      "Not a valid URL. May need to delete a link and try again"
+    )
+    .optional(),
+});
 
 export default function ProfilePageComponent() {
   // ----------form----------------
 
-  const { handleSubmit, control, watch, getValues, setValue } =
-    useForm<FormValues>();
+  const {
+    handleSubmit,
+    control,
+    watch,
+    getValues,
+    setValue,
+    setError,
+    trigger,
+    unregister,
+    formState: { errors },
+  } = useForm<FormValues>({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+    criteriaMode: "all", // needed for alert
+    resolver: yupResolver(schema),
+  });
   const {
     fields: tagField,
     append: tagAppend,
@@ -65,42 +115,38 @@ export default function ProfilePageComponent() {
       handleTagAddButton();
     }
   };
-  const handleTagAddButton = () => {
+  const handleTagAddButton = async () => {
     const tagVal = getValues("temporaryTag");
 
-    if (typeof tagVal !== "string") {
+    const valid = await trigger("temporaryTag");
+    if (valid) {
+      // TODO: Limit number of tags and check if valid
+      tagAppend(tagVal);
+      setValue("temporaryTag", "");
+    } else {
       return;
     }
-
-    const trimmedTag = tagVal.trim();
-    if (trimmedTag.length === 0) {
-      return;
-    }
-    // TODO: Limit number of tags and check if valid
-    tagAppend(tagVal);
-    setValue("temporaryTag", "");
   };
 
   // ---------link display----------------
   const handleKeyDownLinks = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      console.log("EVENT==>", event);
       handleLinkAddButton();
     }
   };
-  const handleLinkAddButton = () => {
+  const handleLinkAddButton = async () => {
     const linkVal = getValues("temporaryLink");
-
-    if (typeof linkVal !== "string") {
+    console.log("LINK VAL => ", linkVal);
+    const valid = await trigger("temporaryLink");
+    if (linkVal && valid) {
+      linkAppend(linkVal);
+      setValue("temporaryLink", "");
+      unregister("temporaryLink"); // need this to prevent invalid url on Submit
+    } else {
+      //todo: set error
       return;
     }
-
-    const linkTrimmed = linkVal.trim();
-    if (linkTrimmed.length === 0) {
-      return;
-    }
-    // TODO: Limit number of links and check if valid
-    linkAppend(linkTrimmed);
-    setValue("temporaryLink", "");
   };
   // ---------collapse----------------
   const [open, setOpen] = useState<boolean>(false);
@@ -123,6 +169,9 @@ export default function ProfilePageComponent() {
     "neoVim",
     "VsCode",
   ];
+  // username alert icon, inside input
+  const [validUsername, setValidUsername] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
     console.log(data);
 
@@ -147,6 +196,140 @@ export default function ProfilePageComponent() {
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
           >
             <div className="mb-4 flex flex-col gap-6">
+              {/*Errors*/}
+              <ErrorMessage
+                errors={errors}
+                name="username"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+              <ErrorMessage
+                errors={errors}
+                name="name"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+              <ErrorMessage
+                errors={errors}
+                name="headline"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+
+              <ErrorMessage
+                errors={errors}
+                name="tags"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+
+              <ErrorMessage
+                errors={errors}
+                name="links"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+
+              <ErrorMessage
+                errors={errors}
+                name="tools"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+
+              <ErrorMessage
+                errors={errors}
+                name="temporaryTag"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
+
+              <ErrorMessage
+                errors={errors}
+                name="temporaryLink"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Alert
+                      key={type}
+                      color="red"
+                      icon={<GoAlert size={"1.5rem"} />}
+                    >
+                      {message}
+                    </Alert>
+                  ))
+                }
+              />
               <Controller
                 control={control}
                 name="username"
@@ -156,22 +339,21 @@ export default function ProfilePageComponent() {
                     color="white"
                     label="Unique username"
                     onChange={onChange}
+                    icon={
+                      validUsername && (
+                        <AiOutlineCheckCircle className="fill-green-500" />
+                      )
+                    }
                     onBlur={(e) => {
-                      console.log(e.target.value);
-                      isUsernameAvailable(e.target.value).then((username) => {
-                        console.log(username);
+                      getUsername(e.target.value).then((username) => {
                         if (username) {
+                          setValidUsername(false);
                           console.log("Username not unique");
                         } else {
                           console.log("Username available");
+                          setValidUsername(true);
                         }
                       });
-                      // console.log("USERNAME: ", username);
-                      // if (!username) {
-                      //   console.log("FALSE");
-                      // } else {
-                      //   console.log("TRUE");
-                      // }
                     }}
                     value={value}
                   />
@@ -227,6 +409,7 @@ export default function ProfilePageComponent() {
               />
               <Button
                 size="sm"
+                type="button"
                 disabled={false}
                 className="!absolute right-1 top-1 rounded bg-noto-purple"
                 onClick={handleTagAddButton}
@@ -246,7 +429,7 @@ export default function ProfilePageComponent() {
                 name="temporaryLink"
                 render={({ field: { onChange, value } }) => (
                   <Input
-                    label="Add up to 5 links"
+                    label="Add up to 3 links"
                     value={value}
                     onChange={onChange}
                     onKeyDown={handleKeyDownLinks}
@@ -260,6 +443,7 @@ export default function ProfilePageComponent() {
               />
               <Button
                 size="sm"
+                type="button"
                 disabled={false}
                 className="!absolute right-1 top-1 rounded bg-noto-purple"
                 onClick={handleLinkAddButton}

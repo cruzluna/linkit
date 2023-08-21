@@ -2,7 +2,7 @@
 import { FormValues } from "@/components/profileComponent";
 import { prisma } from "../../../prisma/prismaclient";
 
-export async function isUsernameAvailable(username: string) {
+export async function getUsername(username: string) {
   console.log("SERVER ACTION");
   const user = await prisma.user.findUnique({
     where: {
@@ -16,6 +16,7 @@ export async function isUsernameAvailable(username: string) {
 export async function submitProfileForm(formData: FormValues) {
   // async logic here
   console.log("SERVER ACTION");
+  return 0;
   const submitNewUser = await prisma.user.create({
     data: {
       username: "uniqjakdjadsklfjalksdjfl",
