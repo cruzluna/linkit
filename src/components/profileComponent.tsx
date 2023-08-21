@@ -46,7 +46,6 @@ export type FormValues = {
 const urlRegex =
   /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
 
-//TODO: Remove .test from schema because it queries every time input is re-validated
 const schema = object().shape({
   username: string()
     .max(20, "Username can only be 20 characters long.")
@@ -68,6 +67,8 @@ const schema = object().shape({
 });
 
 export default function ProfilePageComponent() {
+  // TODO: add a check to see if user profile is complete
+
   // ----------form----------------
 
   const {
@@ -206,10 +207,7 @@ export default function ProfilePageComponent() {
           <Typography color="white" className="mt-1 font-normal">
             Enter your details.
           </Typography>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-          >
+          <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-4 flex flex-col gap-6">
               {/*Errors*/}
               <ErrorMessage
@@ -366,7 +364,7 @@ export default function ProfilePageComponent() {
                     }
                     onBlur={async (e) => {
                       console.log("IN HEREW");
-                      // TODO: put in try/catch
+                      // TODO: make separate function
                       await getUsername(e.target.value)
                         .then((username) => {
                           if (username) {
@@ -379,8 +377,6 @@ export default function ProfilePageComponent() {
                           } else {
                             console.log("Username available");
                             setValidUsername(true);
-
-                            // setValue("username", e.target.value);
                           }
                         })
                         .catch((error) => alert(error.message));

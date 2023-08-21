@@ -15,38 +15,36 @@ export async function getUsername(username: string) {
 
 export async function submitProfileForm(formData: FormValues) {
   // async logic here
-  console.log("SERVER ACTION");
-  return 0;
-  const submitNewUser = await prisma.user.create({
-    data: {
-      username: "uniqjakdjadsklfjalksdjfl",
-      name: formData.name,
-      headline: formData.headline,
-      links: {
-        create: [
-          {
-            title: "Test title",
-            iconName: "github",
-            url: "github.com/cruzluna",
-          },
-        ],
+  console.log("SERVER FORM ACTION");
+  try {
+    const submitNewUser = await prisma.user.create({
+      data: {
+        username: formData.username,
+        name: formData.name,
+        headline: formData.headline,
+        // TODO: make this a separate function, so it doesnt fail
+        links: {
+          create: formData.links.map((link) => ({
+            title: link,
+            iconName: new URL(link).hostname,
+            url: link,
+          })),
+        },
+        tags: {
+          create: formData.tags.map((tag) => ({
+            skill: tag,
+          })),
+        },
+        tools: {
+          create: formData.tools.map((tool) => ({
+            iconName: tool,
+            toolItem: tool,
+          })),
+        },
       },
-      tags: {
-        create: [
-          {
-            skill: "fullstack",
-          },
-        ],
-      },
-      tools: {
-        create: [
-          {
-            iconName: "AWS",
-            toolItem: "AWS",
-          },
-        ],
-      },
-    },
-  });
-  console.log(submitNewUser);
+    });
+    console.log(submitNewUser);
+  } catch (error) {
+    console.error("Error submitting profile form. ", error);
+  }
 }

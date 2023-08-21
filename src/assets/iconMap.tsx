@@ -1,11 +1,50 @@
 import { IconType } from "react-icons";
 import { VscGithubInverted } from "react-icons/vsc";
-import { AiOutlineCode, AiOutlineLink } from "react-icons/ai";
+import {
+  AiFillCloud,
+  AiOutlineCode,
+  AiOutlineLink,
+  AiFillLinkedin,
+  AiFillTwitterCircle,
+} from "react-icons/ai";
+import { FaPython, FaTools, FaRust, FaAws } from "react-icons/fa";
+import {
+  SiCplusplus,
+  SiTypescript,
+  SiAdobephotoshop,
+  SiOcaml,
+  SiVim,
+  SiNeovim,
+  SiLeetcode,
+} from "react-icons/si";
+import { BiLogoGoLang, BiLogoNodejs } from "react-icons/bi";
+import { TbBrandVscode } from "react-icons/tb";
 
 const icons: Record<string, IconType> = {
+  linkedin: AiFillLinkedin,
+  x: AiFillTwitterCircle,
+  twitter: AiFillTwitterCircle,
+  leetcode: SiLeetcode,
   github: VscGithubInverted,
   commandline: AiOutlineCode,
   default: AiOutlineLink,
+};
+
+const toolIcons: Record<string, IconType> = {
+  Python: FaPython,
+  Golang: BiLogoGoLang,
+  "C++": SiCplusplus,
+  AWS: FaAws,
+  "Google Cloud": AiFillCloud,
+  Typescript: SiTypescript,
+  "node.js": BiLogoNodejs,
+  Rust: FaRust,
+  OCaml: SiOcaml,
+  Photoshop: SiAdobephotoshop,
+  Vim: SiVim,
+  neoVim: SiNeovim,
+  VsCode: TbBrandVscode,
+  default: FaTools,
 };
 
 /// helper function to get icons. Default for now is commandline icon
