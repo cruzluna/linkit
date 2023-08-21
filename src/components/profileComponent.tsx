@@ -50,12 +50,6 @@ const urlRegex =
 const schema = object().shape({
   username: string()
     .max(20, "Username can only be 20 characters long.")
-    .test("is-unique-username", "Username is taken", (value) =>
-      getUsername(value).then(async (username) => {
-        console.log("In here");
-        return username === null;
-      })
-    )
     .required("Please enter a unique username"),
   name: string().max(50, "Name can only be 50 characters long").required(),
   headline: string().max(40, "Headline can only be 15 ch").required(),
@@ -119,7 +113,7 @@ export default function ProfilePageComponent() {
     const tagVal = getValues("temporaryTag");
 
     const valid = await trigger("temporaryTag");
-    if (valid) {
+    if (tagVal && valid) {
       // TODO: Limit number of tags and check if valid
       tagAppend(tagVal);
       setValue("temporaryTag", "");
@@ -330,6 +324,11 @@ export default function ProfilePageComponent() {
                   ))
                 }
               />
+              {errors.username && (
+                <Alert color="red" icon={<GoAlert size={"1.5rem"} />}>
+                  {errors.username.message}
+                </Alert>
+              )}
               <Controller
                 control={control}
                 name="username"
@@ -345,13 +344,21 @@ export default function ProfilePageComponent() {
                       )
                     }
                     onBlur={(e) => {
+                      console.log("IN HEREW");
+                      // TODO: put in try/catch
                       getUsername(e.target.value).then((username) => {
                         if (username) {
                           setValidUsername(false);
                           console.log("Username not unique");
+                          setError("username", {
+                            type: "username check",
+                            message: "Username taken",
+                          });
                         } else {
                           console.log("Username available");
                           setValidUsername(true);
+
+                          // setValue("username", e.target.value);
                         }
                       });
                     }}
