@@ -166,10 +166,31 @@ export default function ProfilePageComponent() {
   // username alert icon, inside input
   const [validUsername, setValidUsername] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
     console.log(data);
+    //TODO: add try/catch for username again.... because setError doesnt persist the manual error
+    let proceed: boolean = false;
+    await getUsername(data.username)
+      .then((username) => {
+        if (username) {
+          setValidUsername(false);
+          console.log("Username not unique");
+          setError("username", {
+            type: "username check",
+            message: "Username taken",
+          });
+        } else {
+          console.log("Username available");
+          setValidUsername(true);
+          proceed = true;
+        }
+      })
+      .catch((error) => alert(error.message));
 
-    submitProfileForm(data);
+    if (proceed) {
+      console.log("PROCEED");
+      submitProfileForm(data);
+    }
   };
   return (
     <>
@@ -343,24 +364,26 @@ export default function ProfilePageComponent() {
                         <AiOutlineCheckCircle className="fill-green-500" />
                       )
                     }
-                    onBlur={(e) => {
+                    onBlur={async (e) => {
                       console.log("IN HEREW");
                       // TODO: put in try/catch
-                      getUsername(e.target.value).then((username) => {
-                        if (username) {
-                          setValidUsername(false);
-                          console.log("Username not unique");
-                          setError("username", {
-                            type: "username check",
-                            message: "Username taken",
-                          });
-                        } else {
-                          console.log("Username available");
-                          setValidUsername(true);
+                      await getUsername(e.target.value)
+                        .then((username) => {
+                          if (username) {
+                            setValidUsername(false);
+                            console.log("Username not unique");
+                            setError("username", {
+                              type: "username check",
+                              message: "Username taken",
+                            });
+                          } else {
+                            console.log("Username available");
+                            setValidUsername(true);
 
-                          // setValue("username", e.target.value);
-                        }
-                      });
+                            // setValue("username", e.target.value);
+                          }
+                        })
+                        .catch((error) => alert(error.message));
                     }}
                     value={value}
                   />
