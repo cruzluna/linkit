@@ -3,9 +3,11 @@ import Image from "next/image";
 import logo from "../../assets/logo.svg";
 // import { colours } from "../../utils/utils"
 // import Link from '@/components/link';
-import { prisma } from "../../../prisma/prismaclient";
+// import { prisma } from "../../../prisma/prismaclient";
 // import { User } from "@prisma/client";
-import SkillChip from "../../components/skillchip"
+import SkillChip from "../../components/skillchip";
+import Link from "next/link";
+import { getUser } from "../actions/profileForm";
 
 interface PageProps {
   params: {
@@ -20,13 +22,8 @@ export async function generateMetadata({
   };
 }
 const page = async ({ params }: PageProps) => {
-  // const newUser = await prisma.user.create({
-  //   data: {
-  //     name: "Cruz test 1",
-  //   },
-  // });
-  // const users = await prisma.user.findMany();
-  // console.log(users);
+  const user = await getUser(params.userID);
+  console.log("PAGE", user);
 
   // the data to be received from backend when you call on backend/janedoe
   // const payload = {
@@ -59,42 +56,38 @@ const page = async ({ params }: PageProps) => {
   // fetch user data from db and create the link tree
   return (
     <>
-      <body className="min-h-screen text-[#FAFAFA]">
+      <div className="min-h-screen text-[#FAFAFA]">
         <div className="max-w-7xl mx-auto">
-          <div>
-            <figure className="p-6">
-              <Image
-                className="w-32 h-32 rounded-full mx-auto"
-                src={logo}
-                alt="profile picture"
-              />
-              <div className="pt-6 text-center space-y-4">
-                <figcaption className="font-medium">
-                  <div className="text-[#FAFAFA] text-2xl font-bold">
-                    Jane Doe {params.userID}
-                  </div>
-                  <div className="mt-2 font-bold text-[#FAFAFA]">
-                    Aspiring Software Engineer
-                  </div>
-                </figcaption>
-
-                <div>
-
-                  <SkillChip outer="#FFB1AC" inner="#BD3B34" skill="AI/ML"/>
-
-                  <SkillChip outer="#C8FFCD" inner="#3F8441" skill="Fullstack"/>
-
-                  <SkillChip outer="#C8EBFF" inner="#3F7384" skill="Halo 3"/>
-
+          <figure className="p-6">
+            <Image
+              className="w-32 h-32 rounded-full mx-auto"
+              src={logo}
+              alt="profile picture"
+            />
+            <div className="pt-6 text-center space-y-4">
+              <figcaption className="font-medium">
+                <div className="text-[#FAFAFA] text-2xl font-bold">
+                  {user.name}
                 </div>
+                <div className="mt-2 font-bold text-[#FAFAFA]">
+                  Aspiring Software Engineer
+                </div>
+              </figcaption>
+
+              <div>
+                <SkillChip outer="#FFB1AC" inner="#BD3B34" skill="AI/ML" />
+
+                <SkillChip outer="#C8FFCD" inner="#3F8441" skill="Fullstack" />
+
+                <SkillChip outer="#C8EBFF" inner="#3F7384" skill="Halo 3" />
               </div>
-            </figure>
-          </div>
+            </div>
+          </figure>
         </div>
 
         <div className="max-w-xs mx-auto">
           <div className="text-center space-y-4 sm:flex sm:items-start sm:justify-center">
-            <a
+            <Link
               href="https://cpintoval.github.io/"
               target="_blank"
               className="flex items-start rounded-lg border border-gray-400 bg-[#FAFAFA] px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150"
@@ -114,10 +107,10 @@ const page = async ({ params }: PageProps) => {
                   />
                 </svg>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 };

@@ -3,7 +3,7 @@ import { FormValues } from "@/components/profileComponent";
 import { prisma } from "../../../prisma/prismaclient";
 
 export async function getUsername(username: string) {
-  console.log("SERVER ACTION");
+  console.log("getUsername: SERVER ACTION");
   const user = await prisma.user.findUnique({
     where: {
       username: username,
@@ -11,6 +11,41 @@ export async function getUsername(username: string) {
   });
 
   return user;
+}
+export async function getUser(username: string) {
+  console.log("getUser: SERVER ACTION");
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        username: username,
+      },
+      select: {
+        headline: true,
+        name: true,
+        links: {
+          select: {
+            iconName: true,
+            url: true,
+          },
+        },
+        tags: {
+          select: {
+            skill: true,
+          },
+        },
+        tools: {
+          select: {
+            iconName: true,
+            toolItem: true,
+          },
+        },
+      },
+    });
+    return user;
+  } catch (error) {
+    console.error("Error in getUser action: ", error);
+    return null;
+  }
 }
 
 export async function submitProfileForm(formData: FormValues) {
