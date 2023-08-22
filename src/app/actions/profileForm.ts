@@ -30,6 +30,7 @@ export async function getUser(username: string) {
         },
         tags: {
           select: {
+            id: true,
             skill: true,
           },
         },

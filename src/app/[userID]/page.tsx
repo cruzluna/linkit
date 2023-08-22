@@ -18,8 +18,31 @@ export async function generateMetadata({
 }
 const page = async ({ params }: PageProps) => {
   const user = await getUser(params.userID);
+  // BELOW is a sample payload
+  // const user = {
+  //   headline: "Fake Headline Test",
+  //   name: "cruz",
+  //   links: [
+  //     { iconName: "notespace.ai", url: "https://notespace.ai" },
+  //     { iconName: "openai.com", url: "https://openai.com" },
+  //     { iconName: "github.com", url: "https://github.com/cruzluna" },
+  //   ],
+  //   tags: [
+  //     { id: "cllmxxqam0004put7ws7fw92j", skill: "tag1" },
+  //     { id: "cllmxxqam0005put7ajp80dtx", skill: "tag2" },
+  //     { id: "cllmxxqam0006put7k6fqb73v", skill: "tag3" },
+  //   ],
+  //   tools: [
+  //     { iconName: "Python", toolItem: "Python" },
+  //     { iconName: "Golang", toolItem: "Golang" },
+  //     { iconName: "C++", toolItem: "C++" },
+  //     { iconName: "AWS", toolItem: "AWS" },
+  //     { iconName: "Google Cloud", toolItem: "Google Cloud" },
+  //   ],
+  // };
   // //TODO: if no user....
   console.log("PAGE", user);
+  console.log(user?.tags);
 
   // this page receives the slug
   // fetch user data from db and create the link tree
@@ -36,13 +59,13 @@ const page = async ({ params }: PageProps) => {
               </figcaption>
 
               <div>
-                {/* 
-                  TODO: .map =>
-
-                */}
-                <SkillChip loading={false}>{"Skill Chip"}</SkillChip>
-                <SkillChip loading={false}>{"Skill Chip"}</SkillChip>
-                <SkillChip loading={false}>{"Skill Chip"}</SkillChip>
+                {user?.tags.map((tag) => {
+                  return (
+                    <SkillChip key={tag.id} loading={false}>
+                      {tag.skill}
+                    </SkillChip>
+                  );
+                })}
               </div>
             </div>
           </figure>
