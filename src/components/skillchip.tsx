@@ -23,7 +23,7 @@ export default function SkillChip({ loading, children }: skillChipProps) {
       <>
         <div
           className={
-            "bg-noto-purple inline-flex items-center rounded-full px-3 py-1 text-sm font-medium m-1"
+            "bg-noto-purple inline-flex items-center rounded-full px-3 py-1 text-sm text-[#242784] font-medium m-1"
           }
         >
           <span>{children}</span>

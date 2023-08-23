@@ -27,7 +27,20 @@ const icons: Record<string, IconType> = {
   leetcode: SiLeetcode,
   github: VscGithubInverted,
   commandline: AiOutlineCode,
-  default: AiOutlineLink,
+  Python: FaPython,
+  Golang: BiLogoGoLang,
+  "C++": SiCplusplus,
+  AWS: FaAws,
+  "Google Cloud": AiFillCloud,
+  Typescript: SiTypescript,
+  "node.js": BiLogoNodejs,
+  Rust: FaRust,
+  OCaml: SiOcaml,
+  Photoshop: SiAdobephotoshop,
+  Vim: SiVim,
+  neoVim: SiNeovim,
+  VsCode: TbBrandVscode,
+  default: FaTools,
 };
 
 const toolIcons: Record<string, IconType> = {

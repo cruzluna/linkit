@@ -4,6 +4,7 @@ import SkillChip from "../../components/skillchip";
 import Link from "next/link";
 import { getUser } from "../actions/profileForm";
 import { clerkClient } from "@clerk/nextjs";
+import { IconComponent } from "../../assets/iconMap"
 
 interface PageProps {
   params: {
@@ -90,7 +91,6 @@ const page = async ({ params }: PageProps) => {
                 <div className="text-[#FAFAFA] text-2xl font-bold ">Name</div>
                 <div className="mt-2 font-bold text-[#FAFAFA] ">Headline</div>
               </figcaption>
-
               <div>
                 {user.tags.map((tag) => {
                   return (
@@ -109,9 +109,8 @@ const page = async ({ params }: PageProps) => {
             <div className="flex flex-col-1">
               <div className="max-w-xs mx-auto py-2">
                 <div className="flex flex-col-1 items-start space-y-4  ">
-                  <div className="flex items-start w-80 text-center rounded-lg border border-gray-400 bg-[#FAFAFA] px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150">
+                  <Link href={`https://${link.url}`} target="_blank" rel="noopener noreferrer" className="flex items-start w-80 text-center rounded-lg border border-gray-400 bg-[#FAFAFA] px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150">
                     <p className="px-1 mr-3 h-6 w-6"> 🔗 </p>
-                    {/* TODO: make this a clickable link*/}
                     <p className="text-[#1B1B1B] mx-auto truncate">
                       {link.url}
                     </p>
@@ -128,12 +127,29 @@ const page = async ({ params }: PageProps) => {
                         />
                       </svg>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>
           );
         })}
+
+        <div className="flex flex-col items-center">
+          <div className="mt-2 font-bold text-[#FAFAFA] text-2xl">Tools</div>
+          <div className="flex flex-wrap justify-center mt-2">
+            {user.tools.map((tool, index) => (
+              <div key={tool.iconName} className="flex items-center justify-center m-1">
+                <div className="rounded-full bg-[#1C202F] p-2">
+                  <IconComponent iconKey={tool.iconName} size="40" className="text-xl text-white"/>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
+
+        
       </div>
     </>
   );
