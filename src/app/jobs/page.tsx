@@ -1,6 +1,7 @@
 "use client";
 import PlatformNavbar from "@/components/platformnavbar";
 import JobChip from "@/components/job";
+import { Button, Tooltip } from "@material-tailwind/react";
 
 export default function Page() {
   return (
@@ -22,15 +23,15 @@ export default function Page() {
         applicationUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
       />
       <div className="flex justify-center mt-10">
-        {" "}
-        {/* Center the save button */}
-        <button
-          type="button"
-          className="bg-noto-purple lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded"
-          onClick={() => null}
-        >
-          Generate More
-        </button>
+        <Tooltip content="Beta...Coming soon">
+          {/* Center the save button */}
+          <Button
+            type="button"
+            className="bg-noto-purple lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded"
+          >
+            Generate More
+          </Button>
+        </Tooltip>
       </div>
     </>
   );

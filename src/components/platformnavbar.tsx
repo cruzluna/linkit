@@ -1,3 +1,4 @@
+"use client";
 import "tailwindcss/tailwind.css";
 import logo from "../assets/logo.svg";
 import { useState, useEffect } from "react";
@@ -9,16 +10,35 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import Image from "next/image";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+// import { getUserByClerkId } from "@/app/actions/profileForm";
 
 export default function PlatformNavbar() {
   // need cruz's help with this part
   // want to query db to get the username, which we will append to notespace.ai/ to get the full link
-  const notespaceUrl: string = "https://notespace.ai";
-  const userName: string = "";
 
+  // const { user } = useUser(); // get clerk user for clerkId
+  let userName: string = "";
+  // if (user) {
+  //   getUserByClerkId(user.id)
+  //     .then((result) => {
+  //       console.log("RES", result);
+  //
+  //       if (result) {
+  //         userName = result.username;
+  //       }
+  //     })
+  //     .catch((error) => alert(error.message));
+  //   // console.log(userVal);
+  //   // if (userVal) {
+  //   //   userName = userVal.username;
+  //   // }
+  // }
+  const notespaceUrl: string = "https://notespace.ai";
+
+  // let userName = "";
   const profileUrl: string = `${notespaceUrl}/${userName}`;
 
   const [copiedUrl, setCopiedUrl] = useState<boolean>(false);
