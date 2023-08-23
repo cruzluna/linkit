@@ -84,7 +84,15 @@ export async function submitProfileForm(formData: FormValues, clerkId: string) {
       },
     });
     console.log(submitNewUser);
-  } catch (error) {
+    return {
+      user: submitNewUser,
+      error: "",
+    };
+  } catch (error: any) {
     console.error("Error submitting profile form. ", error);
+    return {
+      user: null,
+      error: error.message,
+    };
   }
 }

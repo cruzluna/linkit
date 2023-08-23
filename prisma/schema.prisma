@@ -14,7 +14,7 @@ model User {
   name             String   @db.VarChar(30)
   headline         String   @db.VarChar(30)
   username         String   @unique
-  clerkId          String
+  clerkId          String   @unique
   profileCompleted Boolean  @default(true)
   links            Link[]
   tags             Tag[]

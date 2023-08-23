@@ -31,6 +31,7 @@ import { GoAlert } from "react-icons/Go";
 import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
+import { ErrorModal } from "./errorModal";
 
 export type FormValues = {
   username: string;
@@ -49,6 +50,7 @@ const urlRegex =
 
 const schema = object().shape({
   username: string()
+    .min(3, "Username must be 3 characters long.")
     .max(20, "Username can only be 20 characters long.")
     .required("Please enter a unique username"),
   name: string().max(50, "Name can only be 50 characters long").required(),
@@ -116,7 +118,6 @@ export default function ProfilePageComponent() {
 
     const valid = await trigger("temporaryTag");
     if (tagVal && valid) {
-      // TODO: Limit number of tags and check if valid
       tagAppend(tagVal);
       setValue("temporaryTag", "");
     } else {
@@ -127,13 +128,11 @@ export default function ProfilePageComponent() {
   // ---------link display----------------
   const handleKeyDownLinks = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      console.log("EVENT==>", event);
       handleLinkAddButton();
     }
   };
   const handleLinkAddButton = async () => {
     const linkVal = getValues("temporaryLink");
-    console.log("LINK VAL => ", linkVal);
     const valid = await trigger("temporaryLink");
     if (linkVal && valid) {
       linkAppend(linkVal);
@@ -169,7 +168,14 @@ export default function ProfilePageComponent() {
   const [validUsername, setValidUsername] = useState<boolean>(false);
   // TODO: move useUser to server component?
   const { user } = useUser(); // get clerk user for clerkId
-  console.log("USEr profile component clerk user: ", user);
+  const [submitButtonDisabled, setSubmitButtonDisabled] =
+    useState<boolean>(false);
+  const [formError, setFormError] = useState<boolean>(false);
+
+  const handleErrorModal = () => {
+    setFormError(false);
+  };
+  // let errorMessage: string = "";
 
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
     console.log(data);
@@ -179,7 +185,7 @@ export default function ProfilePageComponent() {
       .then((username) => {
         if (username) {
           setValidUsername(false);
-          console.log("Username not unique");
+
           setError("username", {
             type: "username check",
             message: "Username taken",
@@ -193,18 +199,27 @@ export default function ProfilePageComponent() {
       .catch((error) => alert(error.message));
 
     if (proceed && user) {
-      console.log("PROCEED");
-      // TODO: try catch
-      submitProfileForm(data, user.id);
-      // TODO: alert if successfull
+      const result = await submitProfileForm(data, user.id);
+      // console.log(result);
+      if (result.user !== null) {
+        setSubmitButtonDisabled(true);
+        // console.log("BUTTON DISABLED");
+      } else {
+        // errorMessage = result.error as string;
+        setFormError(true); // pop up error modal
+      }
     }
   };
   return (
     <>
+      {formError && <ErrorModal open={formError} onOpen={handleErrorModal} />}
       <PlatformNavbar />
+      {/*  
+        This is how you can view the form state
       <div className="flex items-center justify-center">
         <p className="text-white">{JSON.stringify(watch(), null, 2)}</p>
       </div>
+      */}
       <div className="flex  justify-center">
         <Card color="transparent" shadow={false}>
           <Typography variant="h4" color="white">
@@ -553,10 +568,11 @@ export default function ProfilePageComponent() {
 
             <Button
               onClick={handleSubmit(onSubmit)}
+              disabled={submitButtonDisabled}
               className="mt-6 bg-noto-purple "
               fullWidth
             >
-              Update
+              Submit
             </Button>
             {/*Icon hashmap proof of concept */}
           </form>
