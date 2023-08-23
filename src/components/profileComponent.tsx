@@ -31,7 +31,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { object, string, array } from "yup";
-import { GoAlert } from "react-icons/Go";
+import { GoAlert } from "react-icons/go";
 import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
