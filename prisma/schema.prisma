@@ -31,7 +31,7 @@ model Link {
   url      String
   enabled  Boolean @default(true)
   userId   String
-  user     User    @relation(fields: [userId], references: [id])
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -40,7 +40,7 @@ model Tag {
   id     String @id @default(cuid())
   skill  String
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -50,7 +50,7 @@ model Tool {
   iconName String
   toolItem String
   userId   String
-  user     User   @relation(fields: [userId], references: [id])
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }

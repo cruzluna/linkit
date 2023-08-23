@@ -13,33 +13,32 @@ import Image from "next/image";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+import { getUserByClerkId } from "@/app/actions/profileForm";
 // import { getUserByClerkId } from "@/app/actions/profileForm";
 
 export default function PlatformNavbar() {
   // need cruz's help with this part
   // want to query db to get the username, which we will append to notespace.ai/ to get the full link
 
-  // const { user } = useUser(); // get clerk user for clerkId
-  let userName: string = "";
-  // if (user) {
-  //   getUserByClerkId(user.id)
-  //     .then((result) => {
-  //       console.log("RES", result);
-  //
-  //       if (result) {
-  //         userName = result.username;
-  //       }
-  //     })
-  //     .catch((error) => alert(error.message));
-  //   // console.log(userVal);
-  //   // if (userVal) {
-  //   //   userName = userVal.username;
-  //   // }
-  // }
+  const { user } = useUser(); // get clerk user for clerkId
+
+  useEffect(() => {
+    if (user) {
+      const fetchUser = async () => {
+        const check = await getUserByClerkId(user.id);
+        if (check !== null) {
+          // profile created means do not access profile form
+          setNoteSpaceUserName(check.username);
+        }
+      };
+      fetchUser();
+    }
+  }, []);
+  const [noteSpaceUserName, setNoteSpaceUserName] = useState<string>("");
   const notespaceUrl: string = "https://notespace.ai";
 
   // let userName = "";
-  const profileUrl: string = `${notespaceUrl}/${userName}`;
+  const profileUrl: string = `${notespaceUrl}/${noteSpaceUserName}`;
 
   const [copiedUrl, setCopiedUrl] = useState<boolean>(false);
   const [openNav, setOpenNav] = useState<boolean>(false);
@@ -235,7 +234,7 @@ export default function PlatformNavbar() {
                           Close
                         </button>
                         <button
-                          type="submit"
+                          type="button"
                           className="bg-noto-purple hover:bg-[#1C202F] border border-noto-purple text-white font-bold px-3 py-3 rounded"
                           onClick={() => {
                             copyUrlOnClick();

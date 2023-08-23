@@ -20,54 +20,53 @@ export async function generateMetadata({
 }
 const page = async ({ params }: PageProps) => {
   // TODO: if !user --> should go to error page already....
-  // const user = await getUser(params.userID);
+  const user = await getUser(params.userID);
+  if (!user) return null;
 
   // TODO: if null, use a default? most likely server problem
-  // const clerkUser = await clerkClient.users.getUser(
-  //   "user_2RcyEBMi6aQbCP95hVGJmsIJa6F"
-  // );
+  const clerkUser = await clerkClient.users.getUser(user.clerkId);
 
   // PAYLOAD of image url:
-  const imageUrl =
-    "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yUmN5RUliVzVycXdxWFVwRXBPU3FLeWc5MVQuanBlZyJ9";
+  // const imageUrl =
+  //   "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yUmN5RUliVzVycXdxWFVwRXBPU3FLeWc5MVQuanBlZyJ9";
 
   // console.log("CLERK USER\n", clerkUser.imageUrl);
   // console.log(user);
   // BELOW is a sample payload
-  const user = {
-    clerkId: "user_2RcyEBMi6aQbCP95hVGJmsIJa6F",
-    headline: "test headline",
-    name: "Test Name",
-    links: [
-      {
-        title: "github.com/cruzluna",
-        iconName: "github.com/cruzluna",
-        url: "github.com/cruzluna",
-      },
-      {
-        title: "notespace.ai",
-        iconName: "notespace.ai",
-        url: "notespace.ai",
-      },
-      {
-        title: "https://linkedin.com/cruzluna",
-        iconName: "linkedin.com",
-        url: "https://linkedin.com/cruzluna",
-      },
-    ],
-    tags: [
-      { id: "clln2oqsz000apu7bm03affrn", skill: "tag1" },
-      { id: "clln2oqsz000bpu7bzldchl2a", skill: "tag2" },
-      { id: "clln2oqsz000cpu7bpcvia38u", skill: "tag3" },
-    ],
-    tools: [
-      { iconName: "C++", toolItem: "C++" },
-      { iconName: "Golang", toolItem: "Golang" },
-      { iconName: "VsCode", toolItem: "VsCode" },
-      { iconName: "Python", toolItem: "Python" },
-      { iconName: "AWS", toolItem: "aws" },
-    ],
-  };
+  // const user = {
+  //   clerkId: "user_2RcyEBMi6aQbCP95hVGJmsIJa6F",
+  //   headline: "test headline",
+  //   name: "Test Name",
+  //   links: [
+  //     {
+  //       title: "github.com/cruzluna",
+  //       iconName: "github.com/cruzluna",
+  //       url: "github.com/cruzluna",
+  //     },
+  //     {
+  //       title: "notespace.ai",
+  //       iconName: "notespace.ai",
+  //       url: "notespace.ai",
+  //     },
+  //     {
+  //       title: "https://linkedin.com/cruzluna",
+  //       iconName: "linkedin.com",
+  //       url: "https://linkedin.com/cruzluna",
+  //     },
+  //   ],
+  //   tags: [
+  //     { id: "clln2oqsz000apu7bm03affrn", skill: "tag1" },
+  //     { id: "clln2oqsz000bpu7bzldchl2a", skill: "tag2" },
+  //     { id: "clln2oqsz000cpu7bpcvia38u", skill: "tag3" },
+  //   ],
+  //   tools: [
+  //     { iconName: "C++", toolItem: "C++" },
+  //     { iconName: "Golang", toolItem: "Golang" },
+  //     { iconName: "VsCode", toolItem: "VsCode" },
+  //     { iconName: "Python", toolItem: "Python" },
+  //     { iconName: "AWS", toolItem: "aws" },
+  //   ],
+  // };
 
   // const user = {
   //   headline: "Fake Headline Test",
@@ -104,7 +103,7 @@ const page = async ({ params }: PageProps) => {
           <figure className="p-6">
             <Image
               className="rounded-full w-32 h-32 mx-auto bg-noto-purple bg-opacity-50 "
-              src={imageUrl}
+              src={clerkUser.imageUrl}
               width={500}
               height={500}
               alt={"profile-image"}

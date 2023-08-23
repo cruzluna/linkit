@@ -12,7 +12,7 @@ import {
   ListItemPrefix,
   Alert,
 } from "@material-tailwind/react";
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import {
   useForm,
   Controller,
@@ -78,13 +78,19 @@ export default async function ProfilePageComponent() {
   // TODO: add a check to see if user profile is complete
   const router = useRouter();
   const { user } = useUser(); // get clerk user for clerkId
-  if (user) {
-    const check = await getUserByClerkId(user.id);
-    if (check !== null) {
-      // profile created means do not access profile form
-      router.push("/links");
+
+  useEffect(() => {
+    if (user) {
+      const fetchUser = async () => {
+        const check = await getUserByClerkId(user.id);
+        if (check !== null) {
+          // profile created means do not access profile form
+          router.push("/links");
+        }
+      };
+      fetchUser();
     }
-  }
+  }, []);
 
   // const profileComplete = await getUserByClerkId(user.id);
 
