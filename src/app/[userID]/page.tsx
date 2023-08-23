@@ -24,6 +24,7 @@ const page = async ({ params }: PageProps) => {
   if (!user) return null;
 
   // TODO: if null, use a default? most likely server problem
+  // @ts-ignore
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
 
   // PAYLOAD of image url:
