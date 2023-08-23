@@ -22,7 +22,11 @@ import {
 import { TagComponent } from "./tagDisplayComponent";
 import { LinkComponent } from "./linkDisplayComponent";
 // actions
-import { getUsername, submitProfileForm } from "@/app/actions/profileForm";
+import {
+  getUserByClerkId,
+  getUsername,
+  submitProfileForm,
+} from "@/app/actions/profileForm";
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -32,6 +36,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
 import { ErrorModal } from "./errorModal";
+import { useRouter } from "next/navigation";
 
 export type FormValues = {
   username: string;
@@ -69,15 +74,29 @@ const schema = object().shape({
     .optional(),
 });
 
-export default function ProfilePageComponent() {
+export default async function ProfilePageComponent() {
   // TODO: add a check to see if user profile is complete
+  const router = useRouter();
+  const { user } = useUser(); // get clerk user for clerkId
+  if (user) {
+    const check = await getUserByClerkId(user.id);
+    if (check !== null) {
+      // profile created means do not access profile form
+      router.push("/links");
+    }
+  }
 
+  // const profileComplete = await getUserByClerkId(user.id);
+
+  // if (profileComplete !== null) {
+  //   return <div> Profile complete, go to links</div>;
+  // }
   // ----------form----------------
 
   const {
     handleSubmit,
     control,
-    watch,
+    // watch,
     getValues,
     setValue,
     setError,
@@ -90,22 +109,19 @@ export default function ProfilePageComponent() {
     criteriaMode: "all", // needed for alert
     resolver: yupResolver(schema),
   });
-  const {
-    fields: tagField,
-    append: tagAppend,
-    remove: tagRemove,
-  } = useFieldArray({ control, name: "tags" } as never);
+  const { append: tagAppend, remove: tagRemove } = useFieldArray({
+    control,
+    name: "tags",
+  } as never);
 
-  const {
-    fields: linkField,
-    append: linkAppend,
-    remove: linkRemove,
-  } = useFieldArray({ control, name: "links" } as never);
-  const {
-    fields: toolsField,
-    append: toolsAppend,
-    remove: toolsRemove,
-  } = useFieldArray({ control, name: "tools" } as never);
+  const { append: linkAppend, remove: linkRemove } = useFieldArray({
+    control,
+    name: "links",
+  } as never);
+  const { append: toolsAppend, remove: toolsRemove } = useFieldArray({
+    control,
+    name: "tools",
+  } as never);
 
   // ---------tag display----------------
   const handleKeyDownTags = async (event: KeyboardEvent<HTMLInputElement>) => {
@@ -167,7 +183,6 @@ export default function ProfilePageComponent() {
   // username alert icon, inside input
   const [validUsername, setValidUsername] = useState<boolean>(false);
   // TODO: move useUser to server component?
-  const { user } = useUser(); // get clerk user for clerkId
   const [submitButtonDisabled, setSubmitButtonDisabled] =
     useState<boolean>(false);
   const [formError, setFormError] = useState<boolean>(false);
@@ -208,6 +223,8 @@ export default function ProfilePageComponent() {
         // errorMessage = result.error as string;
         setFormError(true); // pop up error modal
       }
+    } else {
+      setFormError(true); // pop up error modal
     }
   };
   return (

@@ -12,8 +12,6 @@ type errorModalProps = {
 };
 
 export function ErrorModal({ open, onOpen }: errorModalProps) {
-  // const handleOpen = () => setOpen(!open);
-
   return (
     <>
       <Dialog open={open} handler={onOpen}>

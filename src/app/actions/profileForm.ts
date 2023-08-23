@@ -13,6 +13,18 @@ export async function getUsername(username: string) {
 
   return user;
 }
+
+export async function getUserByClerkId(clerkId: string) {
+  console.log("getUserByClerkId: SERVER ACTION");
+  const user = await prisma.user.findFirst({
+    where: {
+      clerkId: clerkId,
+    },
+  });
+
+  return user;
+}
+
 export async function getUser(username: string) {
   console.log("getUser: SERVER ACTION");
   try {

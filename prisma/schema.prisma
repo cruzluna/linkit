@@ -21,6 +21,7 @@ model User {
   tools            Tool[]
 
   @@index([username])
+  @@index([clerkId])
 }
 
 model Link {
