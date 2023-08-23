@@ -21,10 +21,12 @@ export async function getUser(username: string) {
         username: username,
       },
       select: {
+        clerkId: true,
         headline: true,
         name: true,
         links: {
           select: {
+            title: true,
             iconName: true,
             url: true,
           },
