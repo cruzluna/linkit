@@ -1,6 +1,7 @@
 "use server";
 import { FormValues } from "@/components/profileComponent";
 import { prisma } from "../../../prisma/prismaclient";
+import { isValidURL } from "@/utils/utils";
 
 export async function getUsername(username: string) {
   console.log("getUsername: SERVER ACTION");
@@ -49,7 +50,7 @@ export async function getUser(username: string) {
   }
 }
 
-export async function submitProfileForm(formData: FormValues) {
+export async function submitProfileForm(formData: FormValues, clerkId: string) {
   // async logic here
   console.log("SERVER FORM ACTION");
   try {
@@ -62,7 +63,7 @@ export async function submitProfileForm(formData: FormValues) {
         links: {
           create: formData.links.map((link) => ({
             title: link,
-            iconName: new URL(link).hostname,
+            iconName: isValidURL(link) ? new URL(link).hostname : link,
             url: link,
           })),
         },
@@ -77,6 +78,7 @@ export async function submitProfileForm(formData: FormValues) {
             toolItem: tool,
           })),
         },
+        clerkId: clerkId,
       },
     });
     console.log(submitNewUser);

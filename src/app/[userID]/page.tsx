@@ -3,6 +3,7 @@ import Image from "next/image";
 import SkillChip from "../../components/skillchip";
 import Link from "next/link";
 import { getUser } from "../actions/profileForm";
+import { clerkClient } from "@clerk/nextjs";
 
 interface PageProps {
   params: {
@@ -17,8 +18,39 @@ export async function generateMetadata({
   };
 }
 const page = async ({ params }: PageProps) => {
-  const user = await getUser(params.userID);
+  // TODO: if !user --> should go to error page already....
+  // const user = await getUser(params.userID);
+
+  // TODO: if null, use a default? most likely server problem
+  // const clerkUser = await clerkClient.users.getUser(
+  //   "user_2RcyEBMi6aQbCP95hVGJmsIJa6F"
+  // );
+
+  // PAYLOAD of image url:
+  //https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yUmN5RUliVzVycXdxWFVwRXBPU3FLeWc5MVQuanBlZyJ9
+
+  // console.log("CLERK USER\n", clerkUser.imageUrl);
+  // console.log(user);
   // BELOW is a sample payload
+  const user = {
+    headline: "test headline",
+    name: "Test Name",
+    links: [
+      { iconName: "github.com/cruzluna", url: "github.com/cruzluna" },
+      { iconName: "notespace.ai", url: "notespace.ai" },
+      { iconName: "linkedin.com", url: "https://linkedin.com/cruzluna" },
+    ],
+    tags: [
+      { id: "clln2oqsz000apu7bm03affrn", skill: "tag1" },
+      { id: "clln2oqsz000bpu7bzldchl2a", skill: "tag2" },
+      { id: "clln2oqsz000cpu7bpcvia38u", skill: "tag3" },
+    ],
+    tools: [
+      { iconName: "Python", toolItem: "Python" },
+      { iconName: "Golang", toolItem: "Golang" },
+      { iconName: "C++", toolItem: "C++" },
+    ],
+  };
   // const user = {
   //   headline: "Fake Headline Test",
   //   name: "cruz",
@@ -40,10 +72,11 @@ const page = async ({ params }: PageProps) => {
   //     { iconName: "Google Cloud", toolItem: "Google Cloud" },
   //   ],
   // };
-  // //TODO: if no user....
-  console.log("PAGE", user);
-  console.log(user?.tags);
-
+  //
+  // // //TODO: if no user....
+  // console.log("PAGE", user);
+  // console.log(user?.tags);
+  //
   // this page receives the slug
   // fetch user data from db and create the link tree
   return (
@@ -59,7 +92,7 @@ const page = async ({ params }: PageProps) => {
               </figcaption>
 
               <div>
-                {user?.tags.map((tag) => {
+                {user.tags.map((tag) => {
                   return (
                     <SkillChip key={tag.id} loading={false}>
                       {tag.skill}

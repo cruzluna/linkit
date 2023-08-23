@@ -30,6 +30,7 @@ import { object, string, array } from "yup";
 import { GoAlert } from "react-icons/Go";
 import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import { useUser } from "@clerk/nextjs";
 
 export type FormValues = {
   username: string;
@@ -166,6 +167,9 @@ export default function ProfilePageComponent() {
   ];
   // username alert icon, inside input
   const [validUsername, setValidUsername] = useState<boolean>(false);
+  // TODO: move useUser to server component?
+  const { user } = useUser(); // get clerk user for clerkId
+  console.log("USEr profile component clerk user: ", user);
 
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
     console.log(data);
@@ -188,9 +192,11 @@ export default function ProfilePageComponent() {
       })
       .catch((error) => alert(error.message));
 
-    if (proceed) {
+    if (proceed && user) {
       console.log("PROCEED");
-      submitProfileForm(data);
+      // TODO: try catch
+      submitProfileForm(data, user.id);
+      // TODO: alert if successfull
     }
   };
   return (
