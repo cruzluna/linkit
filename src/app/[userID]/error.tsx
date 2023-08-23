@@ -20,7 +20,8 @@ export default function Error({ error }: { error: Error }) {
             We can’t find that page
           </h1>
           <p className="mt-4 text-gray-500 ">
-            Sorry, the page you are looking for doesn't exist or has been moved.
+            Sorry, the page you are looking for doesn&apos;t exist or has been
+            moved.
           </p>
 
           <div className="flex items-center mt-6 gap-x-3">

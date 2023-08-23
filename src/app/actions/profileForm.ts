@@ -38,6 +38,7 @@ export async function getUser(username: string) {
         name: true,
         links: {
           select: {
+            id: true,
             title: true,
             iconName: true,
             url: true,

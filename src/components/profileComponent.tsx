@@ -74,7 +74,7 @@ const schema = object().shape({
     .optional(),
 });
 
-export default async function ProfilePageComponent() {
+export default function ProfilePageComponent() {
   // TODO: add a check to see if user profile is complete
   const router = useRouter();
   const { user } = useUser(); // get clerk user for clerkId
@@ -90,7 +90,7 @@ export default async function ProfilePageComponent() {
       };
       fetchUser();
     }
-  }, []);
+  }, [user]);
 
   // const profileComplete = await getUserByClerkId(user.id);
 

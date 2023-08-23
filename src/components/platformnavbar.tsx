@@ -28,12 +28,13 @@ export default function PlatformNavbar() {
         const check = await getUserByClerkId(user.id);
         if (check !== null) {
           // profile created means do not access profile form
+
           setNoteSpaceUserName(check.username);
         }
       };
       fetchUser();
     }
-  }, []);
+  }, [user]);
   const [noteSpaceUserName, setNoteSpaceUserName] = useState<string>("");
   const notespaceUrl: string = "https://notespace.ai";
 

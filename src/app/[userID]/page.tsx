@@ -132,7 +132,7 @@ const page = async ({ params }: PageProps) => {
 
         {user.links.map((link) => {
           return (
-            <div className="flex flex-col-1">
+            <div key={link.id} className="flex flex-col-1">
               <div className="max-w-xs mx-auto py-2">
                 <button className="flex flex-col-1 items-start space-y-4 ">
                   <Link
