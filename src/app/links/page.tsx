@@ -1,4 +1,3 @@
-"use client";
 import PlatformNavbar from "@/components/platformnavbar";
 
 import "tailwindcss/tailwind.css";

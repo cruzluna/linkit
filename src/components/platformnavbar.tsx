@@ -1,5 +1,4 @@
 "use client";
-import "tailwindcss/tailwind.css";
 import logo from "../assets/logo.svg";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -14,27 +13,27 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { getUserByClerkId } from "@/app/actions/profileForm";
-// import { getUserByClerkId } from "@/app/actions/profileForm";
 
 export default function PlatformNavbar() {
   // need cruz's help with this part
   // want to query db to get the username, which we will append to notespace.ai/ to get the full link
 
-  const { user } = useUser(); // get clerk user for clerkId
+  const { user, isLoaded } = useUser();
 
   useEffect(() => {
-    if (user) {
+    // console.log("USE EFFECT NAVBAR");
+    if (isLoaded && user) {
       const fetchUser = async () => {
         const check = await getUserByClerkId(user.id);
         if (check !== null) {
           // profile created means do not access profile form
-
           setNoteSpaceUserName(check.username);
         }
       };
       fetchUser();
     }
-  }, [user]);
+  }, []);
+
   const [noteSpaceUserName, setNoteSpaceUserName] = useState<string>("");
   const notespaceUrl: string = "https://notespace.ai";
 

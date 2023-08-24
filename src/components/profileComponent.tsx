@@ -199,7 +199,7 @@ export default function ProfilePageComponent() {
   // let errorMessage: string = "";
 
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
-    console.log(data);
+    // console.log(data);
     //TODO: add try/catch for username again.... because setError doesnt persist the manual error
     let proceed: boolean = false;
     await getUsername(data.username)

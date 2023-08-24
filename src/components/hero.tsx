@@ -19,7 +19,7 @@ export default function Hero(): JSX.Element {
             <span className="sm:block">
               Receive{" "}
               <span className="bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent">
-                Jobs
+                Job Alerts
               </span>{" "}
               with the Power of{" "}
               <span className="bg-gradient-to-r from-teal-300 via-blue-500 to-noto-purple bg-clip-text text-transparent">

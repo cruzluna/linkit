@@ -42,6 +42,7 @@ export async function getUser(username: string) {
             title: true,
             iconName: true,
             url: true,
+            enabled: true,
           },
         },
         tags: {
