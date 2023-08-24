@@ -7,8 +7,8 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 export default function Hero(): JSX.Element {
   const router: AppRouterInstance = useRouter();
   return (
-    <section className="text-[#FAFAFA]">
-      <div className="mx-auto max-w-screen-xl px-4 py-32 lg:grid lg:grid-cols-2 lg:items-center ">
+    <section className="text-[#FAFAFA] mb-20">
+      <div className="mx-auto max-w-screen-xl px-4 py-25 lg:grid lg:grid-cols-2 lg:items-center ">
         <div className="mx-auto max-w-3xl text-center lg:text-left lg:mx-0 lg:pr-10">
           <h1 className=" text-3xl font-extrabold  sm:text-5xl">
             Show{" "}
