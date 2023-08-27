@@ -1,5 +1,4 @@
 "use client";
-import PlatformNavbar from "@/components/platformnavbar";
 import {
   Button,
   Card,
@@ -8,12 +7,11 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Image from "next/image";
-import analyze from "../../assets/analyze.svg";
+import analyze from "@assets/analyze.svg";
 
 export default function Analytics() {
   return (
     <>
-      <PlatformNavbar />
       <div className="flex items-center justify-center">
         <Card className="mt-2 w-96">
           <CardBody>

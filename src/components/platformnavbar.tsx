@@ -32,7 +32,7 @@ export default function PlatformNavbar() {
       };
       fetchUser();
     }
-  }, []);
+  }, [user]);
 
   const [noteSpaceUserName, setNoteSpaceUserName] = useState<string>("");
   const notespaceUrl: string = "https://notespace.ai";
@@ -69,7 +69,7 @@ export default function PlatformNavbar() {
         className="p-1 font-semibold"
       >
         <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          <Link href={"/links"}>Links</Link>
+          <Link href={"/user/links"}>Links</Link>
         </div>
       </Typography>
       <Typography
@@ -79,7 +79,7 @@ export default function PlatformNavbar() {
         className="p-1  font-semibold"
       >
         <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          <Link href={"/profile"}>Profile</Link>
+          <Link href={"/user/profile"}>Profile</Link>
         </div>
       </Typography>
       <Typography
@@ -89,7 +89,7 @@ export default function PlatformNavbar() {
         className="p-1  font-semibold"
       >
         <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          <Link href={"/analytics"}>Analytics</Link>
+          <Link href={"/user/analytics"}>Analytics</Link>
         </div>
       </Typography>
       <Typography
@@ -99,7 +99,7 @@ export default function PlatformNavbar() {
         className="p-1 font-semibold"
       >
         <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          <Link href={"/jobs"}>Jobs</Link>
+          <Link href={"/user/jobs"}>Jobs</Link>
         </div>
       </Typography>
     </ul>
@@ -190,7 +190,7 @@ export default function PlatformNavbar() {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#1C202F] outline-none focus:outline-none">
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <section className="bg-[#1C202F] ">
+                  <div className="bg-[#1C202F] ">
                     <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
                       <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-[#FAFAFA]">
                         Share Your notespace
@@ -244,7 +244,7 @@ export default function PlatformNavbar() {
                         </button>
                       </div>
                     </div>
-                  </section>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,26 +1,24 @@
 "use client";
-import PlatformNavbar from "@/components/platformnavbar";
 import JobChip from "@/components/job";
 import { Button, Tooltip } from "@material-tailwind/react";
 
 export default function Page() {
   return (
     <>
-      <PlatformNavbar />
       <div className="text-3xl font-bold text-center my-4 md:text-4xl lg:text-5xl text-[#FAFAFA]">
         Recommended Jobs
       </div>
       <JobChip
         jobName="Backend Engineer"
-        companyName="Plaid"
+        companyName="Plaid (beta...not functional atm)"
         datePosted="08/23/2023"
-        applicationUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        applicationUrl="null"
       />
       <JobChip
         jobName="Backend Engineer"
-        companyName="Plaid"
+        companyName="Plaid (beta...not functional atm)"
         datePosted="08/23/2023"
-        applicationUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        applicationUrl="null"
       />
       <div className="flex justify-center mt-10">
         <Tooltip content="Beta...Coming soon">

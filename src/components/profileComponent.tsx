@@ -1,5 +1,4 @@
 "use client";
-import PlatformNavbar from "@/components/platformnavbar";
 import {
   Card,
   Checkbox,
@@ -50,8 +49,8 @@ export type FormValues = {
 };
 
 // src: https://stackoverflow.com/questions/61634973/yup-validation-of-website-using-url-very-strict
-const urlRegex =
-  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+// const urlRegex =
+//   /^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+(\/)?.([\w\?[a-zA-Z-_%\/@?]+)*([^\/\w\?[a-zA-Z0-9_-]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/;
 
 const schema = object().shape({
   username: string()
@@ -66,14 +65,13 @@ const schema = object().shape({
   temporaryTag: string()
     .max(10, "Each tag can only  be 10 characters long")
     .optional(),
-  temporaryLink: string()
-    .matches(
-      urlRegex,
-      "Not a valid URL. May need to delete a link and try again"
-    )
-    .optional(),
+  temporaryLink: string().url().optional(),
 });
 
+// .matches(
+//   urlRegex,
+//   "Not a valid URL. May need to delete a link and try again"
+// )
 export default function ProfilePageComponent() {
   // TODO: add a check to see if user profile is complete
   const router = useRouter();
@@ -85,7 +83,7 @@ export default function ProfilePageComponent() {
         const check = await getUserByClerkId(user.id);
         if (check !== null) {
           // profile created means do not access profile form
-          router.push("/links");
+          router.push("/user/links");
         }
       };
       fetchUser();
@@ -235,8 +233,9 @@ export default function ProfilePageComponent() {
   };
   return (
     <>
-      {formError && <ErrorModal open={formError} onOpen={handleErrorModal} />}
-      <PlatformNavbar />
+      <div>
+        {formError && <ErrorModal open={formError} onOpen={handleErrorModal} />}
+      </div>
       {/*  
         This is how you can view the form state
       <div className="flex items-center justify-center">
@@ -407,7 +406,6 @@ export default function ProfilePageComponent() {
                       )
                     }
                     onBlur={async (e) => {
-                      console.log("IN HEREW");
                       // TODO: make separate function
                       await getUsername(e.target.value)
                         .then((username) => {
@@ -521,7 +519,7 @@ export default function ProfilePageComponent() {
                 Add
               </Button>
             </div>
-            <div className="flex-col items-center gap-2 py-2">
+            <div className="flex flex-col   text-ellipsis  items-center gap-2 py-2">
               <LinkComponent
                 linksToShow={getValues("links")}
                 removeLink={linkRemove}

@@ -26,7 +26,7 @@ export default function Links() {
       fetchLinks();
     }
     // empty dependency array, only executes on initial mount
-  }, []);
+  }, [user]);
   const [linkData, setLinkData] = useState<LinkWithoutUserId[]>([]);
 
   // Sample payload

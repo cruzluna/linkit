@@ -19,16 +19,12 @@ export type LinkFormValues = {
 };
 
 // src: https://stackoverflow.com/questions/61634973/yup-validation-of-website-using-url-very-strict
-const urlRegex =
-  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+// const urlRegex =
+//   /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
 
 const schema = object().shape({
   title: string().min(3).max(20).required(),
-  url: string()
-    .matches(urlRegex, "Not a valid URL.")
-    .min(3)
-    .max(150)
-    .required(),
+  url: string().url().min(3).max(150).required(),
 });
 
 type LinkFormProps = {

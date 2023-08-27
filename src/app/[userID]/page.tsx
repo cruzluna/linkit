@@ -4,7 +4,7 @@ import SkillChip from "../../components/skillchip";
 import Link from "next/link";
 import { getUser } from "../actions/profileForm";
 import { clerkClient } from "@clerk/nextjs";
-import { IconComponent } from "../../assets/iconMap";
+import { IconComponent } from "@assets/iconMap";
 
 interface PageProps {
   params: {
