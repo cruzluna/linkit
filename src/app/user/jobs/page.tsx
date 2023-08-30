@@ -1,5 +1,5 @@
 "use client";
-import JobChip from "@/components/job";
+import JobChip from "@/components/jobChip";
 import { Button, Tooltip } from "@material-tailwind/react";
 
 export default function Page() {
@@ -12,13 +12,13 @@ export default function Page() {
         jobName="Backend Engineer"
         companyName="Plaid (beta...not functional atm)"
         datePosted="08/23/2023"
-        applicationUrl="null"
+        applicationUrl="/"
       />
       <JobChip
         jobName="Backend Engineer"
         companyName="Plaid (beta...not functional atm)"
         datePosted="08/23/2023"
-        applicationUrl="null"
+        applicationUrl="/"
       />
       <div className="flex justify-center mt-10">
         <Tooltip content="Beta...Coming soon">
