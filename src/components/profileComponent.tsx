@@ -11,7 +11,7 @@ import {
   ListItemPrefix,
   Alert,
 } from "@material-tailwind/react";
-import { useState, KeyboardEvent, useEffect } from "react";
+import { useState, KeyboardEvent, useId } from "react";
 import {
   useForm,
   Controller,
@@ -19,13 +19,8 @@ import {
   SubmitHandler,
 } from "react-hook-form";
 import { TagComponent } from "./tagDisplayComponent";
-import { LinkComponent } from "./linkDisplayComponent";
 // actions
-import {
-  getUserByClerkId,
-  getUsername,
-  submitProfileForm,
-} from "@/app/actions/profileForm";
+import { submitProfileForm } from "@/app/actions/profileForm";
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -35,72 +30,36 @@ import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
 import { ErrorModal } from "./errorModal";
-import { useRouter } from "next/navigation";
 
 export type FormValues = {
-  username: string;
   name: string;
   headline: string;
   tags: string[];
-  links: string[];
   tools: string[];
   temporaryTag: string | undefined;
-  temporaryLink: string | undefined;
 };
 
-// src: https://stackoverflow.com/questions/61634973/yup-validation-of-website-using-url-very-strict
-// const urlRegex =
-//   /^((http|https):\/\/)?(www.)?(?!.*(http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+(\/)?.([\w\?[a-zA-Z-_%\/@?]+)*([^\/\w\?[a-zA-Z0-9_-]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/;
-
 const schema = object().shape({
-  username: string()
-    .min(3, "Username must be 3 characters long.")
-    .max(20, "Username can only be 20 characters long.")
-    .required("Please enter a unique username"),
   name: string().max(50, "Name can only be 50 characters long").required(),
   headline: string().max(40, "Headline can only be 15 ch").required(),
   tags: array().of(string().required()).min(1).max(3).required(),
-  links: array().of(string().required()).min(1).max(3).required(),
   tools: array().of(string().required()).min(1).max(5).required(),
   temporaryTag: string()
     .max(10, "Each tag can only  be 10 characters long")
     .optional(),
-  temporaryLink: string().url().optional(),
 });
 
-// .matches(
-//   urlRegex,
-//   "Not a valid URL. May need to delete a link and try again"
-// )
 export default function ProfilePageComponent() {
-  // TODO: add a check to see if user profile is complete
-  const router = useRouter();
   const { user } = useUser(); // get clerk user for clerkId
 
-  useEffect(() => {
-    if (user) {
-      const fetchUser = async () => {
-        const check = await getUserByClerkId(user.id);
-        if (check !== null) {
-          // profile created means do not access profile form
-          router.push("/user/links");
-        }
-      };
-      fetchUser();
-    }
-  }, [user]);
-
-  // const profileComplete = await getUserByClerkId(user.id);
-
-  // if (profileComplete !== null) {
-  //   return <div> Profile complete, go to links</div>;
-  // }
+  const id = useId();
   // ----------form----------------
+  let clerkUsername: string = user?.username ? user.username : "";
 
   const {
     handleSubmit,
     control,
-    // watch,
+    watch,
     getValues,
     setValue,
     setError,
@@ -113,15 +72,16 @@ export default function ProfilePageComponent() {
     criteriaMode: "all", // needed for alert
     resolver: yupResolver(schema),
   });
+
   const { append: tagAppend, remove: tagRemove } = useFieldArray({
     control,
     name: "tags",
   } as never);
 
-  const { append: linkAppend, remove: linkRemove } = useFieldArray({
-    control,
-    name: "links",
-  } as never);
+  // const { append: linkAppend, remove: linkRemove } = useFieldArray({
+  //   control,
+  //   name: "links",
+  // } as never);
   const { append: toolsAppend, remove: toolsRemove } = useFieldArray({
     control,
     name: "tools",
@@ -185,7 +145,6 @@ export default function ProfilePageComponent() {
     "VsCode",
   ];
   // username alert icon, inside input
-  const [validUsername, setValidUsername] = useState<boolean>(false);
   // TODO: move useUser to server component?
   const [submitButtonDisabled, setSubmitButtonDisabled] =
     useState<boolean>(false);
@@ -195,32 +154,22 @@ export default function ProfilePageComponent() {
     setFormError(false);
   };
   // let errorMessage: string = "";
+  // const isToolChecked = (toolArr: string[], tool: string): boolean => {
+  //   try {
+  //     return toolArr.includes(tool);
+  //   } catch {
+  //     return false;
+  //   }
+  // };
 
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
-    // console.log(data);
-    //TODO: add try/catch for username again.... because setError doesnt persist the manual error
-    let proceed: boolean = false;
-    await getUsername(data.username)
-      .then((username) => {
-        if (username) {
-          setValidUsername(false);
+    console.log(data);
 
-          setError("username", {
-            type: "username check",
-            message: "Username taken",
-          });
-        } else {
-          console.log("Username available");
-          setValidUsername(true);
-          proceed = true;
-        }
-      })
-      .catch((error) => alert(error.message));
-
-    if (proceed && user) {
-      const result = await submitProfileForm(data, user.id);
+    if (user && clerkUsername != "") {
+      const result = await submitProfileForm(data, user.id, clerkUsername);
       // console.log(result);
       if (result.user !== null) {
+        // TODO: submit button time out
         setSubmitButtonDisabled(true);
         // console.log("BUTTON DISABLED");
       } else {
@@ -242,33 +191,21 @@ export default function ProfilePageComponent() {
         <p className="text-white">{JSON.stringify(watch(), null, 2)}</p>
       </div>
       */}
+
+      <div className="flex items-center justify-center">
+        <p className="text-white">{JSON.stringify(watch(), null, 2)}</p>
+      </div>
       <div className="flex  justify-center">
         <Card color="transparent" shadow={false}>
           <Typography variant="h4" color="white">
-            Create notespace profile
+            Edit notespace profile
           </Typography>
           <Typography color="white" className="mt-1 font-normal">
-            Enter your details.
+            Enter your details. (To change username, click user icon)
           </Typography>
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-4 flex flex-col gap-6">
               {/*Errors*/}
-              <ErrorMessage
-                errors={errors}
-                name="username"
-                render={({ messages }) =>
-                  messages &&
-                  Object.entries(messages).map(([type, message]) => (
-                    <Alert
-                      key={type}
-                      color="red"
-                      icon={<GoAlert size={"1.5rem"} />}
-                    >
-                      {message}
-                    </Alert>
-                  ))
-                }
-              />
               <ErrorMessage
                 errors={errors}
                 name="name"
@@ -321,23 +258,6 @@ export default function ProfilePageComponent() {
 
               <ErrorMessage
                 errors={errors}
-                name="links"
-                render={({ messages }) =>
-                  messages &&
-                  Object.entries(messages).map(([type, message]) => (
-                    <Alert
-                      key={type}
-                      color="red"
-                      icon={<GoAlert size={"1.5rem"} />}
-                    >
-                      {message}
-                    </Alert>
-                  ))
-                }
-              />
-
-              <ErrorMessage
-                errors={errors}
                 name="tools"
                 render={({ messages }) =>
                   messages &&
@@ -370,63 +290,15 @@ export default function ProfilePageComponent() {
                 }
               />
 
-              <ErrorMessage
-                errors={errors}
-                name="temporaryLink"
-                render={({ messages }) =>
-                  messages &&
-                  Object.entries(messages).map(([type, message]) => (
-                    <Alert
-                      key={type}
-                      color="red"
-                      icon={<GoAlert size={"1.5rem"} />}
-                    >
-                      {message}
-                    </Alert>
-                  ))
-                }
+              <Input
+                size="lg"
+                color="white"
+                label="notespace.ai/[username] "
+                value={clerkUsername}
+                icon={<AiOutlineCheckCircle className="fill-green-500" />}
+                readOnly
               />
-              {errors.username && (
-                <Alert color="red" icon={<GoAlert size={"1.5rem"} />}>
-                  {errors.username.message}
-                </Alert>
-              )}
-              <Controller
-                control={control}
-                name="username"
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    size="lg"
-                    color="white"
-                    label="Unique username"
-                    onChange={onChange}
-                    icon={
-                      validUsername && (
-                        <AiOutlineCheckCircle className="fill-green-500" />
-                      )
-                    }
-                    onBlur={async (e) => {
-                      // TODO: make separate function
-                      await getUsername(e.target.value)
-                        .then((username) => {
-                          if (username) {
-                            setValidUsername(false);
-                            console.log("Username not unique");
-                            setError("username", {
-                              type: "username check",
-                              message: "Username taken",
-                            });
-                          } else {
-                            console.log("Username available");
-                            setValidUsername(true);
-                          }
-                        })
-                        .catch((error) => alert(error.message));
-                    }}
-                    value={value}
-                  />
-                )}
-              />
+              {/* TODO: Helper text*/}
               <Controller
                 control={control}
                 name="name"
@@ -491,40 +363,7 @@ export default function ProfilePageComponent() {
                 removeTag={tagRemove}
               />
             </div>
-            <div className="relative flex w-full max-w-[24rem]">
-              <Controller
-                control={control}
-                name="temporaryLink"
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    label="Add up to 3 links"
-                    value={value}
-                    onChange={onChange}
-                    onKeyDown={handleKeyDownLinks}
-                    className="pr-20"
-                    color="white"
-                    containerProps={{
-                      className: "min-w-0",
-                    }}
-                  />
-                )}
-              />
-              <Button
-                size="sm"
-                type="button"
-                disabled={false}
-                className="!absolute right-1 top-1 rounded bg-noto-purple"
-                onClick={handleLinkAddButton}
-              >
-                Add
-              </Button>
-            </div>
-            <div className="flex flex-col   text-ellipsis  items-center gap-2 py-2">
-              <LinkComponent
-                linksToShow={getValues("links")}
-                removeLink={linkRemove}
-              />
-            </div>
+
             <div className="flex justify-center">
               <Button
                 type="button"
@@ -540,18 +379,18 @@ export default function ProfilePageComponent() {
               <Card className="w-full max-w-[24rem]">
                 <List className="flex flex-wrap">
                   {toolList.map((tool, index) => (
-                    <ListItem key={index} className="p-0">
-                      <label
-                        htmlFor="horizontal-list-react"
-                        className="flex w-full cursor-pointer items-center px-3 py-2"
-                      >
-                        <ListItemPrefix className="mr-3">
-                          <Controller
-                            name="tools"
-                            control={control}
-                            render={({ field: { value } }) => (
+                    <Controller
+                      name="tools"
+                      control={control}
+                      render={({ field: { value } }) => (
+                        <ListItem key={index} className="p-0">
+                          <label
+                            htmlFor="horizontal-list-react"
+                            className="flex w-full cursor-pointer items-center px-3 py-2"
+                          >
+                            <ListItemPrefix className="mr-3">
                               <Checkbox
-                                id="horizontal-list-react"
+                                id={id}
                                 ripple={false}
                                 onChange={(e) => {
                                   if (e.target.checked) {
@@ -574,14 +413,17 @@ export default function ProfilePageComponent() {
                                   className: "p-0",
                                 }}
                               />
-                            )}
-                          />
-                        </ListItemPrefix>
-                        <Typography color="blue-gray" className="font-medium">
-                          {tool}
-                        </Typography>
-                      </label>
-                    </ListItem>
+                            </ListItemPrefix>
+                            <Typography
+                              color="blue-gray"
+                              className="font-medium"
+                            >
+                              {tool}
+                            </Typography>
+                          </label>
+                        </ListItem>
+                      )}
+                    />
                   ))}
                 </List>
               </Card>
@@ -589,11 +431,11 @@ export default function ProfilePageComponent() {
 
             <Button
               onClick={handleSubmit(onSubmit)}
-              disabled={submitButtonDisabled}
+              disabled={false}
               className="mt-6 bg-noto-purple "
               fullWidth
             >
-              Submit
+              Update
             </Button>
             {/*Icon hashmap proof of concept */}
           </form>

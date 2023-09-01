@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import { getUserByClerkId } from "@/app/actions/profileForm";
 
+// TODO: Hydration error causes by this component
 export default function PlatformNavbar() {
   // need cruz's help with this part
   // want to query db to get the username, which we will append to notespace.ai/ to get the full link
@@ -37,7 +38,6 @@ export default function PlatformNavbar() {
   const [noteSpaceUserName, setNoteSpaceUserName] = useState<string>("");
   const notespaceUrl: string = "https://notespace.ai";
 
-  // let userName = "";
   const profileUrl: string = `${notespaceUrl}/${noteSpaceUserName}`;
 
   const [copiedUrl, setCopiedUrl] = useState<boolean>(false);

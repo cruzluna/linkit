@@ -66,23 +66,23 @@ export async function getUser(username: string) {
   }
 }
 
-export async function submitProfileForm(formData: FormValues, clerkId: string) {
+export async function submitProfileForm(
+  formData: FormValues,
+  clerkId: string,
+  username: string
+) {
   // async logic here
   console.log("SERVER FORM ACTION");
   try {
-    const submitNewUser = await prisma.user.create({
-      data: {
-        username: formData.username,
+    const submitNewUser = await prisma.user.upsert({
+      where: {
+        clerkId: clerkId,
+      },
+      create: {
+        clerkId: clerkId,
+        username: username,
         name: formData.name,
         headline: formData.headline,
-        // TODO: make this a separate function, so it doesnt fail
-        links: {
-          create: formData.links.map((link) => ({
-            title: link,
-            iconName: isValidURL(link) ? new URL(link).hostname : link,
-            url: link,
-          })),
-        },
         tags: {
           create: formData.tags.map((tag) => ({
             skill: tag,
@@ -94,7 +94,11 @@ export async function submitProfileForm(formData: FormValues, clerkId: string) {
             toolItem: tool,
           })),
         },
-        clerkId: clerkId,
+      },
+      update: {
+        username: username,
+        name: formData.name,
+        headline: formData.headline,
       },
     });
     console.log(submitNewUser);
