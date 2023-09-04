@@ -53,8 +53,8 @@ export default function Links() {
   //     enabled: true,
   //   },
   // ];
-  //
-  // TODO: Update this, wrists hurt and getting lazy lol...
+
+  // TODO: Update this to an array , and limit total enabled links
   const [addOneLink, setAddOneLink] = useState<boolean>(false);
   return (
     <>

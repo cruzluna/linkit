@@ -83,11 +83,11 @@ export async function submitProfileForm(
         username: username,
         name: formData.name,
         headline: formData.headline,
-        tags: {
-          create: formData.tags.map((tag) => ({
-            skill: tag,
-          })),
-        },
+        // tags: {
+        //   create: formData.tags.map((tag) => ({
+        //     skill: tag,
+        //   })),
+        // },
         tools: {
           create: formData.tools.map((tool) => ({
             iconName: tool,
@@ -112,5 +112,36 @@ export async function submitProfileForm(
       user: null,
       error: error.message,
     };
+  }
+}
+
+// export type FormValRequired = Omit<
+//   FormValues,
+//   "tags" | "temporaryTag"
+// >;
+//Promise<FormValRequired | null>
+// gets User values for profile form, which are used as default values
+export async function getUserValuesForProfile(clerkId: string) {
+  console.log("getUser: SERVER ACTION");
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        clerkId: clerkId,
+      },
+      select: {
+        headline: true,
+        name: true,
+        tools: {
+          select: {
+            toolItem: true,
+          },
+        },
+      },
+    });
+    console.log("GVFP: ", user);
+    //TODO: properly structure it
+    return user;
+  } catch (error) {
+    return null;
   }
 }
