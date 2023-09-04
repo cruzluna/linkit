@@ -61,7 +61,7 @@ export default function ProfilePageComponent() {
       const fetchFormValues = async () => {
         const vals = await getUserValuesForProfile(user.id);
         if (vals !== null) {
-          console.log("USEEFF", vals);
+          // console.log("USEEFF", vals);
           reset({
             name: vals.name,
             headline: vals.headline,
@@ -84,8 +84,6 @@ export default function ProfilePageComponent() {
     control,
     watch,
     getValues,
-    setValue,
-    setError,
     reset,
     formState: { errors },
   } = useForm<FormValues>({
@@ -381,7 +379,6 @@ export default function ProfilePageComponent() {
                                   tool
                                 )}
                                 onChange={(e) => {
-                                  console.log(e);
                                   if (e.target.checked) {
                                     // add it to tools array
                                     toolsAppend(tool);

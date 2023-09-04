@@ -1,6 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import LinkComponent from "./link"; // cant be named Link due to Link type below
+import LinkComponent from "./singleLinkComponent"; // cant be named Link due to Link type below
 import { useEffect, useState } from "react";
 import { getLinks } from "@/app/actions/linksActions";
 
@@ -11,6 +11,31 @@ type LinkWithoutUserId = Omit<Link, "userId">;
 export default function Links() {
   const { user, isLoaded } = useUser(); // get clerk user for clerkId
   // TODO: limit no. of links total
+  const [linkData, setLinkData] = useState<LinkWithoutUserId[]>([]);
+  const handleDeleteLink = (linkIdToDelete: string) => {
+    // Filter out the link to be deleted based on its ID
+    const updatedLinkData = linkData.filter(
+      (link) => link.id !== linkIdToDelete
+    );
+    setLinkData(updatedLinkData);
+  };
+
+  const handleUpdateLink = (
+    linkIdToUpdate: string,
+    newTitle: string,
+    newUrl: string
+  ) => {
+    // Create a new array with the updated link data
+    const updatedLinkArray = linkData.map(
+      (link) =>
+        link.id === linkIdToUpdate
+          ? { ...link, title: newTitle, url: newUrl } // Update title and URL
+          : link // Keep the original link data for other links
+    );
+
+    // Update the state with the new array
+    setLinkData(updatedLinkArray);
+  };
 
   // TODO: determine to useMemo or useEffect
   useEffect(() => {
@@ -25,9 +50,7 @@ export default function Links() {
       };
       fetchLinks();
     }
-    // empty dependency array, only executes on initial mount
   }, [user]);
-  const [linkData, setLinkData] = useState<LinkWithoutUserId[]>([]);
 
   // Sample payload
   // const linkData = [
@@ -76,6 +99,8 @@ export default function Links() {
               title={link.title}
               url={link.url}
               initialEnabled={link.enabled}
+              handleDeleteLink={handleDeleteLink}
+              handleUpdateLink={handleUpdateLink}
             />
           ))}
           {/* New links to add */}

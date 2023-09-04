@@ -147,7 +147,7 @@ const page = async ({ params }: PageProps) => {
                         iconKey={link.iconName.split(".")[0]}
                       ></IconComponent>
                       <p className="text-[#1B1B1B] mx-auto truncate">
-                        {link.iconName.split(".")[0]}
+                        {link.title}
                       </p>
                       <div className="px-auto mt-0.5">
                         <svg

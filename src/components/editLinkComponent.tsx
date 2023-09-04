@@ -1,19 +1,13 @@
-"use client";
 import { Alert, Button, Switch } from "@material-tailwind/react";
-import { useId, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
-import { addLink } from "@/app/actions/linksActions";
+import { updateLink } from "@/app/actions/linksActions";
 
-// id,
-// title,
-// url,
-// initialEnabled,
-
-export type LinkFormValues = {
+export type EditLinkFormValues = {
   title: string;
   url: string;
 };
@@ -24,38 +18,56 @@ const schema = object().shape({
 });
 
 type LinkFormProps = {
-  clerkId: string;
+  id: string; // unique id from db
+  title: string;
+  url: string;
+  handleSetEditing: () => void;
+  handleUpdateLink: (
+    linkIdToUpdate: string,
+    newTitle: string,
+    newUrl: string
+  ) => void;
 };
 export default function LinkFormComponent({
-  clerkId,
+  id,
+  title,
+  url,
+  handleSetEditing,
+  handleUpdateLink,
 }: LinkFormProps): JSX.Element {
-  const id = useId();
+  // const id = useId();
   const {
     register,
     // watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<LinkFormValues>({
+  } = useForm<EditLinkFormValues>({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
     resolver: yupResolver(schema),
+    defaultValues: {
+      title: title,
+      url: url,
+    },
   });
 
   const [submitButtonDisabled, setSubmitButtonDisabled] =
     useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean>(false);
-  const [addLinkSuccess, setAddLinkSuccess] = useState<boolean>(false);
+  const [updateLinkSuccess, setUpdateLinkSuccess] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<LinkFormValues> = async (
-    data: LinkFormValues
+  const onSubmit: SubmitHandler<EditLinkFormValues> = async (
+    data: EditLinkFormValues
   ) => {
-    // console.log(data);
+    console.log(data);
 
-    const result = await addLink(clerkId, data);
+    const result = await updateLink(id, data);
     if (result.link !== null) {
       setSubmitButtonDisabled(true);
       // set success alert
-      setAddLinkSuccess(true);
+      setUpdateLinkSuccess(true);
+      handleUpdateLink(id, data.title, data.url);
+      handleSetEditing();
     } else {
       setServerError(true);
     }
@@ -67,15 +79,23 @@ export default function LinkFormComponent({
       <p>{JSON.stringify(watch(), null, 2)}</p>
       */}
 
-      {addLinkSuccess && (
+      <button
+        type="button"
+        className="text-white border-2 border-noto-purple hover:bg-purple-800 focus:outline-none   font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+        onClick={handleSetEditing}
+        disabled={submitButtonDisabled}
+      >
+        Cancel
+      </button>
+      {updateLinkSuccess && (
         <Alert
           color="green"
-          open={addLinkSuccess}
+          open={updateLinkSuccess}
           onClose={() => {
-            setAddLinkSuccess(false);
+            setUpdateLinkSuccess(false);
           }}
         >
-          Successfully added link
+          Successfully updated link
         </Alert>
       )}
       {serverError && (
@@ -118,7 +138,7 @@ export default function LinkFormComponent({
           disabled={submitButtonDisabled}
           className="ml-3 bg-noto-purple"
         >
-          Submit
+          Update
         </Button>
       </div>
       <div className="font-medium flex flex-col md:flex-row justify-between items-center">

@@ -74,7 +74,7 @@ export async function submitProfileForm(
   // async logic here
   console.log("SERVER FORM ACTION");
   try {
-    const submitNewUser = await prisma.user.upsert({
+    const upsertUser = await prisma.user.upsert({
       where: {
         clerkId: clerkId,
       },
@@ -83,11 +83,6 @@ export async function submitProfileForm(
         username: username,
         name: formData.name,
         headline: formData.headline,
-        // tags: {
-        //   create: formData.tags.map((tag) => ({
-        //     skill: tag,
-        //   })),
-        // },
         tools: {
           create: formData.tools.map((tool) => ({
             iconName: tool,
@@ -101,9 +96,9 @@ export async function submitProfileForm(
         headline: formData.headline,
       },
     });
-    console.log(submitNewUser);
+    console.log(upsertUser);
     return {
-      user: submitNewUser,
+      user: upsertUser,
       error: "",
     };
   } catch (error: any) {
@@ -145,7 +140,7 @@ export async function getUserValuesForProfile(
         },
       },
     });
-    console.log("getUserValProf: ", user);
+    // console.log("getUserValProf: ", user);
     //TODO: properly structure it
     return user;
   } catch (error) {
@@ -158,8 +153,8 @@ export async function updateToolsAction(
   oldToolArray: [string, string][],
   newToolArray: string[]
 ) {
-  console.log("updateToolsAction");
-  console.log("newtool array: ", newToolArray);
+  // console.log("updateToolsAction");
+  // console.log("newtool array: ", newToolArray);
 
   // find diff in new vs old array
   // if not in new array -> delete it
@@ -174,8 +169,8 @@ export async function updateToolsAction(
   const added: string[] = newToolArray.filter(
     (tool: string) => !extractedToolNames.includes(tool)
   );
-  console.log("Added: ", added);
-  console.log("removed: ", removed);
+  // console.log("Added: ", added);
+  // console.log("removed: ", removed);
   try {
     const userId = await prisma.user.findFirst({
       where: {
@@ -198,7 +193,7 @@ export async function updateToolsAction(
           id: id,
         },
       });
-      console.log(deleteTool);
+      // console.log(deleteTool);
     }
 
     // write to db
@@ -215,11 +210,10 @@ export async function updateToolsAction(
         },
       });
 
-      console.log(insertTool);
+      // console.log(insertTool);
     }
   } catch (error) {
-    console.log("ERROR in updateing tools:", error);
+    console.log("ERROR in updating tools:", error);
     return null;
   }
-  // get userId
 }

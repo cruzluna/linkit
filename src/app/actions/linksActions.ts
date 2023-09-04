@@ -2,6 +2,7 @@
 import { LinkFormValues } from "@/components/linkFormComponent";
 import { prisma } from "../../../prisma/prismaclient";
 import { isValidURL } from "@/utils/utils";
+import { EditLinkFormValues } from "@/components/editLinkComponent";
 
 export async function getLinks(clerkId: string) {
   console.log("getLinks: SERVER ACTION");
@@ -25,6 +26,7 @@ export async function getLinks(clerkId: string) {
   return user;
 }
 
+// TODO: add return type
 export async function addLink(clerkId: string, formData: LinkFormValues) {
   try {
     const submitNewLink = await prisma.link.create({
@@ -47,6 +49,53 @@ export async function addLink(clerkId: string, formData: LinkFormValues) {
     };
   } catch (error: any) {
     console.error("Error adding link. ", error);
+    return {
+      link: null,
+      error: error.message,
+    };
+  }
+}
+
+export async function deleteLink(linkId: string) {
+  try {
+    const deleteLink = await prisma.link.delete({
+      where: {
+        id: linkId,
+      },
+    });
+    return {
+      link: deleteLink,
+      error: "",
+    };
+  } catch (error: any) {
+    console.error("Error deleting link. ", error);
+    return {
+      link: null,
+      error: error.message,
+    };
+  }
+}
+
+export async function updateLink(linkId: string, formData: EditLinkFormValues) {
+  try {
+    const updateLink = await prisma.link.update({
+      where: {
+        id: linkId,
+      },
+      data: {
+        title: formData.title,
+        url: formData.url,
+        iconName: isValidURL(formData.url)
+          ? new URL(formData.url).hostname
+          : formData.url,
+      },
+    });
+    return {
+      link: updateLink,
+      error: "",
+    };
+  } catch (error: any) {
+    console.error("Error updating link. ", error);
     return {
       link: null,
       error: error.message,
