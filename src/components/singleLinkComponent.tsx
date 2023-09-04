@@ -3,7 +3,7 @@ import { deleteLink } from "@/app/actions/linksActions";
 import { LinkStatProps } from "@/interfaces/linkStatsProps";
 import { Switch } from "@material-tailwind/react";
 import { useState } from "react";
-import { BsTrash } from "react-icons/Bs";
+import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import EditLinkComponent from "./editLinkComponent";
 
