@@ -10,23 +10,21 @@ import {
   ListItem,
   ListItemPrefix,
   Alert,
-  Popover,
-  PopoverHandler,
-  PopoverContent,
 } from "@material-tailwind/react";
-import { useState, KeyboardEvent, useId, useEffect } from "react";
+import { useState, useId, useEffect } from "react";
 import {
   useForm,
   Controller,
   useFieldArray,
   SubmitHandler,
 } from "react-hook-form";
-import { TagComponent } from "./tagDisplayComponent";
+
 // actions
 import {
   // FormValRequired,
   getUserValuesForProfile,
   submitProfileForm,
+  updateToolsAction,
 } from "@/app/actions/profileForm";
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -53,8 +51,9 @@ const schema = object().shape({
 export default function ProfilePageComponent() {
   const { user } = useUser(); // get clerk user for clerkId
   const [clerkUsername, setClerkUsername] = useState<string>("");
-  // for an existing user
-  // const [checkedTool, setCheckedTool] = useState([]);
+  const [existingUserToolArray, setExsitingToolArray] = useState<
+    [id: string, toolName: string][]
+  >([]);
 
   const id = useId();
   useEffect(() => {
@@ -68,6 +67,9 @@ export default function ProfilePageComponent() {
             headline: vals.headline,
             tools: vals.tools.map((toolList) => toolList.toolItem),
           });
+          setExsitingToolArray(
+            vals.tools.map((toolList) => [toolList.id, toolList.toolItem])
+          );
         }
       };
       fetchFormValues();
@@ -76,8 +78,6 @@ export default function ProfilePageComponent() {
     }
   }, [user]);
   // ----------form----------------
-
-  // let clerkUsername: string = user?.username ? user.username : "";
 
   const {
     handleSubmit,
@@ -189,7 +189,6 @@ export default function ProfilePageComponent() {
     setFormError(false);
   };
 
-  // let errorMessage: string = "";
   const isToolChecked = (toolArr: string[], tool: string): boolean => {
     try {
       return toolArr.includes(tool);
@@ -203,6 +202,13 @@ export default function ProfilePageComponent() {
 
     if (user && clerkUsername != "") {
       const result = await submitProfileForm(data, user.id, clerkUsername);
+      const toolsResult = await updateToolsAction(
+        user.id,
+        existingUserToolArray,
+        data.tools
+      );
+
+      console.log("SUBMIT: tools ", toolsResult);
       // console.log(result);
       if (result.user !== null) {
         // TODO: submit button time out
@@ -369,11 +375,13 @@ export default function ProfilePageComponent() {
                               <Checkbox
                                 id={id}
                                 ripple={false}
-                                defaultChecked={isToolChecked(
+                                defaultChecked={false}
+                                checked={isToolChecked(
                                   getValues("tools"),
                                   tool
                                 )}
                                 onChange={(e) => {
+                                  console.log(e);
                                   if (e.target.checked) {
                                     // add it to tools array
                                     toolsAppend(tool);

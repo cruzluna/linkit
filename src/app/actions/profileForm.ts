@@ -115,13 +115,19 @@ export async function submitProfileForm(
   }
 }
 
-// export type FormValRequired = Omit<
-//   FormValues,
-//   "tags" | "temporaryTag"
-// >;
-//Promise<FormValRequired | null>
+export type FormValRequired = {
+  name: string;
+  headline: string;
+  tools: {
+    toolItem: string;
+    id: string;
+  }[];
+};
+
 // gets User values for profile form, which are used as default values
-export async function getUserValuesForProfile(clerkId: string) {
+export async function getUserValuesForProfile(
+  clerkId: string
+): Promise<FormValRequired | null> {
   console.log("getUser: SERVER ACTION");
   try {
     const user = await prisma.user.findFirst({
@@ -134,14 +140,86 @@ export async function getUserValuesForProfile(clerkId: string) {
         tools: {
           select: {
             toolItem: true,
+            id: true,
           },
         },
       },
     });
-    console.log("GVFP: ", user);
+    console.log("getUserValProf: ", user);
     //TODO: properly structure it
     return user;
   } catch (error) {
     return null;
   }
+}
+
+export async function updateToolsAction(
+  clerkId: string,
+  oldToolArray: [string, string][],
+  newToolArray: string[]
+) {
+  console.log("updateToolsAction");
+  console.log("newtool array: ", newToolArray);
+
+  // find diff in new vs old array
+  // if not in new array -> delete it
+  const removed: [id: string, toolName: string][] = oldToolArray.filter(
+    (toolTuple: [string, string]) => !newToolArray.includes(toolTuple[1])
+  );
+  // if not in old array -> write to db
+
+  const extractedToolNames: string[] = oldToolArray.map(
+    (toolTuple: [id: string, toolName: string]) => toolTuple[1]
+  );
+  const added: string[] = newToolArray.filter(
+    (tool: string) => !extractedToolNames.includes(tool)
+  );
+  console.log("Added: ", added);
+  console.log("removed: ", removed);
+  try {
+    const userId = await prisma.user.findFirst({
+      where: {
+        clerkId: clerkId,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (userId === null) {
+      throw new Error("User id is null");
+    }
+
+    // delete
+    for (const [id, _] of removed) {
+      console.log("ID 4loop", id);
+
+      const deleteTool = await prisma.tool.delete({
+        where: {
+          id: id,
+        },
+      });
+      console.log(deleteTool);
+    }
+
+    // write to db
+    for (var tool of added) {
+      const insertTool = await prisma.tool.create({
+        data: {
+          iconName: tool,
+          toolItem: tool,
+          user: {
+            connect: {
+              clerkId: clerkId,
+            },
+          },
+        },
+      });
+
+      console.log(insertTool);
+    }
+  } catch (error) {
+    console.log("ERROR in updateing tools:", error);
+    return null;
+  }
+  // get userId
 }
