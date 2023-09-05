@@ -6,7 +6,7 @@ import { getLinks } from "@/app/actions/linksActions";
 
 import type { Link } from "@prisma/client";
 import LinkFormComponent from "./linkFormComponent";
-type LinkWithoutUserId = Omit<Link, "userId">;
+export type LinkWithoutUserId = Omit<Link, "userId">;
 
 export default function Links() {
   const { user, isLoaded } = useUser(); // get clerk user for clerkId
@@ -35,6 +35,9 @@ export default function Links() {
 
     // Update the state with the new array
     setLinkData(updatedLinkArray);
+  };
+  const handleAddLink = (linkToAdd: LinkWithoutUserId) => {
+    setLinkData([...linkData, linkToAdd]);
   };
 
   // TODO: determine to useMemo or useEffect
@@ -79,6 +82,10 @@ export default function Links() {
 
   // TODO: Update this to an array , and limit total enabled links
   const [addOneLink, setAddOneLink] = useState<boolean>(false);
+
+  const handleAddOneLink = () => {
+    setAddOneLink(false);
+  };
   return (
     <>
       <section>
@@ -104,7 +111,13 @@ export default function Links() {
             />
           ))}
           {/* New links to add */}
-          {user && addOneLink && <LinkFormComponent clerkId={user.id} />}
+          {user && addOneLink && (
+            <LinkFormComponent
+              clerkId={user.id}
+              handleAddOneLink={handleAddOneLink}
+              handleAddLink={handleAddLink}
+            />
+          )}
         </div>
       </section>
     </>

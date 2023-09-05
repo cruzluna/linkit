@@ -1,4 +1,3 @@
-"use client";
 import { Alert, Button, Switch } from "@material-tailwind/react";
 import { useId, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -7,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
 import { addLink } from "@/app/actions/linksActions";
+import { LinkWithoutUserId } from "./links";
 
 // id,
 // title,
@@ -25,9 +25,13 @@ const schema = object().shape({
 
 type LinkFormProps = {
   clerkId: string;
+  handleAddOneLink: () => void;
+  handleAddLink: (linkToAdd: LinkWithoutUserId) => void; // add link to state to avoid refresh
 };
 export default function LinkFormComponent({
   clerkId,
+  handleAddOneLink,
+  handleAddLink,
 }: LinkFormProps): JSX.Element {
   const id = useId();
   const {
@@ -56,6 +60,10 @@ export default function LinkFormComponent({
       setSubmitButtonDisabled(true);
       // set success alert
       setAddLinkSuccess(true);
+      handleAddOneLink(); // get rid of link form
+      // eslint-disable-next-line no-unused-vars
+      const { userId, ...cleanLink } = result.link;
+      handleAddLink(cleanLink);
     } else {
       setServerError(true);
     }

@@ -1,7 +1,13 @@
 // "use client"; // remove from child https://github.com/vercel/next.js/discussions/46795#discussioncomment-5248407
 import { deleteLink } from "@/app/actions/linksActions";
 import { LinkStatProps } from "@/interfaces/linkStatsProps";
-import { Switch } from "@material-tailwind/react";
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+  Switch,
+} from "@material-tailwind/react";
 import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -20,19 +26,41 @@ export default function Link({
   const handleSetEditing = () => {
     setEditing(false);
   };
+
+  const [openPopover, setOpenPopover] = useState<boolean>(false);
   if (!editing) {
     return (
       <div className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5">
-        <button
-          type="button"
-          className="text-white bg-red-700 hover:bg-red-800 focus:outline-none   font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 "
-          onClick={() => {
-            deleteLink(id);
-            handleDeleteLink(id);
-          }}
-        >
-          <BsTrash size="1.5em" />
-        </button>
+        <Popover open={openPopover} handler={setOpenPopover}>
+          <PopoverHandler>
+            <button
+              type="button"
+              className="text-white bg-red-700 hover:bg-red-800 focus:outline-none   font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+            >
+              <BsTrash size="1.5em" />
+            </button>
+          </PopoverHandler>
+          <PopoverContent>
+            Are you sure you want to delete?
+            <div className="flex flex-row items-center justify-center gap-2">
+              <Button
+                className="bg-noto-purple"
+                onClick={() => {
+                  deleteLink(id);
+                  handleDeleteLink(id); // updates state
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                className="bg-noto-purple"
+                onClick={() => setOpenPopover(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
 
         <button
           type="button"

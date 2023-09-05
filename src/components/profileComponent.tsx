@@ -82,7 +82,7 @@ export default function ProfilePageComponent() {
   const {
     handleSubmit,
     control,
-    watch,
+    // watch,
     getValues,
     reset,
     formState: { errors },
@@ -231,9 +231,6 @@ export default function ProfilePageComponent() {
       </div>
       */}
 
-      <div className="flex items-center justify-center">
-        <p className="text-white">{JSON.stringify(watch(), null, 2)}</p>
-      </div>
       <div className="flex  justify-center">
         <Card color="transparent" shadow={false}>
           <Typography variant="h4" color="white">
@@ -373,7 +370,6 @@ export default function ProfilePageComponent() {
                               <Checkbox
                                 id={id}
                                 ripple={false}
-                                defaultChecked={false}
                                 checked={isToolChecked(
                                   getValues("tools"),
                                   tool

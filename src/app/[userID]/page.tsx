@@ -137,7 +137,12 @@ const page = async ({ params }: PageProps) => {
                 <div className="max-w-xs mx-auto py-2">
                   <button className="flex flex-col-1 items-start space-y-4 ">
                     <Link
-                      href={`https://${link.url}`}
+                      href={
+                        link.url.startsWith("http://") ||
+                        link.url.startsWith("https://")
+                          ? link.url
+                          : `https://${link.url}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-start w-80 text-center rounded-lg border border-gray-400 bg-[#FAFAFA] px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150 hover:bg-noto-purple"
