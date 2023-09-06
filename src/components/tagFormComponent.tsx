@@ -68,7 +68,9 @@ export const TagFormComponent = ({
   return (
     <>
       <div>
+        {/* 
         <p>{JSON.stringify(watch(), null, 2)}</p>
+        */}
 
         {errors.skill?.message && (
           <Alert color="red"> {errors.skill?.message}</Alert>
