@@ -178,8 +178,8 @@ export default function ProfilePageComponent() {
 
   // username alert icon, inside input
   // TODO: timeout for update button
-  const [submitButtonDisabled, setSubmitButtonDisabled] =
-    useState<boolean>(false);
+  // const [submitButtonDisabled, setSubmitButtonDisabled] =
+  //   useState<boolean>(false);
   const [formError, setFormError] = useState<boolean>(false);
   const [formSuccess, setFormSuccess] = useState<boolean>(false);
 
@@ -196,7 +196,7 @@ export default function ProfilePageComponent() {
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
-    console.log(data);
+    // console.log(data);
 
     if (user && clerkUsername != "") {
       const result = await submitProfileForm(data, user.id, clerkUsername);
@@ -206,11 +206,10 @@ export default function ProfilePageComponent() {
         data.tools
       );
 
-      console.log("SUBMIT: tools ", toolsResult);
       // console.log(result);
       if (result.user !== null) {
         // TODO: submit button time out
-        setSubmitButtonDisabled(true);
+        // setSubmitButtonDisabled(true);
         setFormSuccess(true);
       } else {
         setFormError(true); // pop up error modal
@@ -239,7 +238,7 @@ export default function ProfilePageComponent() {
           <Typography color="white" className="mt-1 font-normal">
             Enter your details. (To change username, click user icon)
           </Typography>
-          <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+          <form className="mt-8 mb-2 w-80 mx-auto max-w-screen-lg sm:w-96">
             <div className="mb-4 flex flex-col gap-6">
               {/*Errors*/}
 

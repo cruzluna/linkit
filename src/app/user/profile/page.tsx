@@ -1,16 +1,17 @@
 // by default use server
 import ProfilePageComponent from "@/components/profileComponent";
-// import { TagAccordion } from "@/components/tagAccordion";
+import { TagAccordion } from "@/components/tagAccordion";
 
 export default async function Page() {
-  // TODO: disable if user already has a profile?
   return (
     <>
       <ProfilePageComponent />
       {/* 
-        TODO: implement
-      <TagAccordion />
+        TODO: fix sizing....
       */}
+      <div className="flex flex-col flex-grow-0 items-center justify-center  mt-3">
+        <TagAccordion />
+      </div>
     </>
   );
 }
