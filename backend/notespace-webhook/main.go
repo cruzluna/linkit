@@ -68,6 +68,7 @@ func main() {
 		if err := json.Unmarshal(payload, &dat); err != nil {
 			panic(err)
 		}
+		// dat.Data.Username
 		data, _ := json.Marshal(dat)
 		fmt.Println(string(data))
 		fmt.Println("DATA: ", dat)
