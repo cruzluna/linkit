@@ -6,5 +6,20 @@
 Future plans:
 
 - Jobs api
+- Link analytics
 - User Dashboard
 - Better share functionality
+
+## Tech stack:
+
+### Frontend:
+
+- next.js
+- typescript
+- prisma
+
+### Backend:
+
+- Golang
+- sqlx
+- TODO: docker img
