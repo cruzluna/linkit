@@ -10,6 +10,7 @@ require (
 require (
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365 // indirect
+	github.com/jmoiron/sqlx v1.3.5 // indirect
 	github.com/takuoki/gocase v1.0.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20210514164344-f6687ab2804c // indirect
