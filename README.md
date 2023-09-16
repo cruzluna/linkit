@@ -1,6 +1,11 @@
 # linkit
 
-repo for linkit of notespace.
-Initial commit will be for the frontend assets, a next.js webapp.
+--> Link It is the in-house name for this project.
 
-Future plans: connect it to a ml recommendation system
+repo for linkit of notespace.
+
+Future plans:
+
+- Jobs api
+- User Dashboard
+- Better share functionality
