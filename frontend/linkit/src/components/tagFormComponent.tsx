@@ -94,8 +94,8 @@ export const TagFormComponent = ({
             open={serverError}
             onClose={() => setServerError(false)}
           >
-            Server error, try refreshing. Email notespaceai@gmail.com if issue
-            persists.
+            Must create profile before adding/updating tags. Server error, try
+            refreshing. Email notespaceai@gmail.com if issue persists.
           </Alert>
         )}
       </div>
