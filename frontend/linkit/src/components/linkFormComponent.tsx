@@ -92,8 +92,8 @@ export default function LinkFormComponent({
           open={serverError}
           onClose={() => setServerError(false)}
         >
-          Server error, try refreshing. Email notespaceai@gmail.com if issue
-          persists.
+          Must update your profile before adding links! Server error, try
+          refreshing. Email notespaceai@gmail.com if issue persists.
         </Alert>
       )}
       {errors.title?.message && (
