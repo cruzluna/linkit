@@ -1,0 +1,370 @@
+{
+  "ssrModuleMapping": {
+    "(app-client)/./node_modules/next/dist/client/components/error-boundary.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/components/error-boundary.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/components/app-router.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/components/app-router.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/components/layout-router.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/components/layout-router.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/components/render-from-template-context.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/components/render-from-template-context.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/app/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/app/page.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/controlComponents.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/controlComponents.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/uiComponents.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/uiComponents.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/hooks.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/hooks.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/image-component.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/image-component.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/next/dist/client/link.js": {
+      "*": {
+        "id": "(sc_client)/./node_modules/next/dist/client/link.js",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/app/[userID]/error.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/app/[userID]/error.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/components/platformnavbar.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/components/platformnavbar.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/components/links.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/components/links.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./node_modules/tailwindcss/tailwind.css": {
+      "*": {
+        "id": "(sc_client)/./node_modules/tailwindcss/tailwind.css",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    },
+    "(app-client)/./src/app/(auth)/login/page.tsx": {
+      "*": {
+        "id": "(sc_client)/./src/app/(auth)/login/page.tsx",
+        "name": "*",
+        "chunks": [],
+        "async": false
+      }
+    }
+  },
+  "edgeSSRModuleMapping": {},
+  "clientModules": {
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/components/error-boundary.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/components/error-boundary.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/error-boundary.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/components/app-router.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/app-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/components/app-router.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/app-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/components/layout-router.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/layout-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/components/layout-router.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/layout-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/components/render-from-template-context.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/components/render-from-template-context.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/components/static-generation-searchparams-bailout-provider.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/components/static-generation-searchparams-bailout-provider.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:static/chunks/app-client-internals.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/page.tsx": {
+      "id": "(app-client)/./src/app/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/page:static/chunks/app/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/@clerk/nextjs/dist/esm/client-boundary/controlComponents.js": {
+      "id": "(app-client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/controlComponents.js",
+      "name": "*",
+      "chunks": [
+        "app/(auth)/signup/page:static/chunks/app/(auth)/signup/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/@clerk/nextjs/dist/esm/client-boundary/uiComponents.js": {
+      "id": "(app-client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/uiComponents.js",
+      "name": "*",
+      "chunks": [
+        "app/(auth)/signup/page:static/chunks/app/(auth)/signup/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/@clerk/nextjs/dist/esm/client-boundary/hooks.js": {
+      "id": "(app-client)/./node_modules/@clerk/nextjs/dist/esm/client-boundary/hooks.js",
+      "name": "*",
+      "chunks": [
+        "app/(auth)/signup/page:static/chunks/app/(auth)/signup/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js": {
+      "id": "(app-client)/./node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js",
+      "name": "*",
+      "chunks": [
+        "app/(auth)/signup/page:static/chunks/app/(auth)/signup/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/font/google/target.css?{\"path\":\"src/app/layout.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}": {
+      "id": "(app-client)/./node_modules/next/font/google/target.css?{\"path\":\"src/app/layout.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/globals.css": {
+      "id": "(app-client)/./src/app/globals.css",
+      "name": "*",
+      "chunks": [
+        "app/layout:static/chunks/app/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/image-component.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/image-component.js",
+      "name": "*",
+      "chunks": [
+        "app/[userID]/page:static/chunks/app/[userID]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/image-component.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/image-component.js",
+      "name": "*",
+      "chunks": [
+        "app/[userID]/page:static/chunks/app/[userID]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/client/link.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/link.js",
+      "name": "*",
+      "chunks": [
+        "app/[userID]/page:static/chunks/app/[userID]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/next/dist/esm/client/link.js": {
+      "id": "(app-client)/./node_modules/next/dist/client/link.js",
+      "name": "*",
+      "chunks": [
+        "app/[userID]/page:static/chunks/app/[userID]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/[userID]/error.tsx": {
+      "id": "(app-client)/./src/app/[userID]/error.tsx",
+      "name": "*",
+      "chunks": [
+        "app/[userID]/error:static/chunks/app/[userID]/error.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/src/components/platformnavbar.tsx": {
+      "id": "(app-client)/./src/components/platformnavbar.tsx",
+      "name": "*",
+      "chunks": [
+        "app/user/layout:static/chunks/app/user/layout.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/src/components/links.tsx": {
+      "id": "(app-client)/./src/components/links.tsx",
+      "name": "*",
+      "chunks": [
+        "app/user/links/page:static/chunks/app/user/links/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/node_modules/tailwindcss/tailwind.css": {
+      "id": "(app-client)/./node_modules/tailwindcss/tailwind.css",
+      "name": "*",
+      "chunks": [
+        "app/user/links/page:static/chunks/app/user/links/page.js"
+      ],
+      "async": false
+    },
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/(auth)/login/page.tsx": {
+      "id": "(app-client)/./src/app/(auth)/login/page.tsx",
+      "name": "*",
+      "chunks": [
+        "app/(auth)/login/page:static/chunks/app/(auth)/login/page.js"
+      ],
+      "async": false
+    }
+  },
+  "entryCSSFiles": {
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/page": [
+      "static/css/app/page.css"
+    ],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/loading": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/layout": [
+      "static/css/app/layout.css"
+    ],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/[userID]/page": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/[userID]/error": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/[userID]/loading": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/user/page": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/user/layout": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/user/links/page": [
+      "static/css/app/user/links/page.css"
+    ],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/(auth)/login/page": [],
+    "/Users/yuvrajvirdi/Desktop/linkit/src/app/(auth)/signup/page": []
+  }
+}

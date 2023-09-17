@@ -22,4 +22,4 @@ Future plans:
 
 - Golang
 - sqlx
-- TODO: docker img
+- TODO: docker img and k8 cluster?
