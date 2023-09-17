@@ -87,7 +87,14 @@ export default function StickyNavBar() {
           </Button>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
-            <div className="flex items-center">
+            <div className="flex space-x-4">
+            <button
+                type="button"
+                className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
+                onClick={() => router.push("/login")}
+              >
+                Login
+              </button>
               <button
                 type="button"
                 className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
@@ -140,10 +147,17 @@ export default function StickyNavBar() {
           {navList}
           <button
             type="button"
-            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-full"
+            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-full mb-2"
             onClick={() => router.push("/signup")}
           >
             Sign up
+          </button>
+          <button
+            type="button"
+            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-full mb-2"
+            onClick={() => router.push("/login")}
+          >
+            Login
           </button>
         </Collapse>
       </Navbar>
