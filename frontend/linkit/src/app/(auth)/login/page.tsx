@@ -29,7 +29,7 @@ export default function Login() {
             alternativeMethodsBlockButtonText: 'text-white',
             formFieldAction__password: 'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500  hover:text-transparent hover:bg-clip-text text-white',
             formResendCodeLink: 'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500  hover:text-transparent hover:bg-clip-text text-white underline',
-            footerActionLink: 'hover:bg-gradient-to-r hover:from-teal-300 hover:via-blue-500 hover:to-noto-purple   hover:text-transparent hover:bg-clip-text text-white',
+            footerActionLink: 'hover:bg-gradient-to-r hover:from-teal-300 hover:via-blue-500 hover:to-noto-purple  hover:text-transparent hover:bg-clip-text text-teal-300',
           }
         }}
       />
