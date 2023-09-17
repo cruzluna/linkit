@@ -11,9 +11,20 @@
 }
 
 body {
-  background-color: #12141F;
+  background-color: #12141f;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+.cl-internal-b3fm6y {
+  display: none;
+}
+
+.cl-rootBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
