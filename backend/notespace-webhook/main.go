@@ -1,16 +1,18 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"notespace/webhook/internal/database"
 	"os"
-
-	svix "github.com/svix/svix-webhooks/go"
+	"time"
 
 	"github.com/joho/godotenv"
+	svix "github.com/svix/svix-webhooks/go"
 )
 
 type ClerkHookStruct struct {
@@ -30,6 +32,26 @@ func main() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
+	}
+
+	// Declare context
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// Spin up database
+	dsn := os.Getenv("DSN")
+
+	db, err := database.StartDatabase(ctx, dsn)
+	if err != nil {
+		// fmt.Println(err)
+		log.Panicln("START", err)
+	}
+	defer db.CloseDatabase()
+
+	// Test database
+	test := db.UpdateUsername(ctx, "tested", "user_2RcyEBMi6aQbCP95hVGJmsIJa6F")
+	if test != nil {
+		log.Panicln(err)
 	}
 
 	// var clerkEndpoint string = os.Getenv("CLERK_TEST_ENDPOINT")
@@ -78,7 +100,7 @@ func main() {
 
 	httpErr := http.ListenAndServe(":3000", nil)
 	fmt.Println("ERROR: ", httpErr)
-
+	//
 	// 1. Listen for webhook post
 
 	// 2. Upsert user username , leave create field empty
