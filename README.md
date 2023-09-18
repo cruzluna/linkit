@@ -23,3 +23,4 @@ Future plans:
 - Golang
 - sqlx
 - TODO: docker img
+- Tool or something to clean production db at times
