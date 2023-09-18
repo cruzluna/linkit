@@ -70,7 +70,6 @@ func main() {
 
 		payload, err := io.ReadAll(r.Body)
 		if err != nil {
-			fmt.Print("ERROR 1", err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -102,7 +101,14 @@ func main() {
 		w.WriteHeader(http.StatusNoContent)
 	})
 
-	httpErr := http.ListenAndServe(":3000", nil)
+	// needs 0.0.0.0 host for railway deployment
+
+	var host string = ""
+	if serverEnv == "PRODUCTION" {
+		host = "0.0.0.0"
+	}
+
+	httpErr := http.ListenAndServe(host+":3000", nil)
 	if errors.Is(httpErr, http.ErrServerClosed) {
 		fmt.Println("Server closed")
 	} else if httpErr != nil {
