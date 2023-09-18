@@ -66,7 +66,8 @@ func main() {
 
 	// handle endpoint
 	// 1. Listen for webhook post
-	http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("NEW POST REQUEST")
 		headers := r.Header
 
 		payload, err := io.ReadAll(r.Body)
