@@ -2,7 +2,7 @@
 import { SignIn } from "@clerk/clerk-react";
 export default function Login() {
   return (
-    <div className='h-screen bg-black flex justify-center items-center'>
+    <div className='min-h-screen py-20 lg:py-4 bg-black w-full flex justify-center items-center'>
       <SignIn
         path={"/login"}
         redirectUrl={"/user/links"}
@@ -24,11 +24,11 @@ export default function Login() {
             footerActionText: 'text-white',
             headerBackIcon: 'text-white',
             headerBackLink: 'text-white',
-            otpCodeFieldInput: 'text-white rounded-xl px-2 bg-[rgba(255,255,255,0.2)] border border-[rgba(255,255,255,0.2)]',
+            otpCodeFieldInput: 'text-white rounded-lg px-2 bg-[rgba(255,255,255,0.2)] border border-[rgba(255,255,255,0.2)]',
             alternativeMethodsBlockButton: 'border border-[rgba(255,255,255,0.3)] text-white rounded-md py-4',
             alternativeMethodsBlockButtonText: 'text-white',
-            formFieldAction__password: 'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500  hover:text-transparent hover:bg-clip-text text-white',
-            formResendCodeLink: 'hover:bg-gradient-to-r hover:from-pink-500 hover:to-violet-500  hover:text-transparent hover:bg-clip-text text-white underline',
+            formFieldAction__password: 'hover:bg-gradient-to-r hover:from-teal-300 hover:via-blue-500 hover:to-noto-purple hover:text-transparent hover:bg-clip-text text-white',
+            formResendCodeLink: 'hover:bg-gradient-to-r hover:from-teal-300 hover:via-blue-500 hover:to-noto-purple  hover:text-transparent hover:bg-clip-text text-teal-300',
             footerActionLink: 'hover:bg-gradient-to-r hover:from-teal-300 hover:via-blue-500 hover:to-noto-purple  hover:text-transparent hover:bg-clip-text text-teal-300',
           }
         }}
