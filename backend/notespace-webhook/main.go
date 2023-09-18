@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -49,12 +50,6 @@ func main() {
 	defer db.CloseDatabase()
 
 	// Test database
-	test := db.UpdateUsername(ctx, "tested", "user_2RcyEBMi6aQbCP95hVGJmsIJa6F")
-	if test != nil {
-		log.Panicln(err)
-	}
-
-	// var clerkEndpoint string = os.Getenv("CLERK_TEST_ENDPOINT")
 
 	secret := os.Getenv("SIGN_SECRET_TEST")
 
@@ -65,8 +60,8 @@ func main() {
 	}
 
 	// handle endpoint
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("MADE IT IN here 2")
+	// 1. Listen for webhook post
+	http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
 		headers := r.Header
 
 		payload, err := io.ReadAll(r.Body)
@@ -82,13 +77,18 @@ func main() {
 			return
 		}
 
-		// Do something with the message...
-
 		// CREATE A struct with eventtype, clerkID, username
 		var dat ClerkHookStruct
 
 		if err := json.Unmarshal(payload, &dat); err != nil {
-			panic(err)
+			fmt.Println(err)
+		}
+
+		// user clerkID to write to DB
+		usernameErr := db.UpdateUsername(ctx, dat.Data.Username, dat.Data.ID)
+
+		if usernameErr != nil {
+			fmt.Println(usernameErr)
 		}
 		// dat.Data.Username
 		data, _ := json.Marshal(dat)
@@ -99,10 +99,9 @@ func main() {
 	})
 
 	httpErr := http.ListenAndServe(":3000", nil)
-	fmt.Println("ERROR: ", httpErr)
-	//
-	// 1. Listen for webhook post
-
-	// 2. Upsert user username , leave create field empty
-	// user clerkID to write to DB
+	if errors.Is(httpErr, http.ErrServerClosed) {
+		fmt.Println("Server closed")
+	} else if httpErr != nil {
+		fmt.Println("Error Starting server: ", httpErr)
+	}
 }
