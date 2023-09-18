@@ -28,10 +28,10 @@ type ClerkHookStruct struct {
 }
 
 func main() {
-	fmt.Printf("\x1b[%dm%s\x1b[0m", 34, "SERVER STARTED\n")
+	fmt.Printf("\x1b[%dm%s\x1b[0m", 34, "SERVER STARTED ")
 
 	serverEnv := os.Getenv("SERVER_ENV")
-	fmt.Printf("\x1b[%dm%s%s\x1b[0m", 35, "Environment: ", serverEnv)
+	fmt.Println("Environment: ", serverEnv)
 
 	if serverEnv == "" || serverEnv == "development" {
 		err := godotenv.Load()
