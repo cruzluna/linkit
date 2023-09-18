@@ -41,7 +41,7 @@ func main() {
 	}
 
 	// Declare context
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	// Spin up database
@@ -49,8 +49,7 @@ func main() {
 
 	db, err := database.StartDatabase(ctx, dsn)
 	if err != nil {
-		// fmt.Println(err)
-		log.Panicln("START", err)
+		fmt.Println(err)
 	}
 	defer db.CloseDatabase()
 
@@ -60,7 +59,6 @@ func main() {
 
 	wh, err := svix.NewWebhook(secret)
 	if err != nil {
-		fmt.Println("ERROR WH")
 		log.Fatal(err)
 	}
 
