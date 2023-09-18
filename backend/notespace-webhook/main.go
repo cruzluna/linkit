@@ -104,11 +104,14 @@ func main() {
 	// needs 0.0.0.0 host for railway deployment
 
 	var host string = ""
+	var port string = "3000"
 	if serverEnv == "PRODUCTION" {
+		fmt.Println("HOST SET")
 		host = "0.0.0.0"
+		port = os.Getenv("PORT")
 	}
 
-	httpErr := http.ListenAndServe(host+":3000", nil)
+	httpErr := http.ListenAndServe(host+":"+port, nil)
 	if errors.Is(httpErr, http.ErrServerClosed) {
 		fmt.Println("Server closed")
 	} else if httpErr != nil {
