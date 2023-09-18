@@ -30,9 +30,14 @@ type ClerkHookStruct struct {
 func main() {
 	fmt.Printf("\x1b[%dm%s\x1b[0m", 34, "SERVER STARTED\n")
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	serverEnv := os.Getenv("SERVER_ENV")
+	fmt.Printf("\x1b[%dm%s%s\x1b[0m", 35, "Environment: ", serverEnv)
+
+	if serverEnv == "" || serverEnv == "development" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 
 	// Declare context
