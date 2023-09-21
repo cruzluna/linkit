@@ -26,6 +26,7 @@ const icons: Record<string, IconType> = {
   twitter: AiFillTwitterCircle,
   leetcode: SiLeetcode,
   github: VscGithubInverted,
+  "github.com": VscGithubInverted,
   commandline: AiOutlineCode,
   Python: FaPython,
   Golang: BiLogoGoLang,
@@ -63,6 +64,12 @@ const toolIcons: Record<string, IconType> = {
 /// helper function to get icons. Default for now is commandline icon
 const getIcon = (key: string): IconType => {
   return icons[key] || icons["default"];
+};
+
+/// helper function to parse iconName properly.
+// removes https, removes www, and removes everything after first dot
+export const getIconName = (url: string): string => {
+  return url.replace(/.+\/\/|www.|\..+/g, "");
 };
 
 interface IconComponentProps {
