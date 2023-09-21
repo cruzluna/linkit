@@ -40,7 +40,7 @@ const icons: Record<string, IconType> = {
   Vim: SiVim,
   neoVim: SiNeovim,
   VsCode: TbBrandVscode,
-  default: FaTools,
+  default: AiOutlineLink,
 };
 
 const toolIcons: Record<string, IconType> = {

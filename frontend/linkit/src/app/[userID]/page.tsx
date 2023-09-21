@@ -149,7 +149,7 @@ const page = async ({ params }: PageProps) => {
                     >
                       <IconComponent
                         className="px-1 mr-3 h-8 w-8 fill-deep-purple-900"
-                        iconKey={link.iconName.split(".")[0]}
+                        iconKey={link.url.split(".")[1]}
                       ></IconComponent>
                       <p className="text-[#1B1B1B] mx-auto truncate">
                         {link.title}
