@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import { FaUser } from "react-icons/fa";
 
 interface UserNullProps {
@@ -18,20 +17,25 @@ const UserNull = ({ user }: UserNullProps) => {
             <figcaption className="font-medium"></figcaption>
             <div>
               <p className="text-2xl">
-                User with username <span className="font-bold">{user}</span> does not exist.
+                User with username <span className="font-bold">{user}</span>{" "}
+                does not exist.
               </p>
               <p className="text-md text-gray-600 m-1">
-                 Please check the username and try again.
-                </p>
-                <p className="text-sm text-gray-600">
-                 Not a user? <Link href= "/" className="underline text-gray-500" > Login here</Link> 
-                </p>
+                Please check the username and try again.
+              </p>
+              <p className="text-sm text-gray-600">
+                Not a user?{" "}
+                <Link href="/" className="underline text-gray-500">
+                  {" "}
+                  Login here
+                </Link>
+              </p>
             </div>
           </div>
         </figure>
       </div>
     </div>
   );
-}
+};
 
 export default UserNull;
