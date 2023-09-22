@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getUser } from "../actions/profileForm";
 import { clerkClient } from "@clerk/nextjs";
 import { IconComponent, getIconName } from "@assets/iconMap";
+import UserNull from "@/components/UserDoesNotExist";
 
 interface PageProps {
   params: {
@@ -21,7 +22,7 @@ export async function generateMetadata({
 const page = async ({ params }: PageProps) => {
   // TODO: if !user --> should go to error page already....
   const user = await getUser(params.userID);
-  if (!user) return null;
+  if (!user) return <UserNull user = {params.userID}/>;
 
   // TODO: if null, use a default? most likely server problem
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
