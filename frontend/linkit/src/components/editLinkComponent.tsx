@@ -13,7 +13,7 @@ export type EditLinkFormValues = {
 };
 
 const schema = object().shape({
-  title: string().min(3).max(20).required(),
+  title: string().min(3).max(30).required(),
   url: string().url().min(3).max(150).required(),
 });
 

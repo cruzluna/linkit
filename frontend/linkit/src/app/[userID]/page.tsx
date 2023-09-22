@@ -4,7 +4,8 @@ import SkillChip from "../../components/skillchip";
 import Link from "next/link";
 import { getUser } from "../actions/profileForm";
 import { clerkClient } from "@clerk/nextjs";
-import { IconComponent } from "@assets/iconMap";
+import { IconComponent, getIconName } from "@assets/iconMap";
+import UserNull from "@/components/UserDoesNotExist";
 
 interface PageProps {
   params: {
@@ -21,7 +22,7 @@ export async function generateMetadata({
 const page = async ({ params }: PageProps) => {
   // TODO: if !user --> should go to error page already....
   const user = await getUser(params.userID);
-  if (!user) return null;
+  if (!user) return <UserNull user = {params.userID}/>;
 
   // TODO: if null, use a default? most likely server problem
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
@@ -149,7 +150,7 @@ const page = async ({ params }: PageProps) => {
                     >
                       <IconComponent
                         className="px-1 mr-3 h-8 w-8 fill-deep-purple-900"
-                        iconKey={link.iconName.split(".")[0]}
+                        iconKey={getIconName(link.url)}
                       ></IconComponent>
                       <p className="text-[#1B1B1B] mx-auto truncate">
                         {link.title}

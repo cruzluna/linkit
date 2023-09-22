@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -27,15 +28,20 @@ type ClerkHookStruct struct {
 }
 
 func main() {
-	fmt.Printf("\x1b[%dm%s\x1b[0m", 34, "SERVER STARTED\n")
+	fmt.Printf("\x1b[%dm%s\x1b[0m", 34, "SERVER STARTED ")
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	serverEnv := os.Getenv("SERVER_ENV")
+	fmt.Println("Environment: ", serverEnv)
+
+	if serverEnv == "" || serverEnv == "development" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 
 	// Declare context
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	// Spin up database
@@ -43,35 +49,27 @@ func main() {
 
 	db, err := database.StartDatabase(ctx, dsn)
 	if err != nil {
-		// fmt.Println(err)
-		log.Panicln("START", err)
+		fmt.Println(err)
 	}
 	defer db.CloseDatabase()
 
 	// Test database
-	test := db.UpdateUsername(ctx, "tested", "user_2RcyEBMi6aQbCP95hVGJmsIJa6F")
-	if test != nil {
-		log.Panicln(err)
-	}
-
-	// var clerkEndpoint string = os.Getenv("CLERK_TEST_ENDPOINT")
 
 	secret := os.Getenv("SIGN_SECRET_TEST")
 
 	wh, err := svix.NewWebhook(secret)
 	if err != nil {
-		fmt.Println("ERROR WH")
 		log.Fatal(err)
 	}
 
 	// handle endpoint
+	// 1. Listen for webhook post
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("MADE IT IN here 2")
+		fmt.Println("NEW POST REQUEST")
 		headers := r.Header
 
 		payload, err := io.ReadAll(r.Body)
 		if err != nil {
-			fmt.Print("ERROR 1", err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -82,13 +80,18 @@ func main() {
 			return
 		}
 
-		// Do something with the message...
-
 		// CREATE A struct with eventtype, clerkID, username
 		var dat ClerkHookStruct
 
 		if err := json.Unmarshal(payload, &dat); err != nil {
-			panic(err)
+			fmt.Println(err)
+		}
+
+		// user clerkID to write to DB
+		usernameErr := db.UpdateUsername(ctx, dat.Data.Username, dat.Data.ID)
+
+		if usernameErr != nil {
+			fmt.Println(usernameErr)
 		}
 		// dat.Data.Username
 		data, _ := json.Marshal(dat)
@@ -98,11 +101,20 @@ func main() {
 		w.WriteHeader(http.StatusNoContent)
 	})
 
-	httpErr := http.ListenAndServe(":3000", nil)
-	fmt.Println("ERROR: ", httpErr)
-	//
-	// 1. Listen for webhook post
+	// needs 0.0.0.0 host for railway deployment
 
-	// 2. Upsert user username , leave create field empty
-	// user clerkID to write to DB
+	var host string = ""
+	var port string = "3000"
+	if serverEnv == "PRODUCTION" {
+		fmt.Println("HOST SET")
+		host = "0.0.0.0"
+		port = os.Getenv("PORT")
+	}
+
+	httpErr := http.ListenAndServe(host+":"+port, nil)
+	if errors.Is(httpErr, http.ErrServerClosed) {
+		fmt.Println("Server closed")
+	} else if httpErr != nil {
+		fmt.Println("Error Starting server: ", httpErr)
+	}
 }

@@ -361,30 +361,47 @@ export default function ProfilePageComponent() {
                       control={control}
                       render={({ field: { value } }) => (
                         <ListItem key={index} className="p-0">
-                          <label
-                            htmlFor="horizontal-list-react"
+                          <div
+                            onClick={() => {
+                              const toolsArr = getValues("tools");
+                              const isChecked = isToolChecked(toolsArr, tool);
+                              if (isChecked) {
+                                // Remove the tool if it's already checked
+                                toolsRemove(
+                                  toolsArr.findIndex((item) => item === tool)
+                                );
+                              } else {
+                                // Add the tool if it's not checked
+                                toolsAppend(tool);
+                              }
+                            }}
+                            style={{ cursor: "pointer" }}
                             className="flex w-full cursor-pointer items-center px-3 py-2"
                           >
                             <ListItemPrefix className="mr-3">
                               <Checkbox
-                                id={id}
+                                id={`checkbox-${index}`}
                                 ripple={false}
                                 checked={isToolChecked(
                                   getValues("tools"),
                                   tool
                                 )}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    // add it to tools array
-                                    toolsAppend(tool);
-                                  } else {
-                                    // remove from tools array
-                                    const toolsArr = getValues("tools");
+                                onChange={() => {
+                                  const toolsArr = getValues("tools");
+                                  const isChecked = isToolChecked(
+                                    toolsArr,
+                                    tool
+                                  );
+                                  if (isChecked) {
+                                    // Remove the tool if it's already checked
                                     toolsRemove(
                                       toolsArr.findIndex(
                                         (item) => item === tool
                                       )
                                     );
+                                  } else {
+                                    // Add the tool if it's not checked
+                                    toolsAppend(tool);
                                   }
                                 }}
                                 value={value}
@@ -392,6 +409,10 @@ export default function ProfilePageComponent() {
                                 className="hover:before:opacity-0 border-noto-purple"
                                 containerProps={{
                                   className: "p-0",
+                                  onClick: (e: { stopPropagation: () => void; }) => {
+                                    // Prevent the parent div's click event from firing
+                                    e.stopPropagation();
+                                  },
                                 }}
                               />
                             </ListItemPrefix>
@@ -401,7 +422,7 @@ export default function ProfilePageComponent() {
                             >
                               {tool}
                             </Typography>
-                          </label>
+                          </div>
                         </ListItem>
                       )}
                     />
@@ -409,6 +430,7 @@ export default function ProfilePageComponent() {
                 </List>
               </Card>
             </Collapse>
+
             <Button
               onClick={handleSubmit(onSubmit)}
               disabled={false}
