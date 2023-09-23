@@ -90,14 +90,14 @@ export default function StickyNavBar() {
             <div className="flex space-x-4">
             <button
                 type="button"
-                className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
+                className="lg:inline-block hover:text-noto-purple text-white font-bold px-9 py-3 hidden lg:inline-block"
                 onClick={() => router.push("/login")}
               >
                 Login
               </button>
               <button
                 type="button"
-                className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
+                className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded-full hidden lg:inline-block"
                 onClick={() => router.push("/signup")}
               >
                 Sign up
@@ -147,17 +147,17 @@ export default function StickyNavBar() {
           {navList}
           <button
             type="button"
-            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-full mb-2"
-            onClick={() => router.push("/signup")}
+            className="border hover:bg-noto-purple text-white font-bold px-3 py-3 rounded w-full mb-2"
+            onClick={() => router.push("/login")}
           >
-            Sign up
+            Login
           </button>
           <button
             type="button"
             className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-full mb-2"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/signup")}
           >
-            Login
+            Sign up
           </button>
         </Collapse>
       </Navbar>
