@@ -22,79 +22,11 @@ export async function generateMetadata({
 const page = async ({ params }: PageProps) => {
   // TODO: if !user --> should go to error page already....
   const user = await getUser(params.userID);
-  if (!user) return <UserNull user = {params.userID}/>;
+  if (!user) return <UserNull user={params.userID} />;
 
   // TODO: if null, use a default? most likely server problem
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
 
-  // PAYLOAD of image url:
-  // const imageUrl =
-  //   "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yUmN5RUliVzVycXdxWFVwRXBPU3FLeWc5MVQuanBlZyJ9";
-
-  // console.log("CLERK USER\n", clerkUser.imageUrl);
-  // console.log(user);
-  // BELOW is a sample payload
-  // const user = {
-  //   clerkId: "user_2RcyEBMi6aQbCP95hVGJmsIJa6F",
-  //   headline: "test headline",
-  //   name: "Test Name",
-  //   links: [
-  //     {
-  //       title: "github.com/cruzluna",
-  //       iconName: "github.com/cruzluna",
-  //       url: "github.com/cruzluna",
-  //     },
-  //     {
-  //       title: "notespace.ai",
-  //       iconName: "notespace.ai",
-  //       url: "notespace.ai",
-  //     },
-  //     {
-  //       title: "https://linkedin.com/cruzluna",
-  //       iconName: "linkedin.com",
-  //       url: "https://linkedin.com/cruzluna",
-  //     },
-  //   ],
-  //   tags: [
-  //     { id: "clln2oqsz000apu7bm03affrn", skill: "tag1" },
-  //     { id: "clln2oqsz000bpu7bzldchl2a", skill: "tag2" },
-  //     { id: "clln2oqsz000cpu7bpcvia38u", skill: "tag3" },
-  //   ],
-  //   tools: [
-  //     { iconName: "C++", toolItem: "C++" },
-  //     { iconName: "Golang", toolItem: "Golang" },
-  //     { iconName: "VsCode", toolItem: "VsCode" },
-  //     { iconName: "Python", toolItem: "Python" },
-  //     { iconName: "AWS", toolItem: "aws" },
-  //   ],
-  // };
-
-  // const user = {
-  //   headline: "Fake Headline Test",
-  //   name: "cruz",
-  //   links: [
-  //     { iconName: "notespace.ai", url: "https://notespace.ai" },
-  //     { iconName: "openai.com", url: "https://openai.com" },
-  //     { iconName: "github.com", url: "https://github.com/cruzluna" },
-  //   ],
-  //   tags: [
-  //     { id: "cllmxxqam0004put7ws7fw92j", skill: "tag1" },
-  //     { id: "cllmxxqam0005put7ajp80dtx", skill: "tag2" },
-  //     { id: "cllmxxqam0006put7k6fqb73v", skill: "tag3" },
-  //   ],
-  //   tools: [
-  //     { iconName: "Python", toolItem: "Python" },
-  //     { iconName: "Golang", toolItem: "Golang" },
-  //     { iconName: "C++", toolItem: "C++" },
-  //     { iconName: "AWS", toolItem: "AWS" },
-  //     { iconName: "Google Cloud", toolItem: "Google Cloud" },
-  //   ],
-  // };
-  //
-  // // //TODO: if no user....
-  // console.log("PAGE", user);
-  // console.log(user?.tags);
-  //
   // this page receives the slug
   // fetch user data from db and create the link tree
   return (
@@ -131,12 +63,12 @@ const page = async ({ params }: PageProps) => {
           </figure>
         </div>
 
-        {user.links.map((link) => {
-          if (link.enabled) {
-            return (
-              <div key={link.id} className="flex flex-col-1">
-                <div className="max-w-xs mx-auto py-2">
-                  <button className="flex flex-col-1 items-start space-y-4 ">
+        <div className="flex flex-col items-center justify-center">
+          {user.links.map((link) => {
+            if (link.enabled) {
+              return (
+                <div key={link.id} className="max-w-xs py-2">
+                  <button className="flex flex-col items-start space-y-4">
                     <Link
                       href={
                         link.url.startsWith("http://") ||
@@ -146,16 +78,14 @@ const page = async ({ params }: PageProps) => {
                       }
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-start w-80 text-center rounded-lg border border-gray-400 bg-[#FAFAFA] px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150 hover:bg-noto-purple"
+                      className="flex items-center justify-between w-80 text-center rounded-lg border border-gray-400 bg-[#FAFAFA] px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150 hover:bg-noto-purple"
                     >
                       <IconComponent
-                        className="px-1 mr-3 h-8 w-8 fill-deep-purple-900"
+                        className="px-1 h-8 w-8 fill-deep-purple-900"
                         iconKey={getIconName(link.url)}
                       ></IconComponent>
-                      <p className="text-[#1B1B1B] mx-auto truncate">
-                        {link.title}
-                      </p>
-                      <div className="px-auto mt-0.5">
+                      <p className="text-[#1B1B1B] truncate">{link.title}</p>
+                      <div>
                         <svg
                           className="h-5 w-4 text-[#1B1B1B]"
                           xmlns="http://www.w3.org/2000/svg"
@@ -171,21 +101,21 @@ const page = async ({ params }: PageProps) => {
                     </Link>
                   </button>
                 </div>
-              </div>
-            );
-          }
-        })}
+              );
+            }
+          })}
+        </div>
 
         <div className="flex flex-col items-center">
           <div className="mt-2 font-bold text-[#FAFAFA] text-2xl">Tools</div>
           <div className="flex flex-wrap justify-center mt-2">
             {user.tools.map((tool, index) => (
               <div key={index} className="flex items-center justify-center m-1">
-                <div className="rounded-full bg-[#1C202F] p-2">
+                <div className="rounded-full bg-[#1C202F] p-2 hover:animate-spin">
                   <IconComponent
                     iconKey={tool.iconName}
                     size="40"
-                    className="text-xl text-white hover:animate-spin"
+                    className="text-xl text-white"
                   />
                 </div>
               </div>
