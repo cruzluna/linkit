@@ -10,6 +10,7 @@ import { LinkWithoutUserId } from "./links";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { setLinkData } from "@/redux/features/fetchLinkSlice";
+import { FaWindowClose } from "react-icons/fa";
 
 // id,
 // title,
@@ -85,6 +86,9 @@ export default function LinkFormComponent({
       {/* 
       <p>{JSON.stringify(watch(), null, 2)}</p>
       */}
+      <div className="close flex justify-end pt-2 pb-4">
+        <FaWindowClose className="text-2xl text-white cursor-pointer" onClick={handleAddOneLink} />
+      </div>
 
       {addLinkSuccess && (
         <Alert
