@@ -1,5 +1,5 @@
 // "use client"; // remove from child https://github.com/vercel/next.js/discussions/46795#discussioncomment-5248407
-import { deleteLink } from "@/app/actions/linksActions";
+import { deleteLink, updateLinkEnabled } from "@/app/actions/linksActions";
 import { LinkStatProps } from "@/interfaces/linkStatsProps";
 import {
   Button,
@@ -12,6 +12,10 @@ import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEdit } from "react-icons/ai";
 import EditLinkComponent from "./editLinkComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { LinkWithoutUserId } from "./links";
+import { setLinkData } from "@/redux/features/fetchLinkSlice";
 
 export default function Link({
   id,
@@ -23,9 +27,42 @@ export default function Link({
 }: LinkStatProps): JSX.Element {
   // const [enabled, setEnabled] = useState<boolean>(initialEnabled);
   const [editing, setEditing] = useState<boolean>(false);
+  const dispatch = useDispatch()
+  const countEnabledLinks = useSelector((state: RootState) => state.fetchLinkReducer.countEnabledLinks);
+  const linkData = useSelector((state: RootState) => state.fetchLinkReducer.linkData);
+  const [status, setStatus] = useState(initialEnabled)
   const handleSetEditing = () => {
     setEditing(false);
   };
+
+  function updateLinkData(linkData: LinkWithoutUserId[], cleanLink: LinkWithoutUserId) {
+    return linkData.map((link) => {
+      if (link.id === cleanLink.id) {
+        // Update the matching link with the cleanLink data
+        return cleanLink;
+      }
+      // Leave other links unchanged
+      return link;
+    });
+  }
+
+
+  const handleEnableDisableLink = async (newEnabled: boolean) => {
+    setStatus(newEnabled)
+    const result = await updateLinkEnabled(id, newEnabled);
+
+    if (result.link !== null) {
+      const { userId, ...cleanLink } = result.link;
+      if (cleanLink) {
+        const newLinkData = updateLinkData(linkData, cleanLink);
+        if (newEnabled) {
+          dispatch(setLinkData({ linkData: newLinkData, countEnabledLinks: countEnabledLinks + 1 })); // Dispatch the action to update linkData
+        } else {
+          dispatch(setLinkData({ linkData: newLinkData, countEnabledLinks: countEnabledLinks - 1 })); // Dispatch the action to update linkData
+        }
+      }
+    }
+  }
 
   const [openPopover, setOpenPopover] = useState<boolean>(false);
   if (!editing) {
@@ -77,9 +114,11 @@ export default function Link({
           <Switch
             id={id}
             color="green"
-            defaultChecked={initialEnabled}
-            disabled
-          />
+            checked={status}
+            onChange={(e) => {
+              const newEnabled = e.target.checked;
+              newEnabled === false ? handleEnableDisableLink(false) : countEnabledLinks < 3 ? handleEnableDisableLink(true) : ''
+            }} />
         </div>
       </div>
     );

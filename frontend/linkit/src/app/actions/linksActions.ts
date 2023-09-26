@@ -103,3 +103,26 @@ export async function updateLink(linkId: string, formData: EditLinkFormValues) {
     };
   }
 }
+
+export async function updateLinkEnabled(linkId: string, enabled: boolean) {
+  try {
+    const updateLink = await prisma.link.update({
+      where: {
+        id: linkId,
+      },
+      data: {
+        enabled: enabled,
+      },
+    });
+    return {
+      link: updateLink,
+      error: "",
+    };
+  } catch (error: any) {
+    console.error("Error updating link. ", error);
+    return {
+      link: null,
+      error: error.message,
+    };
+  }
+}
