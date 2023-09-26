@@ -22,79 +22,11 @@ export async function generateMetadata({
 const page = async ({ params }: PageProps) => {
   // TODO: if !user --> should go to error page already....
   const user = await getUser(params.userID);
-  if (!user) return <UserNull user = {params.userID}/>;
+  if (!user) return <UserNull user={params.userID} />;
 
   // TODO: if null, use a default? most likely server problem
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
 
-  // PAYLOAD of image url:
-  // const imageUrl =
-  //   "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yUmN5RUliVzVycXdxWFVwRXBPU3FLeWc5MVQuanBlZyJ9";
-
-  // console.log("CLERK USER\n", clerkUser.imageUrl);
-  // console.log(user);
-  // BELOW is a sample payload
-  // const user = {
-  //   clerkId: "user_2RcyEBMi6aQbCP95hVGJmsIJa6F",
-  //   headline: "test headline",
-  //   name: "Test Name",
-  //   links: [
-  //     {
-  //       title: "github.com/cruzluna",
-  //       iconName: "github.com/cruzluna",
-  //       url: "github.com/cruzluna",
-  //     },
-  //     {
-  //       title: "notespace.ai",
-  //       iconName: "notespace.ai",
-  //       url: "notespace.ai",
-  //     },
-  //     {
-  //       title: "https://linkedin.com/cruzluna",
-  //       iconName: "linkedin.com",
-  //       url: "https://linkedin.com/cruzluna",
-  //     },
-  //   ],
-  //   tags: [
-  //     { id: "clln2oqsz000apu7bm03affrn", skill: "tag1" },
-  //     { id: "clln2oqsz000bpu7bzldchl2a", skill: "tag2" },
-  //     { id: "clln2oqsz000cpu7bpcvia38u", skill: "tag3" },
-  //   ],
-  //   tools: [
-  //     { iconName: "C++", toolItem: "C++" },
-  //     { iconName: "Golang", toolItem: "Golang" },
-  //     { iconName: "VsCode", toolItem: "VsCode" },
-  //     { iconName: "Python", toolItem: "Python" },
-  //     { iconName: "AWS", toolItem: "aws" },
-  //   ],
-  // };
-
-  // const user = {
-  //   headline: "Fake Headline Test",
-  //   name: "cruz",
-  //   links: [
-  //     { iconName: "notespace.ai", url: "https://notespace.ai" },
-  //     { iconName: "openai.com", url: "https://openai.com" },
-  //     { iconName: "github.com", url: "https://github.com/cruzluna" },
-  //   ],
-  //   tags: [
-  //     { id: "cllmxxqam0004put7ws7fw92j", skill: "tag1" },
-  //     { id: "cllmxxqam0005put7ajp80dtx", skill: "tag2" },
-  //     { id: "cllmxxqam0006put7k6fqb73v", skill: "tag3" },
-  //   ],
-  //   tools: [
-  //     { iconName: "Python", toolItem: "Python" },
-  //     { iconName: "Golang", toolItem: "Golang" },
-  //     { iconName: "C++", toolItem: "C++" },
-  //     { iconName: "AWS", toolItem: "AWS" },
-  //     { iconName: "Google Cloud", toolItem: "Google Cloud" },
-  //   ],
-  // };
-  //
-  // // //TODO: if no user....
-  // console.log("PAGE", user);
-  // console.log(user?.tags);
-  //
   // this page receives the slug
   // fetch user data from db and create the link tree
   return (
@@ -179,11 +111,11 @@ const page = async ({ params }: PageProps) => {
           <div className="flex flex-wrap justify-center mt-2">
             {user.tools.map((tool, index) => (
               <div key={index} className="flex items-center justify-center m-1">
-                <div className="rounded-full bg-[#1C202F] p-2">
+                <div className="rounded-full bg-[#1C202F] p-2 hover:animate-spin">
                   <IconComponent
                     iconKey={tool.iconName}
                     size="40"
-                    className="text-xl text-white hover:animate-spin"
+                    className="text-xl text-white"
                   />
                 </div>
               </div>

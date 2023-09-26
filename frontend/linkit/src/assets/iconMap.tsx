@@ -19,6 +19,8 @@ import {
 } from "react-icons/si";
 import { BiLogoGoLang, BiLogoNodejs } from "react-icons/bi";
 import { TbBrandVscode } from "react-icons/tb";
+import ChatGPTIcon from "@/components/chatGPTIcon";
+
 
 const icons: Record<string, IconType> = {
   linkedin: AiFillLinkedin,
@@ -42,6 +44,7 @@ const icons: Record<string, IconType> = {
   neoVim: SiNeovim,
   VsCode: TbBrandVscode,
   default: AiOutlineLink,
+  chatGPT: ChatGPTIcon,
 };
 
 const toolIcons: Record<string, IconType> = {
@@ -59,6 +62,7 @@ const toolIcons: Record<string, IconType> = {
   neoVim: SiNeovim,
   VsCode: TbBrandVscode,
   default: FaTools,
+  chatGPT: ChatGPTIcon,
 };
 
 /// helper function to get icons. Default for now is commandline icon
