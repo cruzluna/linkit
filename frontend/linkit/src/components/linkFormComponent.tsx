@@ -4,9 +4,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string } from "yup";
+import { boolean, object, string } from "yup";
 import { addLink } from "@/app/actions/linksActions";
 import { LinkWithoutUserId } from "./links";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setLinkData } from "@/redux/features/fetchLinkSlice";
 
 // id,
 // title,
@@ -16,11 +19,13 @@ import { LinkWithoutUserId } from "./links";
 export type LinkFormValues = {
   title: string;
   url: string;
+  enabled: boolean;
 };
 
 const schema = object().shape({
   title: string().min(3).max(30).required(),
   url: string().url().min(3).max(150).required(),
+  enabled: boolean().required(),
 });
 
 type LinkFormProps = {
@@ -45,16 +50,18 @@ export default function LinkFormComponent({
     resolver: yupResolver(schema),
   });
 
-  const [submitButtonDisabled, setSubmitButtonDisabled] =
-    useState<boolean>(false);
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean>(false);
   const [addLinkSuccess, setAddLinkSuccess] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const countEnabledLinks = useSelector((state: RootState) => state.fetchLinkReducer.countEnabledLinks);
+  const linkData = useSelector((state: RootState) => state.fetchLinkReducer.linkData);
 
   const onSubmit: SubmitHandler<LinkFormValues> = async (
     data: LinkFormValues
   ) => {
     // console.log(data);
-
     const result = await addLink(clerkId, data);
     if (result.link !== null) {
       setSubmitButtonDisabled(true);
@@ -63,7 +70,11 @@ export default function LinkFormComponent({
       handleAddOneLink(); // get rid of link form
       // eslint-disable-next-line no-unused-vars
       const { userId, ...cleanLink } = result.link;
-      handleAddLink(cleanLink);
+      if (cleanLink.enabled) {
+        dispatch(setLinkData({ linkData: [...linkData, cleanLink], countEnabledLinks: countEnabledLinks + 1 }));
+      } else {
+        dispatch(setLinkData({ linkData: [...linkData, cleanLink], countEnabledLinks: countEnabledLinks }));
+      }
     } else {
       setServerError(true);
     }
@@ -131,7 +142,13 @@ export default function LinkFormComponent({
       </div>
       <div className="font-medium flex flex-col md:flex-row justify-between items-center">
         <div className="mb-2 md:mb-0 md:mr-2 text-sm">{"-"}</div>
-        <Switch id={id} color="green" defaultChecked disabled />
+        <Switch
+          id="enabled"
+          color="green"
+          checked={enabled}
+          {...register("enabled")}
+          onChange={() => { countEnabledLinks < 3 ? setEnabled(!enabled) : setEnabled(false) }}
+        />
       </div>
     </form>
   );

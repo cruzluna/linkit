@@ -36,6 +36,7 @@ export async function addLink(clerkId: string, formData: LinkFormValues) {
           ? new URL(formData.url).hostname
           : formData.url,
         url: formData.url,
+        enabled: formData.enabled,
         user: {
           connect: {
             clerkId: clerkId,
