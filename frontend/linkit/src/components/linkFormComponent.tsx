@@ -32,12 +32,10 @@ const schema = object().shape({
 type LinkFormProps = {
   clerkId: string;
   handleAddOneLink: () => void;
-  handleAddLink: (linkToAdd: LinkWithoutUserId) => void; // add link to state to avoid refresh
 };
 export default function LinkFormComponent({
   clerkId,
   handleAddOneLink,
-  handleAddLink,
 }: LinkFormProps): JSX.Element {
   const id = useId();
   const {

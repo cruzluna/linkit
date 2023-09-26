@@ -23,7 +23,7 @@ export default function Links() {
     const updatedLinkData = linkData.filter(
       (link) => link.id !== linkIdToDelete
     );
-    setLinkData(updatedLinkData);
+    dispatch(setLinkData({ linkData: updatedLinkData, countEnabledLinks })); // Dispatch the action to update linkData
   };
 
   const handleUpdateLink = (
@@ -40,11 +40,11 @@ export default function Links() {
     );
 
     // Update the state with the new array
-    setLinkData(updatedLinkArray);
+    dispatch(setLinkData({ linkData: updatedLinkArray, countEnabledLinks })); // Dispatch the action to update linkData
   };
-  const handleAddLink = (linkToAdd: LinkWithoutUserId) => {
-    setLinkData([...linkData, linkToAdd]);
-  };
+  // const handleAddLink = (linkToAdd: LinkWithoutUserId) => {
+  //   setLinkData([...linkData, linkToAdd]);
+  // };
 
   // TODO: determine to useMemo or useEffect
   useEffect(() => {
@@ -59,11 +59,6 @@ export default function Links() {
       fetchLinks();
     }
   }, [user]);
-
-  useEffect(() => {
-    console.log(linkData, countEnabledLinks);
-  }
-    , [linkData, countEnabledLinks]);
 
   // TODO: Update this to an array , and limit total enabled links
   const [addOneLink, setAddOneLink] = useState<boolean>(false);
@@ -89,7 +84,6 @@ export default function Links() {
             <LinkFormComponent
               clerkId={user.id}
               handleAddOneLink={handleAddOneLink}
-              handleAddLink={handleAddLink}
             />
           )}
           {linkData.map((link) => (
