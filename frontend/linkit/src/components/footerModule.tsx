@@ -138,7 +138,7 @@ const Footer = ({ user }: FooterProps) => {
                           href="/"
                           className="text-gray-500 text-center hover:text-white underline"
                         >
-                          Don't have an account? Create one now!
+                          {"Don't have an account? Create one now!"}
                         </Link>
                       </div>
                     </div>
