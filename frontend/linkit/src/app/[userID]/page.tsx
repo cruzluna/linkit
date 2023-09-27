@@ -6,6 +6,7 @@ import { getUser } from "../actions/profileForm";
 import { clerkClient } from "@clerk/nextjs";
 import { IconComponent, getIconName } from "@assets/iconMap";
 import UserNull from "@/components/UserDoesNotExist";
+import Footer from "../../components/footerModule";
 
 interface PageProps {
   params: {
@@ -23,7 +24,7 @@ const page = async ({ params }: PageProps) => {
   // TODO: if !user --> should go to error page already....
   const user = await getUser(params.userID);
   if (!user) return <UserNull user={params.userID} />;
-
+  
   // TODO: if null, use a default? most likely server problem
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
 
@@ -31,7 +32,8 @@ const page = async ({ params }: PageProps) => {
   // fetch user data from db and create the link tree
   return (
     <>
-      <div className="min-h-screen text-[#FAFAFA]">
+      <div className="min-h-screen flex flex-col justify-between text-[#FAFAFA]">
+        <div>
         <div className="max-w-7xl mx-auto">
           <figure className="p-6">
             <Image
@@ -122,6 +124,8 @@ const page = async ({ params }: PageProps) => {
             ))}
           </div>
         </div>
+        </div>
+        <Footer user={params.userID}/>
       </div>
     </>
   );
