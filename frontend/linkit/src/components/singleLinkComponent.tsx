@@ -2,6 +2,7 @@
 import { deleteLink, updateLinkEnabled } from "@/app/actions/linksActions";
 import { LinkStatProps } from "@/interfaces/linkStatsProps";
 import {
+  Alert,
   Button,
   Popover,
   PopoverContent,
@@ -30,6 +31,7 @@ export default function Link({
   const dispatch = useDispatch()
   const countEnabledLinks = useSelector((state: RootState) => state.fetchLinkReducer.countEnabledLinks);
   const linkData = useSelector((state: RootState) => state.fetchLinkReducer.linkData);
+  const [showEnableAlert, setShowEnableAlert] = useState<boolean>(false);
   const [status, setStatus] = useState(initialEnabled)
   const handleSetEditing = () => {
     setEditing(false);
@@ -64,10 +66,28 @@ export default function Link({
     }
   }
 
+  const handleEnableAlert = () => {
+    setStatus(false)
+    setShowEnableAlert(true)
+    setTimeout(() => {
+      setShowEnableAlert(false)
+    }, 3000);
+  };
+
   const [openPopover, setOpenPopover] = useState<boolean>(false);
   if (!editing) {
     return (
       <div className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5">
+        {showEnableAlert && (
+          <div className="mb-3">
+            <Alert
+              color="red"
+              open={showEnableAlert}
+            >
+              You have reached the maximum number of enabled links. Please disable a link to enable another.
+            </Alert>
+          </div>
+        )}
         <Popover open={openPopover} handler={setOpenPopover}>
           <PopoverHandler>
             <button
@@ -117,7 +137,7 @@ export default function Link({
             checked={status}
             onChange={(e) => {
               const newEnabled = e.target.checked;
-              newEnabled === false ? handleEnableDisableLink(false) : countEnabledLinks < 3 ? handleEnableDisableLink(true) : ''
+              newEnabled === false ? handleEnableDisableLink(false) : countEnabledLinks < 3 ? handleEnableDisableLink(true) : handleEnableAlert()
             }} />
         </div>
       </div>

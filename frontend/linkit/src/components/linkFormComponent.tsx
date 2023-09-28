@@ -52,6 +52,7 @@ export default function LinkFormComponent({
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(false);
   const [serverError, setServerError] = useState<boolean>(false);
   const [addLinkSuccess, setAddLinkSuccess] = useState<boolean>(false);
+  const [showEnableAlert, setShowEnableAlert] = useState<boolean>(false); // TODO: remove this, use countEnabledLinks instead
   const [enabled, setEnabled] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const countEnabledLinks = useSelector((state: RootState) => state.fetchLinkReducer.countEnabledLinks);
@@ -79,6 +80,14 @@ export default function LinkFormComponent({
     }
   };
 
+  const handleEnableAlert = () => {
+    setEnabled(false)
+    setShowEnableAlert(true);
+    setTimeout(() => {
+      setShowEnableAlert(false);
+    }, 3000);
+  };
+
   return (
     <form className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5">
       {/* 
@@ -87,6 +96,16 @@ export default function LinkFormComponent({
       <div className="close flex justify-end pt-2 pb-4">
         <FaWindowClose className="text-2xl text-white cursor-pointer" onClick={handleAddOneLink} />
       </div>
+      {showEnableAlert && (
+        <div className="mb-3">
+          <Alert
+            color="red"
+            open={showEnableAlert}
+          >
+            You have reached the maximum number of enabled links. Please disable a link to enable another.
+          </Alert>
+        </div>
+      )}
 
       {addLinkSuccess && (
         <Alert
@@ -149,7 +168,7 @@ export default function LinkFormComponent({
           color="green"
           checked={enabled}
           {...register("enabled")}
-          onChange={() => { countEnabledLinks < 3 ? setEnabled(!enabled) : setEnabled(false) }}
+          onChange={() => { countEnabledLinks < 3 ? setEnabled(!enabled) : handleEnableAlert() }}
         />
       </div>
     </form>
