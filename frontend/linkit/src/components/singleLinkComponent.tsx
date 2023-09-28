@@ -126,9 +126,9 @@ export default function Link({
         >
           <AiOutlineEdit size="1.5em" />
         </button>
-        <div className="font-bold text-xl md:text-lg">{title}</div>
+        <div className="font-bold text-xl md:text-lg truncate">{title}</div>
+        <div className="font-medium text-base md:text-sm truncate">{url}</div>
 
-        <div className="font-medium text-base md:text-sm">{url}</div>
         <div className="font-medium flex flex-col md:flex-row justify-between items-center">
           <div className="mb-2 md:mb-0 md:mr-2 text-sm">{"-"}</div>
           <Switch
