@@ -99,11 +99,11 @@ export const TagFormComponent = ({
           </Alert>
         )}
       </div>
-      <form className=" flex flex-col-1 w-3/4 items-center justify-center bg-transparent border border-noto-purple uppercase whitespace-nowrap  text-white py-1.5 px-3 rounded-lg  font-light text-base mb-2 truncate">
+      <form className=" flex flex-col-1 w-5/6 items-center justify-center bg-transparent border border-noto-purple uppercase whitespace-nowrap  text-white py-1.5 px-3 rounded-lg  font-light text-base mb-2 truncate">
         <input
           {...register("skill")}
-          className="bg-transparent border-none  rounded-lg w-full"
-          placeholder="Add Tag"
+          className="bg-transparent border-none rounded-lg w-full"
+          placeholder="Enter Tag"
         />
         <Button
           className="ml-2 bg-transparent border border-noto-purple"

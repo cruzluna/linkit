@@ -66,9 +66,8 @@ export function TagAccordion() {
               >
                 <AccordionHeader
                   onClick={() => handleOpen(1)}
-                  className={`border-b-0 transition-colors ${
-                    open === 1 ? "hover:!text-noto-purple" : ""
-                  }`}
+                  className={`border-b-0 transition-colors ${open === 1 ? "hover:!text-noto-purple" : ""
+                    }`}
                 >
                   Update Tags
                 </AccordionHeader>
@@ -83,11 +82,17 @@ export function TagAccordion() {
                   ))}
 
                   {user && addOneTag && (
-                    <TagFormComponent
-                      clerkId={user.id}
-                      handleAddOneTag={handleAddOneTag}
-                      handleAddTag={handleAddTag}
-                    />
+                    <>
+                      <label className="block text-gray-600 text-sm font-medium mb-1">
+                        Add a Tag (e.g, AI, React, Next.js, Python)
+                      </label>
+                      <TagFormComponent
+                        clerkId={user.id}
+                        handleAddOneTag={handleAddOneTag}
+                        handleAddTag={handleAddTag}
+                      />
+                    </>
+
                   )}
 
                   {tooManyTags && (
