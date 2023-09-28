@@ -2,11 +2,11 @@
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
-interface FooterProps {
+interface ShareModuleProps {
   user: string;
 }
 
-const Footer = ({ user }: FooterProps) => {
+const ShareModule = ({ user }: ShareModuleProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copiedUrl, setCopiedUrl] = useState<boolean>(false);
   const userlink = "https://www.notespace.ai/" + user;
@@ -27,7 +27,10 @@ const Footer = ({ user }: FooterProps) => {
   // event listener for clicking outside of modal
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !(modalRef.current as HTMLDivElement).contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !(modalRef.current as HTMLDivElement).contains(event.target as Node)
+      ) {
         closeModal();
       }
     };
@@ -39,12 +42,28 @@ const Footer = ({ user }: FooterProps) => {
 
   return (
     <div>
-      <footer
-        onClick={() => setIsModalOpen(true)}
-        className="text-gray-600 text-center mb-10 cursor-pointer"
-      >
-        Notespace.ai
-      </footer>
+      <div>
+        <div
+          onClick={() => setIsModalOpen(true)}
+          className="cursor-pointer flex justify-center items-center fixed"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            width="29"
+            height="24"
+          >
+            <circle cx="6" cy="12" r="2"></circle>
+            <circle cx="14" cy="12" r="2"></circle>
+            <circle cx="22" cy="12" r="2"></circle>
+          </svg>
+        </div>
+      </div>
 
       {isModalOpen && (
         <>
@@ -53,7 +72,6 @@ const Footer = ({ user }: FooterProps) => {
               ref={modalRef}
               className="relative my-6 mx-auto max-w-3xl sm:mx-4"
             >
-              
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col m-6 bg-[#1C202F] outline-none focus:outline-none">
                 {/*body*/}
                 <div className="relative p-6 ">
@@ -155,4 +173,4 @@ const Footer = ({ user }: FooterProps) => {
   );
 };
 
-export default Footer;
+export default ShareModule;
