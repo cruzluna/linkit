@@ -137,7 +137,7 @@ export default function Link({
             checked={status}
             onChange={(e) => {
               const newEnabled = e.target.checked;
-              newEnabled === false ? handleEnableDisableLink(false) : countEnabledLinks < 3 ? handleEnableDisableLink(true) : handleEnableAlert()
+              newEnabled === false ? handleEnableDisableLink(false) : countEnabledLinks < 5 ? handleEnableDisableLink(true) : handleEnableAlert()
             }} />
         </div>
       </div>

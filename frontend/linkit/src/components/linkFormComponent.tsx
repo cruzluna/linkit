@@ -168,7 +168,7 @@ export default function LinkFormComponent({
           color="green"
           checked={enabled}
           {...register("enabled")}
-          onChange={() => { countEnabledLinks < 3 ? setEnabled(!enabled) : handleEnableAlert() }}
+          onChange={() => { countEnabledLinks < 5 ? setEnabled(!enabled) : handleEnableAlert() }}
         />
       </div>
     </form>
