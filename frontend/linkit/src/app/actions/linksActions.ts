@@ -36,6 +36,7 @@ export async function addLink(clerkId: string, formData: LinkFormValues) {
           ? new URL(formData.url).hostname
           : formData.url,
         url: formData.url,
+        enabled: formData.enabled,
         user: {
           connect: {
             clerkId: clerkId,
@@ -88,6 +89,29 @@ export async function updateLink(linkId: string, formData: EditLinkFormValues) {
         iconName: isValidURL(formData.url)
           ? new URL(formData.url).hostname
           : formData.url,
+      },
+    });
+    return {
+      link: updateLink,
+      error: "",
+    };
+  } catch (error: any) {
+    console.error("Error updating link. ", error);
+    return {
+      link: null,
+      error: error.message,
+    };
+  }
+}
+
+export async function updateLinkEnabled(linkId: string, enabled: boolean) {
+  try {
+    const updateLink = await prisma.link.update({
+      where: {
+        id: linkId,
+      },
+      data: {
+        enabled: enabled,
       },
     });
     return {

@@ -6,18 +6,24 @@ import { getLinks } from "@/app/actions/linksActions";
 
 import type { Link } from "@prisma/client";
 import LinkFormComponent from "./linkFormComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setLinkData } from "@/redux/features/fetchLinkSlice";
+
 export type LinkWithoutUserId = Omit<Link, "userId">;
 
 export default function Links() {
   const { user, isLoaded } = useUser(); // get clerk user for clerkId
+  const dispatch = useDispatch<AppDispatch>();
+  const linkData = useSelector((state: RootState) => state.fetchLinkReducer.linkData);
+  const countEnabledLinks = useSelector((state: RootState) => state.fetchLinkReducer.countEnabledLinks);
   // TODO: limit no. of links total
-  const [linkData, setLinkData] = useState<LinkWithoutUserId[]>([]);
   const handleDeleteLink = (linkIdToDelete: string) => {
     // Filter out the link to be deleted based on its ID
     const updatedLinkData = linkData.filter(
       (link) => link.id !== linkIdToDelete
     );
-    setLinkData(updatedLinkData);
+    dispatch(setLinkData({ linkData: updatedLinkData, countEnabledLinks })); // Dispatch the action to update linkData
   };
 
   const handleUpdateLink = (
@@ -34,51 +40,25 @@ export default function Links() {
     );
 
     // Update the state with the new array
-    setLinkData(updatedLinkArray);
+    dispatch(setLinkData({ linkData: updatedLinkArray, countEnabledLinks })); // Dispatch the action to update linkData
   };
-  const handleAddLink = (linkToAdd: LinkWithoutUserId) => {
-    setLinkData([...linkData, linkToAdd]);
-  };
+  // const handleAddLink = (linkToAdd: LinkWithoutUserId) => {
+  //   setLinkData([...linkData, linkToAdd]);
+  // };
 
   // TODO: determine to useMemo or useEffect
   useEffect(() => {
-    // console.log("USE EFFECT called in Links");
     if (isLoaded && user) {
       const fetchLinks = async () => {
-        const check = await getLinks(user.id);
-        if (check !== null) {
-          // profile created means do not access profile form
-          setLinkData(check.links);
+        const linksObject = await getLinks(user.id);
+        if (linksObject) {
+          const countEnabledLinks = linksObject.links.filter((link) => link.enabled === true).length;
+          dispatch(setLinkData({ linkData: linksObject.links, countEnabledLinks }));
         }
       };
       fetchLinks();
     }
   }, [user]);
-
-  // Sample payload
-  // const linkData = [
-  //   {
-  //     id: "asdfadf",
-  //     title: "github.com/cruzluna",
-  //     iconName: "github.com/cruzluna",
-  //     url: "github.com/cruzluna",
-  //     enabled: true,
-  //   },
-  //   {
-  //     id: "dadsfadsf",
-  //     title: "notespace.ai",
-  //     iconName: "notespace.ai",
-  //     url: "notespace.ai",
-  //     enabled: true,
-  //   },
-  //   {
-  //     id: "asdasdfdadsfadsf",
-  //     title: "https://linkedin.com/cruzluna",
-  //     iconName: "linkedin.com",
-  //     url: "https://linkedin.com/cruzluna",
-  //     enabled: true,
-  //   },
-  // ];
 
   // TODO: Update this to an array , and limit total enabled links
   const [addOneLink, setAddOneLink] = useState<boolean>(false);
@@ -99,6 +79,13 @@ export default function Links() {
           </button>
         </div>
         <div className="ml-2 mr-2">
+          {/* New links to add */}
+          {user && addOneLink && (
+            <LinkFormComponent
+              clerkId={user.id}
+              handleAddOneLink={handleAddOneLink}
+            />
+          )}
           {linkData.map((link) => (
             <LinkComponent
               key={link.id}
@@ -110,14 +97,6 @@ export default function Links() {
               handleUpdateLink={handleUpdateLink}
             />
           ))}
-          {/* New links to add */}
-          {user && addOneLink && (
-            <LinkFormComponent
-              clerkId={user.id}
-              handleAddOneLink={handleAddOneLink}
-              handleAddLink={handleAddLink}
-            />
-          )}
         </div>
       </section>
     </>
