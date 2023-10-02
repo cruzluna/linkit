@@ -83,11 +83,16 @@ export function TagAccordion() {
                   ))}
 
                   {user && addOneTag && (
-                    <TagFormComponent
-                      clerkId={user.id}
-                      handleAddOneTag={handleAddOneTag}
-                      handleAddTag={handleAddTag}
-                    />
+                    <>
+                      <label className="block text-gray-600 text-sm font-medium mb-1">
+                        Add a Tag (e.g AI, React, Blockchain, DevOps)
+                      </label>
+                      <TagFormComponent
+                        clerkId={user.id}
+                        handleAddOneTag={handleAddOneTag}
+                        handleAddTag={handleAddTag}
+                      />
+                    </>
                   )}
 
                   {tooManyTags && (
