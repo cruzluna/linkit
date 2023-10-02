@@ -29,6 +29,16 @@ const page = async ({ params }: PageProps) => {
   // TODO: if null, use a default? most likely server problem
   const clerkUser = await clerkClient.users.getUser(user.clerkId);
 
+  const uniqueTools = [];
+  const iconNameSet = new Set();
+
+  for (const tool of user.tools) {
+    if (!iconNameSet.has(tool.iconName)) {
+      iconNameSet.add(tool.iconName);
+      uniqueTools.push(tool);
+    }
+  }
+
   // this page receives the slug
   // fetch user data from db and create the link tree
   return (
@@ -78,7 +88,7 @@ const page = async ({ params }: PageProps) => {
                       <Link
                         href={
                           link.url.startsWith("http://") ||
-                          link.url.startsWith("https://")
+                            link.url.startsWith("https://")
                             ? link.url
                             : `https://${link.url}`
                         }
@@ -115,7 +125,7 @@ const page = async ({ params }: PageProps) => {
           <div className="flex flex-col items-center">
             <div className="mt-2 font-bold text-[#FAFAFA] text-2xl">Tools</div>
             <div className="flex flex-wrap justify-center mt-2">
-              {user.tools.map((tool, index) => (
+              {uniqueTools.map((tool, index) => (
                 <div
                   key={index}
                   className="flex items-center justify-center m-1"
