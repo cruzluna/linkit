@@ -1,6 +1,8 @@
 import { Alert, Button } from "@material-tailwind/react";
 // import { useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
+import { toggleBoolean } from '@/redux/features/booleanSlice';
 
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,6 +44,7 @@ export const TagFormComponent = ({
 
   const [submitButtonDisabled, setSubmitButtonDisabled] =
     useState<boolean>(false);
+    const dispatch = useDispatch();
   const [serverError, setServerError] = useState<boolean>(false);
 
   const [addTagSuccess, setAddTagSuccess] = useState<boolean>(false);
@@ -60,6 +63,7 @@ export const TagFormComponent = ({
       // eslint-disable-next-line no-unused-vars
       const { userId, ...cleanTag } = result.tag;
       handleAddTag(cleanTag);
+      dispatch(toggleBoolean());
     } else {
       setServerError(true);
     }
@@ -99,7 +103,7 @@ export const TagFormComponent = ({
           </Alert>
         )}
       </div>
-      <form className=" flex flex-col-1 w-5/6 items-center justify-center bg-transparent border border-noto-purple uppercase whitespace-nowrap  text-white py-1.5 px-3 rounded-lg  font-light text-base mb-2 truncate">
+      <form className=" flex flex-col-1 md:w-full items-center justify-center bg-transparent border border-noto-purple uppercase whitespace-nowrap  text-white py-1.5 px-3 rounded-lg  font-light text-base mb-2 truncate">
         <input
           {...register("skill")}
           className="bg-transparent border-none rounded-lg w-full"

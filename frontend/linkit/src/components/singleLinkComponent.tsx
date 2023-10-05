@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { LinkWithoutUserId } from "./links";
 import { setLinkData } from "@/redux/features/fetchLinkSlice";
+import { toggleBoolean } from "@/redux/features/booleanSlice";
 
 export default function Link({
   id,
@@ -77,7 +78,7 @@ export default function Link({
   const [openPopover, setOpenPopover] = useState<boolean>(false);
   if (!editing) {
     return (
-      <div className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5">
+      <div className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:min-w-full mx-auto mt-5">
         {showEnableAlert && (
           <div className="mb-3">
             <Alert
@@ -137,6 +138,7 @@ export default function Link({
             checked={status}
             onChange={(e) => {
               const newEnabled = e.target.checked;
+              dispatch(toggleBoolean())
               newEnabled === false ? handleEnableDisableLink(false) : countEnabledLinks < 5 ? handleEnableDisableLink(true) : handleEnableAlert()
             }} />
         </div>

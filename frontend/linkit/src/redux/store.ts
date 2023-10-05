@@ -1,9 +1,11 @@
 import fetchLinkReducer from './features/fetchLinkSlice';
 import { configureStore } from '@reduxjs/toolkit';
+import booleanReducer  from "./features/booleanSlice"
 
 export const store = configureStore({
     reducer: {
-        fetchLinkReducer
+        fetchLinkReducer,
+        boolean: booleanReducer,
     }
 });
 

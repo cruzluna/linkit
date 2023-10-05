@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { setLinkData } from "@/redux/features/fetchLinkSlice";
 import { FaWindowClose } from "react-icons/fa";
+import { toggleBoolean } from '@/redux/features/booleanSlice';
 
 // id,
 // title,
@@ -71,6 +72,7 @@ export default function LinkFormComponent({
       // eslint-disable-next-line no-unused-vars
       const { userId, ...cleanLink } = result.link;
       if (cleanLink.enabled) {
+        dispatch(toggleBoolean());
         dispatch(setLinkData({ linkData: [...linkData, cleanLink], countEnabledLinks: countEnabledLinks + 1 }));
       } else {
         dispatch(setLinkData({ linkData: [...linkData, cleanLink], countEnabledLinks: countEnabledLinks }));
@@ -89,7 +91,7 @@ export default function LinkFormComponent({
   };
 
   return (
-    <form className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5">
+    <form className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:min-w-full mx-auto mt-5">
       {/* 
       <p>{JSON.stringify(watch(), null, 2)}</p>
       */}

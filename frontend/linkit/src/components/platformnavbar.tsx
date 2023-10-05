@@ -66,20 +66,10 @@ export default function PlatformNavbar() {
         as="li"
         variant="h6"
         color="blue-gray"
-        className="p-1 font-semibold"
-      >
-        <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          <Link href={"/user/links"}>Links</Link>
-        </div>
-      </Typography>
-      <Typography
-        as="li"
-        variant="h6"
-        color="blue-gray"
         className="p-1  font-semibold"
       >
         <div className="flex items-center text-[#FAFAFA] hover:text-noto-purple">
-          <Link href={"/user/profile"}>Profile</Link>
+          <Link href={"/user/dashboard"}>Dashboard</Link>
         </div>
       </Typography>
       <Typography
@@ -125,7 +115,7 @@ export default function PlatformNavbar() {
           <div className="flex items-center gap-4">
             <button
               type="button"
-              className="bg-noto-purple hidden lg:inline-block border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
+              className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-9 py-3 rounded hidden lg:inline-block"
               onClick={() => setShowModal(true)}
             >
               Share

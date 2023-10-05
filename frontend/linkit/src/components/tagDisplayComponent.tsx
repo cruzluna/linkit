@@ -1,7 +1,9 @@
 import { deleteTag } from "@/app/actions/tagActions";
+import { toggleBoolean } from "@/redux/features/booleanSlice";
 import { Chip } from "@material-tailwind/react";
 // import { UseFieldArrayRemove } from "react-hook-form";
 import { AiOutlineTag } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 interface tagProps {
   id: string;
   skill: string;
@@ -11,6 +13,7 @@ interface tagProps {
 }
 
 export const TagComponent = ({ id, skill, handleDeleteTag }: tagProps) => {
+  const dispatch = useDispatch();
   return (
     <Chip
       key={id}
@@ -19,6 +22,7 @@ export const TagComponent = ({ id, skill, handleDeleteTag }: tagProps) => {
       onClose={() => {
         deleteTag(id);
         handleDeleteTag(id);
+        dispatch(toggleBoolean())
       }}
       className="flex flex-col-1 w-3/4 bg-noto-purple font-light text-base mb-2 truncate"
       value={skill}

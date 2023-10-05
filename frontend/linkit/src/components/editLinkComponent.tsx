@@ -1,6 +1,8 @@
 import { Alert, Button, Switch } from "@material-tailwind/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
+import { toggleBoolean } from '@/redux/features/booleanSlice';
 
 // Yup schema validation
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -53,6 +55,7 @@ export default function LinkFormComponent({
 
   const [submitButtonDisabled, setSubmitButtonDisabled] =
     useState<boolean>(false);
+    const dispatch = useDispatch();
   const [serverError, setServerError] = useState<boolean>(false);
   const [updateLinkSuccess, setUpdateLinkSuccess] = useState<boolean>(false);
 
@@ -65,6 +68,7 @@ export default function LinkFormComponent({
     if (result.link !== null) {
       setSubmitButtonDisabled(true);
       // set success alert
+      dispatch(toggleBoolean());
       setUpdateLinkSuccess(true);
       handleUpdateLink(id, data.title, data.url);
       handleSetEditing();
@@ -74,14 +78,14 @@ export default function LinkFormComponent({
   };
 
   return (
-    <form className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:w-1/3 mx-auto mt-5">
+    <form className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:min-w-full mx-auto mt-5">
       {/* 
       <p>{JSON.stringify(watch(), null, 2)}</p>
       */}
 
       <button
         type="button"
-        className="text-white border-2 border-noto-purple hover:bg-purple-800 focus:outline-none   font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+        className="text-white border-2 border-noto-purple hover:bg-purple-800 focus:outline-none md:min-w-full font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 "
         onClick={handleSetEditing}
         disabled={submitButtonDisabled}
       >
@@ -117,7 +121,7 @@ export default function LinkFormComponent({
           {...register("title")}
           type="text"
           id="title"
-          className="bg-transparent mb-2 border border-gray-300 text-blue-gray-300 text-sm rounded-lg focus:ring-noto-purple focus:border-noto-purple block w-3/4 p-2.5 "
+          className="bg-transparent mb-2 border border-gray-300 text-blue-gray-300 text-sm rounded-lg focus:ring-noto-purple focus:border-noto-purple block md:min-w-full p-2.5 "
           placeholder="Link Title"
           required
         />

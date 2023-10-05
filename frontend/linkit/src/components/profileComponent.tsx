@@ -1,4 +1,6 @@
 "use client";
+import { useDispatch } from 'react-redux';
+import { toggleBoolean} from '@/redux/features/booleanSlice';
 import {
   Card,
   Checkbox,
@@ -35,6 +37,9 @@ import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
 import { ErrorModal } from "./errorModal";
+import Links from "./links";
+import Link from "next/link";
+import { RootState } from '@/redux/store';
 
 export type FormValues = {
   name: string;
@@ -49,6 +54,7 @@ const schema = object().shape({
 });
 
 export default function ProfilePageComponent() {
+  const dispatch = useDispatch();
   const { user } = useUser(); // get clerk user for clerkId
   const [clerkUsername, setClerkUsername] = useState<string>("");
   const [existingUserToolArray, setExsitingToolArray] = useState<
@@ -210,6 +216,7 @@ export default function ProfilePageComponent() {
       if (result.user !== null) {
         // TODO: submit button time out
         // setSubmitButtonDisabled(true);
+        dispatch(toggleBoolean());
         setFormSuccess(true);
       } else {
         setFormError(true); // pop up error modal
@@ -232,12 +239,23 @@ export default function ProfilePageComponent() {
 
       <div className="flex  justify-center">
         <Card color="transparent" shadow={false}>
+          <div className="ml-6">
           <Typography variant="h4" color="white">
             Edit notespace profile
           </Typography>
-          <Typography color="white" className="mt-1 font-normal">
+          <Typography color="white" className="mt-1 mb-5 font-normal">
             Enter your details. (To change username, click user icon)
           </Typography>
+          <h1 className="mb-8">
+            your website is active at{" "}
+            <Link
+              className="text-gray-400 underline hover:text-gray-300"
+              href={"/" + clerkUsername}
+            >
+              https://www.notespace.ai/{clerkUsername}
+            </Link>
+          </h1>
+          </div>
           <form className="mt-8 mb-2 w-80 mx-auto max-w-screen-lg sm:w-96">
             <div className="mb-4 flex flex-col gap-6">
               {/*Errors*/}
@@ -340,7 +358,7 @@ export default function ProfilePageComponent() {
               />
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex flex-col justify-center">
               <Button
                 type="button"
                 color="white"
@@ -349,7 +367,7 @@ export default function ProfilePageComponent() {
                 fullWidth
               >
                 Select tools
-              </Button>
+              </Button>           
             </div>
             <Collapse open={open}>
               <Card className="w-full max-w-[24rem]">
@@ -409,7 +427,9 @@ export default function ProfilePageComponent() {
                                 className="hover:before:opacity-0 border-noto-purple"
                                 containerProps={{
                                   className: "p-0",
-                                  onClick: (e: { stopPropagation: () => void; }) => {
+                                  onClick: (e: {
+                                    stopPropagation: () => void;
+                                  }) => {
                                     // Prevent the parent div's click event from firing
                                     e.stopPropagation();
                                   },
@@ -430,6 +450,7 @@ export default function ProfilePageComponent() {
                 </List>
               </Card>
             </Collapse>
+            
 
             <Button
               onClick={handleSubmit(onSubmit)}
@@ -441,6 +462,9 @@ export default function ProfilePageComponent() {
             </Button>
             {/*Icon hashmap proof of concept */}
           </form>
+          <div className="p-4 mt-3">
+                <Links />
+              </div>
         </Card>
       </div>
     </>

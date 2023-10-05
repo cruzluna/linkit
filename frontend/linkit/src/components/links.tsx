@@ -9,6 +9,7 @@ import LinkFormComponent from "./linkFormComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { setLinkData } from "@/redux/features/fetchLinkSlice";
+import { toggleBoolean } from '@/redux/features/booleanSlice';
 
 export type LinkWithoutUserId = Omit<Link, "userId">;
 
@@ -24,6 +25,7 @@ export default function Links() {
       (link) => link.id !== linkIdToDelete
     );
     dispatch(setLinkData({ linkData: updatedLinkData, countEnabledLinks })); // Dispatch the action to update linkData
+    dispatch(toggleBoolean()); // Dispatch the action to update linkData
   };
 
   const handleUpdateLink = (
@@ -69,10 +71,21 @@ export default function Links() {
   return (
     <>
       <section>
+      {linkData.map((link) => (
+            <LinkComponent
+              key={link.id}
+              id={link.id}
+              title={link.title}
+              url={link.url}
+              initialEnabled={link.enabled}
+              handleDeleteLink={handleDeleteLink}
+              handleUpdateLink={handleUpdateLink}
+            />
+          ))}
         <div className="flex justify-center mt-5">
           <button
             type="button"
-            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-1/3 mx-auto"
+            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded min-w-full mx-auto"
             onClick={() => setAddOneLink(true)}
           >
             Add Link
@@ -86,17 +99,7 @@ export default function Links() {
               handleAddOneLink={handleAddOneLink}
             />
           )}
-          {linkData.map((link) => (
-            <LinkComponent
-              key={link.id}
-              id={link.id}
-              title={link.title}
-              url={link.url}
-              initialEnabled={link.enabled}
-              handleDeleteLink={handleDeleteLink}
-              handleUpdateLink={handleUpdateLink}
-            />
-          ))}
+          
         </div>
       </section>
     </>
