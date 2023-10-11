@@ -19,7 +19,7 @@ params:any
 const Notespace = ({user, profileImage, params}: NotespaceProps) => {
   return (
     <>
-      <div className="min-h-screen flex flex-col justify-between text-[#FAFAFA]">
+      <div className="flex flex-col justify-between text-[#FAFAFA]">
         <div>
           <div className="max-w-7xl mx-auto flex justify-center items-center">
             <figure className="p-6 ml-8">

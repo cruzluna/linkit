@@ -78,7 +78,7 @@ export default function Link({
   const [openPopover, setOpenPopover] = useState<boolean>(false);
   if (!editing) {
     return (
-      <div className="bg-[#1C202F] text-white px-3 py-3 rounded w-full md:min-w-full mx-auto mt-5">
+      <div className="bg-[#1C202F] text-white px-3 py-3 rounded w-[22rem] md:w-full mx-auto mt-5">
         {showEnableAlert && (
           <div className="mb-3">
             <Alert

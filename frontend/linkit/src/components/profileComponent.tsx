@@ -37,7 +37,6 @@ import { ErrorMessage } from "@hookform/error-message";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
 import { ErrorModal } from "./errorModal";
-import Links from "./links";
 import Link from "next/link";
 import { RootState } from '@/redux/store';
 
@@ -462,9 +461,6 @@ export default function ProfilePageComponent() {
             </Button>
             {/*Icon hashmap proof of concept */}
           </form>
-          <div className="p-4 mt-3">
-                <Links />
-              </div>
         </Card>
       </div>
     </>

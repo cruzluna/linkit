@@ -71,21 +71,10 @@ export default function Links() {
   return (
     <>
       <section>
-      {linkData.map((link) => (
-            <LinkComponent
-              key={link.id}
-              id={link.id}
-              title={link.title}
-              url={link.url}
-              initialEnabled={link.enabled}
-              handleDeleteLink={handleDeleteLink}
-              handleUpdateLink={handleUpdateLink}
-            />
-          ))}
         <div className="flex justify-center mt-5">
           <button
             type="button"
-            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded min-w-full mx-auto"
+            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-1/2 mx-auto"
             onClick={() => setAddOneLink(true)}
           >
             Add Link
@@ -101,6 +90,18 @@ export default function Links() {
           )}
           
         </div>
+      {linkData.map((link) => (
+            <LinkComponent
+              key={link.id}
+              id={link.id}
+              title={link.title}
+              url={link.url}
+              initialEnabled={link.enabled}
+              handleDeleteLink={handleDeleteLink}
+              handleUpdateLink={handleUpdateLink}
+            />
+          ))}
+        
       </section>
     </>
   );
