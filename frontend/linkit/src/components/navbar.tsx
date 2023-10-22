@@ -147,7 +147,7 @@ export default function StickyNavBar() {
           {navList}
           <button
             type="button"
-            className="border hover:bg-noto-purple text-white font-bold px-3 py-3 rounded w-full mb-2"
+            className="bg-noto-purple border border-noto-purple hover:bg-[#12141F] text-white font-bold px-3 py-3 rounded w-full mb-2"
             onClick={() => router.push("/login")}
           >
             Login
