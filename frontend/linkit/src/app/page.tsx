@@ -13,6 +13,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import PlatformNavbar from "@/components/platformnavbar";
+import { Alert } from "@material-tailwind/react";
 
 export default function Home() {
   const { isLoaded: userLoaded } = useUser();
@@ -29,6 +30,9 @@ export default function Home() {
       <SignedIn>
         <PlatformNavbar />
       </SignedIn>
+      <Alert color="red">
+        Deprecating for now since planetscale is no longer free.
+      </Alert>
       <Suspense fallback={<Loading />}>
         <Hero />
       </Suspense>
